@@ -10,6 +10,7 @@ import os
 os.environ.setdefault("GRADIO_ANALYTICS_ENABLED", "False")
 os.environ.setdefault("HF_HUB_OFFLINE", "1")
 
+import inspect  # noqa: E402
 import json  # noqa: E402
 import traceback  # noqa: E402
 from pathlib import Path  # noqa: E402
@@ -39,12 +40,34 @@ ROLE_CHOICES = [("Дабл (те же слова и ноты)", "double"), ("Г�
                 ("Адлибы", "adlib")]
 N_BACKING = 3
 
-CSS = """
-.gradio-container {max-width: 1180px !important; margin: auto;}
-#title h1 {margin-bottom: 0;}
-.small-note {opacity: .7; font-size: .9em;}
-"""
+CSS_PATH = ROOT / "assets" / "brutal.css"
 FORCE_DARK = "() => { document.body.classList.add('dark'); }"
+HEADER = """
+<div id="mm-header">
+  <div class="mm-top">
+    <div class="mm-logo"><div><span class="mm-word">Mixmaster</span><span class="mm-word mm-out">/local</span></div>
+      <small>сведение · тюн · мастер по референсу</small>
+      <div class="mm-meter" aria-hidden="true"><i class="hot" style="height:83%"></i><i style="height:76%"></i><i class="hot" style="height:89%"></i><i style="height:72%"></i><i class="hot" style="height:83%"></i><i style="height:77%"></i><i style="height:67%"></i><i class="hot" style="height:79%"></i><i style="height:64%"></i><i class="clip" style="height:74%"></i><i style="height:62%"></i><i style="height:62%"></i><i style="height:70%"></i><i class="hot" style="height:80%"></i><i style="height:59%"></i><i style="height:60%"></i><i style="height:70%"></i><i style="height:78%"></i><i style="height:66%"></i><i style="height:60%"></i><i style="height:75%"></i><i style="height:48%"></i><i style="height:69%"></i><i style="height:52%"></i><i style="height:46%"></i><i style="height:44%"></i><i style="height:48%"></i><i style="height:61%"></i><i style="height:42%"></i><i style="height:52%"></i><i style="height:52%"></i><i style="height:44%"></i><i style="height:47%"></i><i style="height:32%"></i><i style="height:31%"></i><i style="height:34%"></i><i style="height:46%"></i><i style="height:37%"></i><i style="height:33%"></i><i style="height:39%"></i><i style="height:34%"></i><i style="height:29%"></i><i style="height:41%"></i><i style="height:37%"></i><i style="height:23%"></i><i style="height:31%"></i><i style="height:28%"></i><i style="height:37%"></i></div></div>
+    <div class="mm-specs">
+      <div class="mm-live">система<b>офлайн</b></div>
+      <div>формат<b>44.1 кГц / 24 бит</b></div>
+      <div>движок<b>Matchering</b></div>
+      <div>dsp<b>Pedalboard</b></div>
+      <div>громкость<b>BS.1770</b></div>
+      <div>лицензия<b>GPLv3</b></div>
+    </div>
+  </div>
+  <div class="mm-ticker"><span>без облака ▪ без api-ключей ▪ без подписок ▪ всё на твоём диске ▪
+    вокал + бит + референс → мастер wav 24 бит ▪ a/b с выровненной громкостью: громче ≠ лучше ▪</span></div>
+</div>
+"""
+FOOTER = """<div id="mm-footer"><span><b>■</b> mixmaster/local</span><span>исходники не перезаписываются:
+результаты в outputs/</span><span>gplv3 · open source</span></div>"""
+
+
+def section(title: str):
+    """Small uppercase section divider."""
+    return gr.Markdown(f"▍{title}", elem_classes="mm-section")
 
 
 # ----------------------------------------------------------------- helpers
@@ -250,8 +273,9 @@ def refresh_inputs():
 
 def output_block():
     """Shared result widgets for every tab."""
+    section("Результат")
     with gr.Group():
-        status = gr.Markdown("Загрузи файлы и нажми кнопку.")
+        status = gr.Markdown("> ожидание: загрузи файлы и нажми кнопку", elem_classes="mm-status")
         master = gr.Audio(label="Мастер (24 бит)", type="filepath", interactive=False)
         files = gr.File(label="Скачать", file_count="multiple", interactive=False)
     gr.Markdown("**A/B с выровненной громкостью** (честное сравнение: громче ≠ лучше)")
@@ -311,11 +335,11 @@ def build_ui() -> gr.Blocks:
     preset0 = load_preset(DEFAULT_PRESET)
     vals0 = slider_values(preset0)
     with gr.Blocks(title="mixmaster-local") as demo:
-        gr.Markdown("# mixmaster-local\nСведение и мастеринг по референсу. Всё локально, без интернета.", elem_id="title")
+        gr.HTML(HEADER)
         with gr.Row():
             preset_dd = gr.Dropdown(preset_choices(), value=DEFAULT_PRESET, label="Пресет", scale=3)
             refresh_in = gr.Button("Обновить inputs/", scale=1, size="sm")
-        with gr.Accordion("Редактор пресета (JSON) и сохранение своего", open=False):
+        with gr.Accordion("Редактор пресета (JSON) и сохранение своего", open=False, elem_classes="mm-acc"):
             preset_text = gr.Code(json.dumps(preset0, ensure_ascii=False, indent=2), language="json", label="Значения пресета")
             with gr.Row():
                 preset_name = gr.Textbox(label="Название нового пресета", placeholder="Например: Мой трэп", scale=3)
@@ -323,14 +347,16 @@ def build_ui() -> gr.Blocks:
             gr.Markdown(f"Пресеты лежат в `{PRESET_DIR}`. Свои сохраняются как `user_*.json`.", elem_classes="small-note")
 
         with gr.Tabs():
-            with gr.Tab("1. Вокал + бит → мастер"):
+            with gr.Tab("01 · Вокал + бит → мастер"):
+                section("Входы")
                 with gr.Row():
                     with gr.Column():
                         vocal, vocal_in = input_picker("Вокал (WAV)")
                     with gr.Column():
                         beat, beat_in = input_picker("Бит (WAV)")
                 ref1, ref1_up = reference_picker()
-                with gr.Accordion("Ползунки", open=True):
+                section("Обработка")
+                with gr.Accordion("Ползунки", open=True, elem_classes="mm-acc"):
                     with gr.Row():
                         lu = gr.Slider(-2, 8, value=vals0[0], step=0.5, label="Вокал над битом, LU")
                         deess = gr.Slider(0, 1, value=vals0[1], step=0.05, label="Де-эссер")
@@ -345,12 +371,12 @@ def build_ui() -> gr.Blocks:
                         vtarget = gr.Radio([TARGET_PRESET, TARGET_REF], value=TARGET_PRESET, label="Цель EQ вокала")
                     loud1, target1 = loudness_controls(vals0[6], vals0[7])
                     exp16_1, mp3_1 = export_controls()
-                with gr.Accordion("Коррекция нот (тюн)", open=False):
+                with gr.Accordion("Коррекция нот (тюн)", open=False, elem_classes="mm-acc"):
                     gr.Markdown("Поправляет «вылетевшие» ноты под тональность бита. Медленная скорость (100–200 мс) "
                                 "звучит естественно и сохраняет вибрато, 0–20 мс даёт жёсткий автотюн-эффект.",
                                 elem_classes="small-note")
                     tune1 = tuning_controls(preset0["tuning"])
-                with gr.Accordion("Бэк-вокал: даблы, гармонии, адлибы (до 3 дорожек)", open=False):
+                with gr.Accordion("Бэк-вокал: даблы, гармонии, адлибы (до 3 дорожек)", open=False, elem_classes="mm-acc"):
                     gr.Markdown("Каждая дорожка выравнивается по лиду, обрабатывается той же цепочкой, "
                                 "разводится по панораме (лево/право) и ставится тише лида. Лид остаётся в центре.",
                                 elem_classes="small-note")
@@ -368,22 +394,26 @@ def build_ui() -> gr.Blocks:
                 go1 = gr.Button("Свести и сделать мастер", variant="primary")
                 out1 = output_block()
 
-            with gr.Tab("2. Мастер по референсу"):
+            with gr.Tab("02 · Мастер по референсу"):
+                section("Входы")
                 track2, track2_in = input_picker("Готовый трек (WAV)")
                 ref2, ref2_up = reference_picker()
+                section("Громкость и экспорт")
                 loud2, target2 = loudness_controls(vals0[6], vals0[7])
                 exp16_2, mp3_2 = export_controls()
                 go2 = gr.Button("Сделать мастер", variant="primary")
                 out2 = output_block()
 
-            with gr.Tab("3. Мастер без референса"):
+            with gr.Tab("03 · Мастер без референса"):
+                section("Вход")
                 track3, track3_in = input_picker("Готовый трек (WAV)")
+                section("Громкость и экспорт")
                 _, target3 = loudness_controls(LOUD_TARGET, vals0[7], with_mode=False)
                 exp16_3, mp3_3 = export_controls()
                 go3 = gr.Button("Сделать мастер", variant="primary")
                 out3 = output_block()
 
-            with gr.Tab("4. Тюн вокала"):
+            with gr.Tab("04 · Тюн вокала"):
                 gr.Markdown("Только коррекция нот: на выходе сухой вокал WAV 24 бит, его можно забрать в свою DAW. "
                             "Бит не обязателен, он нужен только чтобы точнее определить тональность.",
                             elem_classes="small-note")
@@ -392,11 +422,13 @@ def build_ui() -> gr.Blocks:
                         vocal4, vocal4_in = input_picker("Вокал (WAV)")
                     with gr.Column():
                         beat4, beat4_in = input_picker("Бит для тональности (необязательно)")
+                section("Коррекция")
                 tune4 = tuning_controls(preset0["tuning"], with_enable=False, with_backs=False)
                 exp16_4, mp3_4 = export_controls()
                 go4 = gr.Button("Поправить ноты", variant="primary")
+                section("Результат")
                 with gr.Group():
-                    status4 = gr.Markdown("Загрузи вокал и нажми кнопку.")
+                    status4 = gr.Markdown("> ожидание: загрузи вокал и нажми кнопку", elem_classes="mm-status")
                     tuned4 = gr.Audio(label="Вокал после тюна (24 бит)", type="filepath", interactive=False)
                     files4 = gr.File(label="Скачать", file_count="multiple", interactive=False)
                 with gr.Row():
@@ -411,6 +443,7 @@ def build_ui() -> gr.Blocks:
         save_btn.click(on_save_preset, [preset_name, preset_text, lu, deess, reverb, delay, bright, duck, *tune1], preset_dd)
         go1.click(run_mode1, [vocal, vocal_in, beat, beat_in, ref1, ref1_up, preset_text, *sliders, bpm, offset, vtarget,
                               exp16_1, mp3_1, *tune1, b_level, b_width, *[c for slot in backing_in for c in slot]], out1)
+        gr.HTML(FOOTER)
         go4.click(run_mode4, [vocal4, vocal4_in, beat4, beat4_in, preset_text, *tune4[1:6], exp16_4, mp3_4],
                   [status4, tuned4, files4, ab4a, ab4b, plot4])
         go2.click(run_mode2, [track2, track2_in, ref2, ref2_up, preset_text, loud2, target2, exp16_2, mp3_2], out2)
@@ -419,10 +452,28 @@ def build_ui() -> gr.Blocks:
 
 
 def theme():
-    """Dark, offline theme (system fonts, nothing loaded from the internet)."""
-    font = [gr.themes.Font("system-ui"), gr.themes.Font("Segoe UI"), "sans-serif"]
-    mono = [gr.themes.Font("ui-monospace"), gr.themes.Font("Consolas"), "monospace"]
-    return gr.themes.Base(primary_hue="teal", neutral_hue="slate", font=font, font_mono=mono)
+    """Brutalist dark theme. IBM Plex Mono ships inside Gradio, so nothing is loaded from the internet."""
+    mono = [gr.themes.LocalFont("IBM Plex Mono", weights=(400, 500, 600, 700)), "ui-monospace", "Consolas", "monospace"]
+    acid, ink, bg, panel, line = "#d7ff1f", "#f1f1ee", "#0b0b0c", "#111113", "#3d3d3a"
+    t = gr.themes.Base(primary_hue="lime", neutral_hue="zinc", font=mono, font_mono=mono,
+                       radius_size=gr.themes.sizes.radius_none)
+    colors = dict(
+        body_background_fill=bg, body_text_color=ink, body_text_color_subdued="#8d8d88",
+        background_fill_primary=panel, background_fill_secondary=bg, border_color_primary=line,
+        block_background_fill=panel, block_border_color=line, block_label_background_fill=ink,
+        block_label_text_color="#000000", block_title_text_color=ink, input_background_fill=bg,
+        input_border_color=line, input_border_color_focus=acid, color_accent=acid, color_accent_soft="#2a3300",
+        slider_color=acid, checkbox_background_color_selected=acid, checkbox_border_color_selected=acid,
+        button_primary_background_fill=acid, button_primary_background_fill_hover=acid,
+        button_primary_text_color="#000000", button_secondary_background_fill="transparent",
+        button_secondary_text_color=ink, button_secondary_border_color=ink, table_even_background_fill=panel,
+        table_odd_background_fill=bg, table_border_color=line, link_text_color=acid,
+    )
+    valid = set(inspect.signature(gr.themes.Base.set).parameters)
+    dark = {f"{k}_dark": v for k, v in colors.items() if f"{k}_dark" in valid}
+    return t.set(**colors, **dark,
+                 block_shadow="none", block_border_width="1.5px", input_border_width="1.5px",
+                 button_border_width="2px", block_label_text_weight="600")
 
 
 if __name__ == "__main__":
@@ -432,5 +483,5 @@ if __name__ == "__main__":
         server_name="127.0.0.1",
         inbrowser=os.environ.get("MIXMASTER_NO_BROWSER") != "1",
         allowed_paths=[str(pipeline.OUTPUT_DIR), str(REF_DIR), str(INPUT_DIR)],
-        theme=theme(), css=CSS, js=FORCE_DARK, footer_links=[],
+        theme=theme(), css_paths=[str(CSS_PATH)], js=FORCE_DARK, footer_links=[],
     )
