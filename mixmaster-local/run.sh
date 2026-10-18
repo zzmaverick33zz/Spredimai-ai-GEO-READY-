@@ -5,10 +5,10 @@ cd "$(dirname "$0")"
 
 pick_python() {
   if [ -n "$PYTHON" ]; then echo "$PYTHON"; return; fi
-  for c in python3.12 python3.11 python3.10 python3; do
+  for c in python3.12 python3.13 python3.11 python3.10 python3; do
     if command -v "$c" >/dev/null 2>&1; then
       v=$("$c" -c 'import sys; print("%d%02d" % sys.version_info[:2])')
-      if [ "$v" -ge 310 ] && [ "$v" -le 312 ]; then echo "$c"; return; fi
+      if [ "$v" -ge 310 ]; then echo "$c"; return; fi
     fi
   done
   echo ""
@@ -17,7 +17,7 @@ pick_python() {
 if [ ! -x ".venv/bin/python" ]; then
   PY=$(pick_python)
   if [ -z "$PY" ]; then
-    echo "Нужен Python 3.10, 3.11 или 3.12 (Matchering не собирается на 3.13+)."
+    echo "Нужен Python 3.10 или новее."
     echo "Установи Python 3.12 с python.org (macOS: brew install python@3.12) и запусти снова."
     exit 1
   fi

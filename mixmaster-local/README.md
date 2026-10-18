@@ -7,7 +7,7 @@
 
 ## Установка и запуск
 
-Нужен **Python 3.10, 3.11 или 3.12** (на 3.13+ Matchering может не собраться). Если Python нет: [python.org](https://www.python.org/downloads/), версия 3.12; на Windows при установке отметь «Add python.exe to PATH».
+Нужен **Python 3.10 или новее** (проверено на 3.12 и 3.13; 3.12 — самый надёжный вариант). Если Python нет: [python.org](https://www.python.org/downloads/), версия 3.12; на Windows при установке отметь «Add python.exe to PATH».
 
 | Система | Запуск |
 |---|---|
