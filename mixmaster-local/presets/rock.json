@@ -1,0 +1,59 @@
+{
+  "name": "Рок",
+  "vocal": {
+    "highpass_hz": 80,
+    "lowmid_cut": {
+      "freq_hz": 320,
+      "gain_db": -1.5,
+      "q": 1.0
+    },
+    "presence": {
+      "freq_hz": 3200,
+      "gain_db": 1.8,
+      "q": 0.8
+    },
+    "air_shelf": {
+      "freq_hz": 9500,
+      "gain_db": 1.5
+    },
+    "compressor": {
+      "ratio": 3.0,
+      "attack_ms": 12,
+      "release_ms": 120
+    },
+    "deesser": {
+      "band_hz": [
+        5000,
+        8500
+      ],
+      "amount": 0.5
+    },
+    "reverb": {
+      "mix": 0.16,
+      "room_size": 0.55,
+      "highcut_hz": 7500,
+      "lowcut_hz": 250
+    },
+    "delay": {
+      "mix": 0.05,
+      "note": "1/4",
+      "feedback": 0.2,
+      "highcut_hz": 4500
+    }
+  },
+  "beat": {
+    "carve_freq_hz": 2000,
+    "carve_db": -1.2,
+    "duck_db": 1.2
+  },
+  "balance": {
+    "vocal_over_beat_lu": 1.5,
+    "headroom_db": 3.0
+  },
+  "master": {
+    "highpass_hz": 28,
+    "bus_ratio": 1.5,
+    "target_lufs": null,
+    "default_target_lufs": -10.0
+  }
+}

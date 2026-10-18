@@ -1,0 +1,59 @@
+{
+  "name": "Чистый стриминг (-14 LUFS)",
+  "vocal": {
+    "highpass_hz": 80,
+    "lowmid_cut": {
+      "freq_hz": 300,
+      "gain_db": -1.5,
+      "q": 1.0
+    },
+    "presence": {
+      "freq_hz": 3500,
+      "gain_db": 1.5,
+      "q": 0.8
+    },
+    "air_shelf": {
+      "freq_hz": 10000,
+      "gain_db": 1.5
+    },
+    "compressor": {
+      "ratio": 2.5,
+      "attack_ms": 10,
+      "release_ms": 100
+    },
+    "deesser": {
+      "band_hz": [
+        5500,
+        9000
+      ],
+      "amount": 0.5
+    },
+    "reverb": {
+      "mix": 0.09,
+      "room_size": 0.4,
+      "highcut_hz": 7000,
+      "lowcut_hz": 300
+    },
+    "delay": {
+      "mix": 0.0,
+      "note": "1/8",
+      "feedback": 0.2,
+      "highcut_hz": 5000
+    }
+  },
+  "beat": {
+    "carve_freq_hz": 2200,
+    "carve_db": -1.0,
+    "duck_db": 1.0
+  },
+  "balance": {
+    "vocal_over_beat_lu": 2.0,
+    "headroom_db": 3.0
+  },
+  "master": {
+    "highpass_hz": 25,
+    "bus_ratio": 1.5,
+    "target_lufs": -14.0,
+    "loudness": "target"
+  }
+}

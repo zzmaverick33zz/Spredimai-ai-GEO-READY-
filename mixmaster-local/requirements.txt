@@ -1,0 +1,9 @@
+matchering>=2.0.6
+pedalboard>=0.9
+pyloudnorm>=0.1.1
+numpy
+scipy
+soundfile
+gradio>=4
+matplotlib
+pytest

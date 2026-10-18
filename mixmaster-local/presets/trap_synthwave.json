@@ -1,0 +1,64 @@
+{
+  "name": "Trap / синтвейв",
+  "vocal": {
+    "highpass_hz": 90,
+    "lowmid_cut": {
+      "freq_hz": 300,
+      "gain_db": -2.0,
+      "q": 1.0
+    },
+    "presence": {
+      "freq_hz": 3800,
+      "gain_db": 2.0,
+      "q": 0.9
+    },
+    "air_shelf": {
+      "freq_hz": 10000,
+      "gain_db": 2.5
+    },
+    "compressor": {
+      "ratio": 3.5,
+      "attack_ms": 6,
+      "release_ms": 90
+    },
+    "deesser": {
+      "band_hz": [
+        5500,
+        9000
+      ],
+      "amount": 0.6
+    },
+    "reverb": {
+      "mix": 0.12,
+      "room_size": 0.45,
+      "highcut_hz": 7000,
+      "lowcut_hz": 300
+    },
+    "delay": {
+      "mix": 0.1,
+      "note": "1/8",
+      "feedback": 0.25,
+      "highcut_hz": 5000
+    },
+    "target_curve": {
+      "lowmid": 1.5,
+      "presence": -8.0,
+      "air": -24.0
+    }
+  },
+  "beat": {
+    "carve_freq_hz": 2200,
+    "carve_db": -1.5,
+    "duck_db": 1.8
+  },
+  "balance": {
+    "vocal_over_beat_lu": 2.5,
+    "headroom_db": 3.0
+  },
+  "master": {
+    "highpass_hz": 25,
+    "bus_ratio": 1.5,
+    "target_lufs": null,
+    "default_target_lufs": -9.0
+  }
+}
