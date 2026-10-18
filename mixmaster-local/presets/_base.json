@@ -2,26 +2,80 @@
   "name": "База (значения по умолчанию)",
   "vocal": {
     "highpass_hz": 80,
-    "lowmid_cut": {"freq_hz": 300, "gain_db": -1.5, "q": 1.0},
-    "presence": {"freq_hz": 3800, "gain_db": 2.0, "q": 0.9},
-    "air_shelf": {"freq_hz": 10000, "gain_db": 2.0},
-    "adaptive_eq": {"strength": 0.5, "max_db": 3.0, "target": "preset"},
-    "target_curve": {"lowmid": 2.0, "presence": -9.0, "air": -26.0},
-    "compressor": {"ratio": 3.0, "attack_ms": 8, "release_ms": 90, "threshold_percentile": 55},
-    "peak_compressor": {"ratio": 6.0, "attack_ms": 0.5, "release_ms": 40, "crest_trigger_db": 12.0},
-    "deesser": {"band_hz": [5500, 9000], "amount": 0.6},
-    "reverb": {"mix": 0.1, "room_size": 0.4, "damping": 0.6, "width": 0.9, "highcut_hz": 7000, "lowcut_hz": 300},
-    "delay": {"mix": 0.0, "note": "1/8", "feedback": 0.2, "highcut_hz": 5000, "lowcut_hz": 300},
+    "lowmid_cut": {
+      "freq_hz": 300,
+      "gain_db": -1.5,
+      "q": 1.0
+    },
+    "presence": {
+      "freq_hz": 3800,
+      "gain_db": 2.0,
+      "q": 0.9
+    },
+    "air_shelf": {
+      "freq_hz": 10000,
+      "gain_db": 2.0
+    },
+    "adaptive_eq": {
+      "strength": 0.5,
+      "max_db": 3.0,
+      "target": "preset"
+    },
+    "target_curve": {
+      "lowmid": 2.0,
+      "presence": -9.0,
+      "air": -26.0
+    },
+    "compressor": {
+      "ratio": 3.0,
+      "attack_ms": 8,
+      "release_ms": 90,
+      "threshold_percentile": 55
+    },
+    "peak_compressor": {
+      "ratio": 6.0,
+      "attack_ms": 0.5,
+      "release_ms": 40,
+      "crest_trigger_db": 12.0
+    },
+    "deesser": {
+      "band_hz": [
+        5500,
+        9000
+      ],
+      "amount": 0.6
+    },
+    "reverb": {
+      "mix": 0.1,
+      "room_size": 0.4,
+      "damping": 0.6,
+      "width": 0.9,
+      "highcut_hz": 7000,
+      "lowcut_hz": 300
+    },
+    "delay": {
+      "mix": 0.0,
+      "note": "1/8",
+      "feedback": 0.2,
+      "highcut_hz": 5000,
+      "lowcut_hz": 300
+    },
     "brightness_db": 0.0
   },
   "beat": {
     "carve_freq_hz": 2200,
     "carve_q": 0.7,
     "carve_db": -1.5,
-    "duck_band_hz": [1000, 4000],
+    "duck_band_hz": [
+      1000,
+      4000
+    ],
     "duck_db": 1.5
   },
-  "balance": {"vocal_over_beat_lu": 2.0, "headroom_db": 3.0},
+  "balance": {
+    "vocal_over_beat_lu": 2.0,
+    "headroom_db": 3.0
+  },
   "master": {
     "highpass_hz": 25,
     "bus_ratio": 1.5,
@@ -31,13 +85,80 @@
     "target_lufs": null,
     "true_peak_db": -1.0,
     "eq": [
-      {"type": "lowshelf", "freq_hz": 90, "gain_db": 0.5, "q": 0.7},
-      {"type": "peak", "freq_hz": 350, "gain_db": -0.5, "q": 0.9},
-      {"type": "highshelf", "freq_hz": 11000, "gain_db": 1.0, "q": 0.7}
+      {
+        "type": "lowshelf",
+        "freq_hz": 90,
+        "gain_db": 0.5,
+        "q": 0.7
+      },
+      {
+        "type": "peak",
+        "freq_hz": 350,
+        "gain_db": -0.5,
+        "q": 0.9
+      },
+      {
+        "type": "highshelf",
+        "freq_hz": 11000,
+        "gain_db": 1.0,
+        "q": 0.7
+      }
     ],
     "comp_ratio": 2.0,
     "comp_attack_ms": 20,
     "comp_release_ms": 150,
     "default_target_lufs": -14.0
+  },
+  "tuning": {
+    "enabled": false,
+    "key": "auto",
+    "scale": "minor",
+    "scale_auto": true,
+    "strength": 0.85,
+    "retune_ms": 120,
+    "tolerance_cents": 20,
+    "apply_to_backing": true,
+    "max_shift_semitones": 1.0
+  },
+  "backing": {
+    "level_offset_lu": 0.0,
+    "width": 1.0,
+    "bus_ratio": 2.0,
+    "presence_dip_hz": 3500,
+    "presence_dip_db": -1.5,
+    "align_max_ms": 60,
+    "roles": {
+      "double": {
+        "level_lu": -6.0,
+        "pan": 0.75,
+        "highpass_hz": 150,
+        "deess_extra": 0.15,
+        "brightness_db": -1.0,
+        "reverb_extra": 0.0,
+        "delay_extra": 0.0,
+        "align": true
+      },
+      "harmony": {
+        "level_lu": -8.0,
+        "pan": 0.55,
+        "highpass_hz": 180,
+        "deess_extra": 0.2,
+        "brightness_db": -1.5,
+        "reverb_extra": 0.04,
+        "delay_extra": 0.0,
+        "align": true
+      },
+      "adlib": {
+        "level_lu": -7.0,
+        "pan": 0.4,
+        "highpass_hz": 200,
+        "deess_extra": 0.1,
+        "brightness_db": 0.0,
+        "reverb_extra": 0.06,
+        "delay_extra": 0.05,
+        "align": false
+      }
+    },
+    "bus_level_lu": -4.0
   }
 }

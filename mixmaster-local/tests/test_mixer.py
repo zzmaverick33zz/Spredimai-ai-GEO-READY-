@@ -1,3 +1,4 @@
+import pytest
 import numpy as np
 
 import synth
@@ -76,3 +77,47 @@ def test_mix_balance_and_headroom():
     lb = integrated_lufs(b * dsp.db_to_lin(rep["beat_gain_db"]) * gain, SR)
     assert abs((lv - lb) - 2.5) < 0.3
     assert np.isfinite(list(band_balance(out, SR).values())).all()
+
+
+def test_align_offset_recovers_delay():
+    lead = synth.vocal(10, seed=4)
+    late = np.pad(lead, ((0, 0), (int(0.025 * SR), 0)))[:, :lead.shape[1]]
+    assert abs(mixer.align_offset(lead, late, SR, 60) - int(0.025 * SR)) <= SR // 1000 * 2
+    early = lead[:, int(0.018 * SR):]
+    assert abs(mixer.align_offset(lead, early, SR, 60) + int(0.018 * SR)) <= SR // 1000 * 2
+
+
+def test_pan_mono_constant_power():
+    x = synth.sine(440, 1, -6)
+    left = mixer.pan_mono(x, -1.0)
+    assert np.max(np.abs(left[1])) < 1e-6 and np.max(np.abs(left[0])) > 0.4
+    centre = mixer.pan_mono(x, 0.0)
+    np.testing.assert_allclose(centre[0], x[0], atol=1e-6)
+
+
+def test_backing_vocals_sit_under_lead_and_wide():
+    pr = load_preset("trap_synthwave")
+    lead_raw = synth.vocal(10, seed=5)
+    lead, _ = mixer.process_vocal(lead_raw, SR, pr)
+    d1 = np.pad(synth.vocal(10, seed=5), ((0, 0), (300, 0)))  # double, slightly late
+    d2 = synth.vocal(10, seed=5) * 0.7
+    harm = synth.vocal(10, seed=6)
+    bus, reps = mixer.process_backing([(d1, "double"), (d2, "double"), (harm, "harmony")], lead_raw, lead, SR, pr)
+    assert [r["role"] for r in reps] == ["double", "double", "harmony"]
+    assert reps[0]["pan"] < 0 < reps[1]["pan"]          # doubles go left and right
+    assert abs(reps[0]["align_ms"] - 300 / SR * 1000) < 2
+    assert integrated_lufs(bus, SR) == pytest.approx(integrated_lufs(lead, SR) - 4.0, abs=0.3)
+    # Wide: left and right differ clearly, unlike the centred lead.
+    side = np.mean((bus[0] - bus[1]) ** 2) / (np.mean((bus[0] + bus[1]) ** 2) + 1e-12)
+    assert side > 0.05
+    total = mixer.sum_vocals(lead, bus)
+    assert total.shape[0] == 2 and np.all(np.isfinite(total))
+
+
+def test_double_and_harmony_go_to_opposite_sides():
+    pr = load_preset("rap_vocal")
+    lead_raw = synth.vocal(6, seed=5)
+    lead, _ = mixer.process_vocal(lead_raw, SR, pr)
+    _, reps = mixer.process_backing([(synth.vocal(6, seed=5), "double"), (synth.vocal(6, seed=6), "harmony")],
+                                    lead_raw, lead, SR, pr)
+    assert reps[0]["pan"] < 0 < reps[1]["pan"]

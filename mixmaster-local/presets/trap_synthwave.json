@@ -60,5 +60,9 @@
     "bus_ratio": 1.5,
     "target_lufs": null,
     "default_target_lufs": -9.0
+  },
+  "tuning": {
+    "retune_ms": 60,
+    "strength": 0.9
   }
 }

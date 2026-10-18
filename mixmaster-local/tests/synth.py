@@ -88,3 +88,37 @@ def reference(seconds: float = 40.0, sr: int = SR) -> np.ndarray:
     mix = b * 0.7 + np.repeat(v, 2, axis=0) * 0.6
     mix = np.tanh(mix * 3.0) / np.tanh(3.0)  # crude loudness
     return (mix * 0.95).astype(np.float32)
+
+
+def sung(notes, offsets_cents, note_s: float = 2.0, sr: int = SR, vibrato_cents: float = 15.0) -> np.ndarray:
+    """Mono 'sung' melody: harmonic tone per MIDI note, detuned by offsets, with 5.5 Hz vibrato."""
+    notes, offs = np.asarray(notes, float), np.asarray(offsets_cents, float)
+    n = int(sr * note_s * len(notes))
+    t = np.arange(n) / sr
+    idx = np.minimum((t // note_s).astype(int), len(notes) - 1)
+    f = 440 * 2 ** ((notes[idx] - 69 + (offs[idx] + vibrato_cents * np.sin(2 * np.pi * 5.5 * t)) / 100) / 12)
+    ph = 2 * np.pi * np.cumsum(f) / sr
+    x = sum((0.6 / k) * np.sin(k * ph) for k in range(1, 15))
+    # short gaps between notes, like real phrasing
+    gate = np.ones(n)
+    for i in range(1, len(notes)):
+        s0 = int(i * note_s * sr)
+        gate[s0 - int(0.04 * sr):s0 + int(0.04 * sr)] = 0.0
+    x = x * gate
+    return (x / np.max(np.abs(x)) * 0.5).astype(np.float32)[None, :]
+
+
+def chord_beat(root_midi: int, minor: bool, seconds: float = 12.0, sr: int = SR) -> np.ndarray:
+    """Stereo pad cycling i - iv - v (or I - IV - V) chords plus a bass, for key detection."""
+    t = np.arange(int(sr * seconds)) / sr
+    third = 3 if minor else 4
+    out = np.zeros_like(t)
+    seg = len(t) // 4
+    for k, deg in enumerate([0, 5, 7, 0]):
+        sl = slice(k * seg, (k + 1) * seg)
+        for iv in (0, third, 7):
+            f = 440 * 2 ** ((root_midi + deg + iv - 69) / 12)
+            out[sl] += np.sin(2 * np.pi * f * t[sl]) + 0.3 * np.sin(4 * np.pi * f * t[sl])
+        out[sl] += 1.5 * np.sin(2 * np.pi * 440 * 2 ** ((root_midi + deg - 12 - 69) / 12) * t[sl])
+    out = out / np.max(np.abs(out)) * 0.5
+    return np.stack([out, out]).astype(np.float32)

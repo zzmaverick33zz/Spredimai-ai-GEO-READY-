@@ -33,3 +33,36 @@ def spectrum_figure(spectra: dict):
     fig.tight_layout()
     plt.close(fig)
     return fig
+
+
+def pitch_figure(rep: dict):
+    """Detected melody before/after tuning over the key's note grid."""
+    import numpy as np
+
+    from .tuning import NOTE_NAMES, allowed_pitch_classes
+
+    t, before, after = rep["times"], rep["midi_before"], rep["midi_after"]
+    fig, ax = plt.subplots(figsize=(9, 3.6), dpi=100)
+    fig.patch.set_facecolor("#0f1115")
+    ax.set_facecolor("#0f1115")
+    ok = np.isfinite(before)
+    if np.any(ok):
+        lo, hi = int(np.floor(np.nanmin(before))) - 1, int(np.ceil(np.nanmax(before))) + 1
+        pcs = set(allowed_pitch_classes(rep["tonic"], rep["scale"]).tolist())
+        for m in range(lo, hi + 1):
+            if m % 12 in pcs:
+                ax.axhline(m, color="#2a2e36", linewidth=0.8, zorder=0)
+        ax.set_yticks([m for m in range(lo, hi + 1) if m % 12 in pcs])
+        ax.set_yticklabels([f"{NOTE_NAMES[m % 12]}{m // 12 - 1}" for m in range(lo, hi + 1) if m % 12 in pcs])
+        ax.set_ylim(lo, hi)
+    ax.plot(t, before, color="#8a8f98", linewidth=1.0, label="До")
+    ax.plot(t, after, color="#4fd1c5", linewidth=1.3, label="После")
+    ax.set_xlabel("секунды", color="#c9ccd1")
+    ax.tick_params(colors="#c9ccd1")
+    for s in ax.spines.values():
+        s.set_color("#2a2e36")
+    ax.legend(facecolor="#171a20", edgecolor="#2a2e36", labelcolor="#e6e8eb", loc="upper right")
+    ax.set_title(f"Ноты вокала, тональность {rep['key']}", color="#e6e8eb", fontsize=11)
+    fig.tight_layout()
+    plt.close(fig)
+    return fig

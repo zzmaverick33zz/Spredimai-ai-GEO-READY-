@@ -121,9 +121,20 @@ def space(dry: np.ndarray, sr: int, cfg: dict, bpm: float | None) -> tuple[np.nd
     return out, info
 
 
+def pan_mono(x: np.ndarray, pan: float) -> np.ndarray:
+    """Constant-power pan of a mono signal (-1 = left, +1 = right); centre keeps unity on both sides."""
+    theta = (float(np.clip(pan, -1.0, 1.0)) + 1.0) * np.pi / 4.0
+    m = dsp.mono(x)
+    return np.stack([m * np.cos(theta), m * np.sin(theta)]).astype(np.float32) * np.float32(np.sqrt(2.0))
+
+
 def process_vocal(vocal: np.ndarray, sr: int, preset: dict, bpm: float | None = None,
-                  reference_density: dict | None = None) -> tuple[np.ndarray, dict]:
-    """Full vocal chain. Returns stereo vocal (with a short effect tail) and a report."""
+                  reference_density: dict | None = None, pan: float = 0.0) -> tuple[np.ndarray, dict]:
+    """Full vocal chain. Returns stereo vocal (with a short effect tail) and a report.
+
+    pan != 0 places the dry voice in the stereo field (used for doubles and harmonies);
+    reverb and delay stay stereo.
+    """
     cfg = preset["vocal"]
     x = dsp.highpass(vocal, sr, cfg["highpass_hz"], order=4)
     eq = adaptive_eq_gains(x, sr, cfg, reference_density)
@@ -147,7 +158,8 @@ def process_vocal(vocal: np.ndarray, sr: int, preset: dict, bpm: float | None = 
         PeakFilter(cfg["presence"]["freq_hz"], eq["presence"], cfg["presence"]["q"]),
         HighShelfFilter(cfg["air_shelf"]["freq_hz"], eq["air"], 0.7),
     ])
-    x = to_stereo(dsp.run_board(tone, x, sr))
+    x = dsp.run_board(tone, x, sr)
+    x = pan_mono(x, pan) if pan else to_stereo(x)
     x, sp = space(x, sr, cfg, bpm)
     report = {
         "eq_lowmid_db": eq["lowmid"], "eq_presence_db": eq["presence"], "eq_air_db": eq["air"],
@@ -156,6 +168,106 @@ def process_vocal(vocal: np.ndarray, sr: int, preset: dict, bpm: float | None = 
         **sp,
     }
     return x.astype(np.float32), report
+
+
+# ---------------------------------------------------------------- backing vocals
+
+BACKING_ROLES = ("double", "harmony", "adlib")
+
+
+def align_offset(lead: np.ndarray, voice: np.ndarray, sr: int, max_ms: float = 60.0) -> int:
+    """Constant offset (samples) that best lines `voice` up with `lead` (envelope cross-correlation).
+
+    Positive = the voice is late and must be moved earlier. Returns 0 when the match is weak.
+    """
+    hop = max(sr // 1000, 1)  # 1 ms resolution
+    n = min(lead.shape[1], voice.shape[1], sr * 60)
+    if n < sr:
+        return 0
+
+    def env(x):
+        e = dsp.envelope(dsp.mono(x[:, :n]), sr, 2.0, 20.0)[::hop].astype(np.float64)
+        e = np.diff(e, prepend=e[0]).clip(min=0)  # onsets matter more than sustain
+        return (e - e.mean()) / (e.std() + 1e-12)
+
+    a, b = env(lead), env(voice)
+    max_lag = int(max_ms)
+    lags = np.arange(-max_lag, max_lag + 1)
+    scores = np.array([np.dot(a[max(0, -k):len(a) - max(0, k)], b[max(0, k):len(b) - max(0, -k)]) for k in lags])
+    scores /= len(a)
+    best = int(np.argmax(scores))
+    if scores[best] < 0.15:
+        return 0
+    return int(lags[best] * hop)
+
+
+def backing_preset(preset: dict, role: str) -> dict:
+    """Vocal chain settings for a backing voice: the lead preset adjusted by its role."""
+    import copy
+
+    rc = preset["backing"]["roles"][role]
+    pr = copy.deepcopy(preset)
+    v = pr["vocal"]
+    v["highpass_hz"] = max(v["highpass_hz"], rc["highpass_hz"])
+    v["deesser"]["amount"] = float(min(1.0, v["deesser"]["amount"] + rc["deess_extra"]))
+    v["brightness_db"] = v.get("brightness_db", 0.0) + rc["brightness_db"]
+    v["reverb"]["mix"] = v["reverb"]["mix"] + rc["reverb_extra"]
+    v["delay"]["mix"] = v["delay"]["mix"] + rc["delay_extra"]
+    return pr
+
+
+def process_backing(voices: list[tuple[np.ndarray, str]], lead_raw: np.ndarray, lead_processed: np.ndarray,
+                    sr: int, preset: dict, bpm: float | None = None,
+                    reference_density: dict | None = None) -> tuple[np.ndarray | None, list[dict]]:
+    """Doubles / harmonies / ad-libs around the lead.
+
+    Each voice is aligned to the lead (doubles and harmonies), run through the lead chain
+    adjusted by its role, panned (alternating L/R) and balanced against the others by its
+    role level; the group gets a glue compressor and a small presence dip so the lead's
+    words stay in front, and is set `bus_level_lu` under the lead.
+    """
+    if not voices:
+        return None, []
+    from .mastering import bus_compressor
+
+    cfg = preset["backing"]
+    lead_lufs = integrated_lufs(lead_processed, sr)
+    width = float(cfg["width"])
+    outs, reports = [], []
+    for k, (audio, role) in enumerate(voices):
+        role = role if role in BACKING_ROLES else "double"
+        rc = cfg["roles"][role]
+        x = dsp.mono(audio)[None, :]
+        shift_samples = align_offset(lead_raw, x, sr, cfg["align_max_ms"]) if rc["align"] else 0
+        if shift_samples > 0:
+            x = x[:, shift_samples:]
+        elif shift_samples < 0:
+            x = np.pad(x, ((0, 0), (-shift_samples, 0)))
+        # Alternate L/R over all voices so two voices always end up on opposite sides.
+        pan = rc["pan"] * width * (-1 if k % 2 == 0 else 1) * (1.0 if k < 2 else 0.5)
+        y, rep = process_vocal(x, sr, backing_preset(preset, role), bpm, reference_density, pan=pan)
+        gain_db = lead_lufs + rc["level_lu"] - integrated_lufs(y, sr)  # balance inside the group
+        y *= np.float32(dsp.db_to_lin(gain_db))
+        outs.append(y)
+        reports.append({"role": role, "pan": pan, "align_ms": shift_samples / sr * 1000, "gain_db": gain_db, **rep})
+    n = max(o.shape[1] for o in outs)
+    bus = np.sum([pad_to(o, n) for o in outs], axis=0).astype(np.float32)
+    bus = bus_compressor(bus, sr, cfg["bus_ratio"], 10.0, 120.0, percentile=80.0)
+    if cfg["presence_dip_db"]:
+        bus = dsp.run_board(PeakFilter(cfg["presence_dip_hz"], cfg["presence_dip_db"], 0.8), bus, sr)
+    # The whole group sits a fixed distance under the lead, however many voices and however
+    # correlated they are (identical doubles add up louder than separate takes).
+    target = lead_lufs + cfg["bus_level_lu"] + cfg["level_offset_lu"]
+    bus *= np.float32(dsp.db_to_lin(target - integrated_lufs(bus, sr)))
+    return bus, reports
+
+
+def sum_vocals(lead: np.ndarray, bus: np.ndarray | None) -> np.ndarray:
+    """Lead + backing bus (padded to the longer one)."""
+    if bus is None:
+        return lead
+    n = max(lead.shape[1], bus.shape[1])
+    return (pad_to(lead, n) + pad_to(bus, n)).astype(np.float32)
 
 
 # ------------------------------------------------------------------------- beat

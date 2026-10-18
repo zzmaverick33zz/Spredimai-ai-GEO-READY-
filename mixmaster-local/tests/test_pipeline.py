@@ -81,3 +81,28 @@ def test_presets_roundtrip(tmp_path):
 def test_params_override():
     pr = pipeline.apply_params(load_preset("rock"), pipeline.Params(deesser=0.1, reverb=0.0, vocal_over_beat_lu=4))
     assert pr["vocal"]["deesser"]["amount"] == 0.1 and pr["balance"]["vocal_over_beat_lu"] == 4
+
+
+def test_mode1_with_tuning_and_backing(tmp_path):
+    v, b, r = _files(tmp_path)
+    save_wav(tmp_path / "dbl.wav", synth.vocal(20) * 0.8, SR, 24)
+    save_wav(tmp_path / "harm.wav", synth.vocal(20, seed=9), SR, 24)
+    p = pipeline.Params(bpm=120, tune=True, tune_key="A", tune_scale="minor",
+                        backing=[(tmp_path / "dbl.wav", "double"), (tmp_path / "harm.wav", "harmony")])
+    res = pipeline.run_mix_and_master(v, b, r, load_preset("trap_synthwave"), p, out_root=tmp_path / "out")
+    for k in ("master24", "tuned", "vocals", "premaster"):
+        assert k in res.files
+    assert "Тюн лида" in res.summary and "Бэк-вокал" in res.summary
+    assert res.report["tuning"]["key"] == "A минор"
+
+
+def test_tune_only_mode(tmp_path):
+    save_wav(tmp_path / "sung.wav", synth.sung([57, 60, 64, 62], [-40, 0, 40, -30]), SR, 24)
+    save_wav(tmp_path / "beat.wav", synth.chord_beat(57, minor=True), SR, 24)
+    p = pipeline.Params(tune_key="auto", tune_scale="auto", tune_retune_ms=120)
+    res = pipeline.run_tune_only(tmp_path / "sung.wav", tmp_path / "beat.wav", load_preset("rap_vocal"), p,
+                                 out_root=tmp_path)
+    assert res.report["tuning"]["key"] == "A минор"
+    assert res.report["tuning"]["dev_after_cents"] < res.report["tuning"]["dev_before_cents"]
+    tuned, _ = load_audio(res.files["master24"])
+    assert sf.info(res.files["master24"]).subtype == "PCM_24" and tuned.shape[1] > 0
