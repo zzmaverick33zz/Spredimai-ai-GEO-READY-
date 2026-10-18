@@ -4,17 +4,22 @@ rem mixmaster-local launcher (Windows). ASCII only on purpose: cmd.exe misreads 
 cd /d "%~dp0"
 title mixmaster-local
 
-if exist ".venv\Scripts\python.exe" goto deps
+rem An old .venv made with an unsupported Python (e.g. 3.14/3.15) is rebuilt automatically.
+if exist ".venv\Scripts\python.exe" (
+  ".venv\Scripts\python.exe" -c "import sys; sys.exit(0 if (3, 10) <= sys.version_info[:2] <= (3, 13) else 1)" >nul 2>&1 && goto deps
+  echo Removing old .venv made with an unsupported Python version...
+  rmdir /s /q .venv
+)
 
-echo Looking for Python...
+echo Looking for Python 3.12 / 3.13 / 3.11 / 3.10 ...
 set "PYCMD="
-for %%V in (3.12 3.13 3.11 3.10 3.14) do (
+for %%V in (3.12 3.13 3.11 3.10) do (
   if not defined PYCMD (
     py -%%V -c "import sys" >nul 2>&1 && set "PYCMD=py -%%V"
   )
 )
 if not defined PYCMD (
-  python -c "import sys; sys.exit(0 if sys.version_info[:2] >= (3, 10) else 1)" >nul 2>&1 && set "PYCMD=python"
+  python -c "import sys; sys.exit(0 if (3, 10) <= sys.version_info[:2] <= (3, 13) else 1)" >nul 2>&1 && set "PYCMD=python"
 )
 if not defined PYCMD goto nopython
 
@@ -58,13 +63,15 @@ goto end
 
 :nopython
 echo.
-echo ERROR: Python 3.10 or newer was not found.
-echo Installed Pythons (if any):
+echo ERROR: no suitable Python found. Needed: Python 3.12 (or 3.10 / 3.11 / 3.13).
+echo Python 3.14 and newer are too new: some packages have no ready builds yet.
+echo Installed Pythons on this PC:
 py -0 2>nul
 python --version 2>nul
 echo.
 echo Install Python 3.12 from https://www.python.org/downloads/windows/
-echo and tick "Add python.exe to PATH" in the installer. Then run this file again.
+echo (scroll to "Python 3.12.x", take "Windows installer (64-bit)").
+echo Your other Python can stay installed. Then run this file again.
 goto end
 
 :venvfail
@@ -76,7 +83,8 @@ goto end
 :pipfail
 echo.
 echo ERROR: installing dependencies failed. See the messages above.
-echo Check the internet connection, delete the .venv folder and run again.
+echo Check the internet connection and run again.
+echo If it says "Microsoft Visual C++ is required", your Python is too new: install Python 3.12.
 echo If it still fails, take a screenshot and send it to Claude.
 goto end
 
