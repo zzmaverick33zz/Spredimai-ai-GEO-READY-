@@ -359,3 +359,6 @@ html{scroll-padding-top:76px}
   .prod--feature{grid-column:span 2}
   .prod--feature .slot{aspect-ratio:16/10}
 }
+
+/* generated or stock media is always labelled */
+.slot__tag{position:absolute;z-index:4;right:12px;bottom:12px;padding:6px 9px;background:rgba(6,8,8,.72);color:var(--bone);font:500 .62rem/1 var(--f-body);letter-spacing:.18em;text-transform:uppercase}

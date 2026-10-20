@@ -120,3 +120,30 @@
 **S02 — Fallen (4:5).** Cinematic photograph, dusk, a very old oak tree leaning and falling into a still northern lake, roots lifting from the shore, mist on the water, muted green-grey palette, no people, no text, realistic, shot on a 50mm lens, shallow depth of field.
 
 **S24 — Tables (4:5), только если нет реального фото.** Interior photograph, a solid table made of one slab of black bog oak in a bright room, soft window light, linen tones, no people, no text, realistic.
+
+## 6. Замены для того, чего нет в материале клиента (подводное)
+
+Правило: всё, что не снято самим клиентом, подписывается на сайте как «Illustration» (поле `illustration:true` в `public/media/manifest.json`, подпись выводится автоматически). Сгенерированное или стоковое не выдаётся за реальный процесс и не ставится в главы, где должна быть реальная работа (III, V, VII, VIII). Сток и генерация допустимы только для S01, S02, S03, S04.
+
+Ограничения этой среды: Wikimedia, Pexels, Pixabay, Unsplash и archive.org закрыты прокси (403), генератора изображений и видео у меня нет. Поэтому ниже промты и бриф для стока; файлы кладёте в `source-media/generated/` или `source-media/stock/`, дальше я обрабатываю как обычно.
+
+### Промты (видео 8–12 с, лупы, без текста и людей с видимым лицом)
+
+**S01 Hero (16:9 и 9:16).** Slow cinematic underwater shot in a dark northern lake, a diver's torch beam sweeping slowly across a huge black ancient oak trunk half buried in silt, drifting particles in the light, cold green-teal palette, very low key, shallow depth of field, no text, no faces, realistic, 24 fps, seamless loop, 10 seconds.
+
+**S03 The dive (4:5 кроп).** Underwater, a diver seen from behind with a torch inspects a fallen black trunk lying on a muddy lake bed, murky green water, light rays from above, slow handheld drift, no faces, no text, realistic, 8 seconds loop.
+
+**S04 деталь (1:1 фото).** Close-up photograph underwater, a gloved diver's hand resting on the dark bark of a submerged ancient oak trunk, silt in suspension, cold green light, no face, no text, realistic.
+
+**S02 Fallen (4:5)** и **S24 Tables** промты уже в разделе 5.
+
+### Бриф для стока (если выбираете вместо генерации)
+
+- Лицензия: CC0 / Pexels / Pixabay (коммерческое использование без атрибуции) или CC-BY с подписью. Хранить URL и лицензию рядом с файлом.
+- Запросы: «lake underwater diver torch», «dark lake bottom silt», «diver hand submerged log», «underwater tree trunk lake», «peat bog lake mist».
+- Критерии: холодная зелёная гамма, без логотипов, без ярких костюмов и ласт, без людей с узнаваемым лицом, минимум 1080p, без тропических рыб и рифов (это сразу выдаёт, что кадр не из северного озера).
+- Подпись на сайте: «Illustrative footage».
+
+### Рекомендация
+
+Сначала спросить клиента про подводную съёмку (дайверы работают 20+ лет, видео почти точно есть). Если нет, для S01 и S03 генерация лучше стока: кадр можно подогнать под цвет глав и формат, а подпись «Illustration» честно отделяет его от реальных кадров.

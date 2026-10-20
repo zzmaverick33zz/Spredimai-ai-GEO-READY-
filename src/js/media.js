@@ -37,6 +37,12 @@ export async function hydrateMedia() {
       el.append(img);
     } else continue;
     slot.prepend(el);
-    if (m.illustration) slot.dataset.illustration = 'true';
+    if (m.illustration) {
+      slot.dataset.illustration = 'true';
+      const tag = document.createElement('span');
+      tag.className = 'slot__tag';
+      tag.textContent = 'Illustration';
+      slot.append(tag);
+    }
   }
 }
