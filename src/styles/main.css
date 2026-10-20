@@ -206,7 +206,7 @@ body.show-brief .hero{padding-top:250px}
 .arrival h2{font-size:var(--t-h2);max-width:16ch}
 .arrival .slot{aspect-ratio:21/9;min-height:360px}
 .arrival__props{display:grid;gap:28px;padding-block:56px clamp(96px,10vw,150px);border-bottom:1px solid var(--line-l)}
-.prop h4{font:500 var(--t-sm)/1.3 var(--f-body);letter-spacing:.16em;text-transform:uppercase;margin:0 0 10px;color:var(--ink)}
+.prop h3{font:500 var(--t-sm)/1.3 var(--f-body);letter-spacing:.16em;text-transform:uppercase;margin:0 0 10px;color:var(--ink)}
 .prop p{font-size:.95rem}
 @media (min-width:760px){.arrival__props{grid-template-columns:repeat(3,1fr);gap:48px}}
 
@@ -312,7 +312,7 @@ form{display:grid;gap:22px}
 /* ---------- footer ---------- */
 .ftr{background:#050A0C;padding-block:72px calc(40px + env(safe-area-inset-bottom,0px));color:var(--bone-dim);font-size:.9rem}
 .ftr__grid{display:grid;gap:40px;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr))}
-.ftr h4{font:500 var(--t-xs)/1 var(--f-body);letter-spacing:.2em;text-transform:uppercase;color:var(--bone);margin:0 0 18px}
+.ftr h3{font:500 var(--t-xs)/1 var(--f-body);letter-spacing:.2em;text-transform:uppercase;color:var(--bone);margin:0 0 18px}
 .ftr ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
 .ftr a{text-decoration:none}.ftr a:hover{color:var(--bone)}
 .ftr__base{margin-top:64px;padding-top:24px;border-top:1px solid var(--line-d);display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;font-size:.78rem}
@@ -327,7 +327,7 @@ html{scroll-padding-top:76px}
 .rail__bar>i{position:absolute;inset:0;background:var(--brass);transform:scaleY(0);transform-origin:top}
 .rail a{padding-left:10px}
 /* with JS the chapter grounds are tweened on <body> instead, so colour moves with the scroll */
-.js .chapter,.js .interlude,.js .arrival{background:transparent}
+.js .chapter,.js .interlude{background:transparent}
 .js .interlude .slot::before{background:linear-gradient(180deg,rgba(21,19,15,.2),rgba(21,19,15,.88))}
 .js body{transition:none}
 /* product cards: slow zoom only where hover exists */
@@ -343,3 +343,19 @@ html{scroll-padding-top:76px}
   .prod:hover .slot>*,.prod:hover .slot::after{transform:none}
 }
 .interlude{overflow:hidden}
+
+/* first daylight: fade the oak ground of chapter VIII into linen */
+.arrival{position:relative}
+.arrival::before{content:"";position:absolute;inset:0 0 auto;height:96px;background:linear-gradient(var(--oak),transparent);pointer-events:none}
+.ftr li a,.ftr li{display:inline-block;padding-block:8px}
+.link{padding-block:14px 6px}
+.drawer a{min-height:48px}
+.logo{min-height:44px;justify-content:center}
+.ftr li a,.ftr li{padding-block:11px}
+/* no orphan cells: four forest species in 2 or 4 columns, products fill a 2-col grid */
+.species--four{grid-template-columns:repeat(2,1fr)}
+@media (min-width:1000px){.species--four{grid-template-columns:repeat(4,1fr)}}
+@media (min-width:760px) and (max-width:1079px){
+  .prod--feature{grid-column:span 2}
+  .prod--feature .slot{aspect-ratio:16/10}
+}

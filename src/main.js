@@ -130,7 +130,7 @@ function heroIntro() {
   tl.set('.hero__veil', { opacity: 1 })
     .to('.hero__veil', { opacity: 0, duration: 1.8, ease: 'power2.out' }, 0)
     .from(words, { yPercent: 110, duration: .9, stagger: .07 }, .35)
-    .from('.hero .eyebrow, .hero__body > p, .hero__ctas, .hero__facts', { autoAlpha: 0, y: 14, duration: .7, stagger: .12 }, .9);
+    .from('.hero__ctas, .hero__facts', { autoAlpha: 0, y: 14, duration: .7, stagger: .12 }, .9);
 }
 
 function colourByDepth() {
@@ -141,8 +141,7 @@ function colourByDepth() {
   const set = c => gsap.to(document.body, { backgroundColor: c, duration: .9, ease: 'power2.out', overwrite: 'auto' });
   const zones = [
     ...$$('.chapter').map(el => [el, colours[el.dataset.g]]),
-    [$('#ch3'), colours.peat],
-    [$('#arrival'), colours.linen]
+    [$('#ch3'), colours.peat]
   ];
   zones.forEach(([el, c]) => ScrollTrigger.create({
     trigger: el, start: 'top 60%', end: 'bottom 60%',

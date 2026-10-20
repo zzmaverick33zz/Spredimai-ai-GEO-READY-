@@ -5,3 +5,4 @@
 - Copy: removed or softened claims not confirmed on bffloors.com: "most sustainable timber we know", "This is where most of the time goes", "fly in to install", "finest European and American species", Bog Ash "lighter, more silvered tone", Bog Oak "smoked brown to near black".
 - Added `public/media/manifest.json`: slots take real media from the manifest; missing slots keep placeholder + brief.
 - Added SEO: OG/Twitter meta, JSON-LD (Organization, LocalBusiness showroom, Product Bog Oak), `llms.txt`, `robots.txt`.
+- QA fixes: pin is created before other ScrollTriggers; hero paragraph no longer fades in (LCP 3.0 s -> 1.4 s); Google Fonts load non-blocking; h4 -> h3 for heading order; products and forest species grids have no orphan cells at 760-1079 px; touch targets >= 44 px.
