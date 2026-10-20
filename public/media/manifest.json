@@ -1,15 +1,187 @@
 {
-  "_readme": "Maps a slot id to real media; slots missing here keep their placeholder. Video: {type:'video', poster, sources:[{src,type,media?}]}. Image: {type:'image', alt, width, height, sources:[{srcset,type,sizes?}], src}. Illustrations (generated) must set illustration:true.",
-  "_example": {
-    "S05": {
-      "type": "video",
-      "poster": "/media/s05-lift-poster.avif",
-      "sources": [
-        { "src": "/media/s05-lift-9x16.webm", "type": "video/webm", "media": "(max-width: 759px)" },
-        { "src": "/media/s05-lift-9x16.mp4", "type": "video/mp4", "media": "(max-width: 759px)" },
-        { "src": "/media/s05-lift.webm", "type": "video/webm" },
-        { "src": "/media/s05-lift.mp4", "type": "video/mp4" }
-      ]
-    }
-  }
+ "S02": {
+  "type": "image",
+  "alt": "A huge uprooted bog oak with its root ball, resting on a trailer in the yard",
+  "width": 960,
+  "height": 1200,
+  "src": "/media/s02-fallen-960.jpg",
+  "sources": [
+   {
+    "srcset": "/media/s02-fallen-640.avif 640w, /media/s02-fallen-960.avif 960w",
+    "type": "image/avif",
+    "sizes": "(min-width:900px) 58vw, 100vw"
+   },
+   {
+    "srcset": "/media/s02-fallen-640.webp 640w, /media/s02-fallen-960.webp 960w",
+    "type": "image/webp",
+    "sizes": "(min-width:900px) 58vw, 100vw"
+   },
+   {
+    "srcset": "/media/s02-fallen-640.jpg 640w, /media/s02-fallen-960.jpg 960w",
+    "type": "image/jpeg",
+    "sizes": "(min-width:900px) 58vw, 100vw"
+   }
+  ]
+ },
+ "S03": {
+  "type": "video",
+  "poster": "/media/s03-dive-poster.avif",
+  "sources": [
+   {
+    "src": "/media/s03-dive.webm",
+    "type": "video/webm"
+   },
+   {
+    "src": "/media/s03-dive.mp4",
+    "type": "video/mp4"
+   }
+  ],
+  "alt": "A bog trunk lying on a sand bank at the lake shore"
+ },
+ "S04": {
+  "type": "image",
+  "alt": "Close-up of a bog trunk: tar-dark bark with a burnt patch",
+  "width": 478,
+  "height": 478,
+  "src": "/media/s04-detail-478.jpg",
+  "sources": [
+   {
+    "srcset": "/media/s04-detail-478.avif 478w",
+    "type": "image/avif",
+    "sizes": "(min-width:900px) 32vw, 56vw"
+   },
+   {
+    "srcset": "/media/s04-detail-478.webp 478w",
+    "type": "image/webp",
+    "sizes": "(min-width:900px) 32vw, 56vw"
+   },
+   {
+    "srcset": "/media/s04-detail-478.jpg 478w",
+    "type": "image/jpeg",
+    "sizes": "(min-width:900px) 32vw, 56vw"
+   }
+  ]
+ },
+ "S05": {
+  "type": "video",
+  "poster": "/media/s05-lift-poster.avif",
+  "posterMobile": "/media/s05-lift-9x16-poster.avif",
+  "sources": [
+   {
+    "src": "/media/s05-lift-9x16.webm",
+    "type": "video/webm",
+    "media": "(max-width: 899px)"
+   },
+   {
+    "src": "/media/s05-lift-9x16.mp4",
+    "type": "video/mp4",
+    "media": "(max-width: 899px)"
+   },
+   {
+    "src": "/media/s05-lift.webm",
+    "type": "video/webm"
+   },
+   {
+    "src": "/media/s05-lift.mp4",
+    "type": "video/mp4"
+   }
+  ],
+  "alt": "A trunk is drawn out of the sand and water at the lake shore"
+ },
+ "S06": {
+  "type": "image",
+  "alt": "Cross-section disc of a bog trunk by the lake, measured with a tape",
+  "width": 1600,
+  "height": 1000,
+  "src": "/media/s06-dated-1600.jpg",
+  "sources": [
+   {
+    "srcset": "/media/s06-dated-640.avif 640w, /media/s06-dated-1024.avif 1024w, /media/s06-dated-1600.avif 1600w",
+    "type": "image/avif",
+    "sizes": "(min-width:900px) 58vw, 100vw"
+   },
+   {
+    "srcset": "/media/s06-dated-640.webp 640w, /media/s06-dated-1024.webp 1024w, /media/s06-dated-1600.webp 1600w",
+    "type": "image/webp",
+    "sizes": "(min-width:900px) 58vw, 100vw"
+   },
+   {
+    "srcset": "/media/s06-dated-640.jpg 640w, /media/s06-dated-1024.jpg 1024w, /media/s06-dated-1600.jpg 1600w",
+    "type": "image/jpeg",
+    "sizes": "(min-width:900px) 58vw, 100vw"
+   }
+  ]
+ },
+ "S07": {
+  "type": "image",
+  "alt": "A freshly sawn bog oak slab on the saw bed: black bark and a golden-brown heart",
+  "width": 1200,
+  "height": 1500,
+  "src": "/media/s07-first-cut-1200.jpg",
+  "sources": [
+   {
+    "srcset": "/media/s07-first-cut-640.avif 640w, /media/s07-first-cut-1024.avif 1024w, /media/s07-first-cut-1200.avif 1200w",
+    "type": "image/avif",
+    "sizes": "(min-width:900px) 58vw, 100vw"
+   },
+   {
+    "srcset": "/media/s07-first-cut-640.webp 640w, /media/s07-first-cut-1024.webp 1024w, /media/s07-first-cut-1200.webp 1200w",
+    "type": "image/webp",
+    "sizes": "(min-width:900px) 58vw, 100vw"
+   },
+   {
+    "srcset": "/media/s07-first-cut-640.jpg 640w, /media/s07-first-cut-1024.jpg 1024w, /media/s07-first-cut-1200.jpg 1200w",
+    "type": "image/jpeg",
+    "sizes": "(min-width:900px) 58vw, 100vw"
+   }
+  ]
+ },
+ "S08": {
+  "type": "image",
+  "alt": "Freshly cut cross-section of a bog log with pale heartwood rings",
+  "width": 1500,
+  "height": 1500,
+  "src": "/media/s08-rings-1500.jpg",
+  "sources": [
+   {
+    "srcset": "/media/s08-rings-640.avif 640w, /media/s08-rings-1024.avif 1024w, /media/s08-rings-1500.avif 1500w",
+    "type": "image/avif",
+    "sizes": "(min-width:900px) 32vw, 56vw"
+   },
+   {
+    "srcset": "/media/s08-rings-640.webp 640w, /media/s08-rings-1024.webp 1024w, /media/s08-rings-1500.webp 1500w",
+    "type": "image/webp",
+    "sizes": "(min-width:900px) 32vw, 56vw"
+   },
+   {
+    "srcset": "/media/s08-rings-640.jpg 640w, /media/s08-rings-1024.jpg 1024w, /media/s08-rings-1500.jpg 1500w",
+    "type": "image/jpeg",
+    "sizes": "(min-width:900px) 32vw, 56vw"
+   }
+  ]
+ },
+ "S09": {
+  "type": "image",
+  "alt": "Bog oak slabs stacked at the sawmill at night, a band saw behind them",
+  "width": 2000,
+  "height": 1250,
+  "src": "/media/s09-stacks-2000.jpg",
+  "sources": [
+   {
+    "srcset": "/media/s09-stacks-640.avif 640w, /media/s09-stacks-1024.avif 1024w, /media/s09-stacks-1600.avif 1600w, /media/s09-stacks-2000.avif 2000w",
+    "type": "image/avif",
+    "sizes": "(min-width:900px) 58vw, 100vw"
+   },
+   {
+    "srcset": "/media/s09-stacks-640.webp 640w, /media/s09-stacks-1024.webp 1024w, /media/s09-stacks-1600.webp 1600w, /media/s09-stacks-2000.webp 2000w",
+    "type": "image/webp",
+    "sizes": "(min-width:900px) 58vw, 100vw"
+   },
+   {
+    "srcset": "/media/s09-stacks-640.jpg 640w, /media/s09-stacks-1024.jpg 1024w, /media/s09-stacks-1600.jpg 1600w, /media/s09-stacks-2000.jpg 2000w",
+    "type": "image/jpeg",
+    "sizes": "(min-width:900px) 58vw, 100vw"
+   }
+  ]
+ }
 }

@@ -7,18 +7,17 @@ export async function hydrateMedia() {
     if (r.ok) manifest = await r.json();
   } catch { /* no manifest yet */ }
 
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const reduce = new URLSearchParams(location.search).has('static') || matchMedia('(prefers-reduced-motion: reduce)').matches;
   for (const [id, m] of Object.entries(manifest)) {
     if (id.startsWith('_')) continue;
     const slot = document.querySelector(`[data-slot="${id}"]`);
-    if (!slot) continue;
+    if (!slot || slot.hasAttribute('data-static')) continue;
     let el;
     if (m.type === 'video') {
       el = document.createElement('video');
-      el.muted = true; el.loop = true; el.playsInline = true; el.preload = 'metadata';
+      el.muted = true; el.loop = true; el.playsInline = true; el.preload = 'none';
       el.setAttribute('aria-hidden', 'true');
-      if (m.poster) el.poster = m.poster;
-      if (!reduce) el.autoplay = true;
+      el.poster = (m.posterMobile && matchMedia('(max-width: 899px)').matches) ? m.posterMobile : m.poster;
       for (const s of m.sources || []) {
         const so = document.createElement('source');
         so.src = s.src; so.type = s.type; if (s.media) so.media = s.media;

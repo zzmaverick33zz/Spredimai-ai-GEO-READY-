@@ -6,6 +6,8 @@
 <title>Big Foot Floors — Bog Wood</title>
 <meta name="description" content="Bog oak and bog ash recovered from deep waters, carbon-dated and crafted in Lithuania into floors, stairs, walls and bespoke interiors.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 fill=%27%23081013%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%2710%27 fill=%27none%27 stroke=%27%23C29A62%27 stroke-width=%272%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%274%27 fill=%27none%27 stroke=%27%23C29A62%27/%3E%3C/svg%3E">
+<link rel="preload" as="image" type="image/avif" imagesrcset="/media/s01-hero-1000.avif 1000w, /media/s01-hero-1600.avif 1600w, /media/s01-hero-2000.avif 2000w" imagesizes="100vw" media="(min-width:760px)" fetchpriority="high">
+<link rel="preload" as="image" type="image/avif" imagesrcset="/media/s01-hero-m-480.avif 480w, /media/s01-hero-m-844.avif 844w" imagesizes="100vw" media="(max-width:759px)" fetchpriority="high">
 <link rel="canonical" href="https://bffloors.com/">
 <meta name="theme-color" content="#081013">
 <meta property="og:type" content="website">
@@ -63,8 +65,14 @@
 
 <!-- ============ 00 HERO ============ -->
 <section class="hero" id="top" aria-labelledby="h-hero">
-  <figure class="slot ph--water" data-slot="S01">
-    <span class="slot__empty" aria-hidden="true"><b>S01</b>Underwater loop: a diver’s torch moving over a black trunk<em>photo or video to be added</em></span>
+  <figure class="slot ph--water" data-slot="S01" data-static>
+    <picture>
+      <source media="(max-width:759px)" srcset="/media/s01-hero-m-480.avif 480w, /media/s01-hero-m-844.avif 844w" type="image/avif" sizes="100vw">
+      <source media="(max-width:759px)" srcset="/media/s01-hero-m-480.webp 480w, /media/s01-hero-m-844.webp 844w" type="image/webp" sizes="100vw">
+      <source srcset="/media/s01-hero-1000.avif 1000w, /media/s01-hero-1600.avif 1600w, /media/s01-hero-2000.avif 2000w" type="image/avif" sizes="100vw">
+      <source srcset="/media/s01-hero-1000.webp 1000w, /media/s01-hero-1600.webp 1600w, /media/s01-hero-2000.webp 2000w" type="image/webp" sizes="100vw">
+      <img src="/media/s01-hero-2000.jpg" alt="At night a truck-mounted crane lifts a huge root mass of an ancient trunk over a loaded trailer" width="2000" height="1125" fetchpriority="high" decoding="async">
+    </picture>
     <span class="hero__veil" aria-hidden="true"></span>
     <!-- REPLACE: <video autoplay muted loop playsinline preload="metadata" poster="media/s01-poster.avif"><source src="media/s01.webm" type="video/webm"><source src="media/s01.mp4" type="video/mp4"></video> -->
     <figcaption class="brief"><span class="brief__top"><span class="chip chip--client">Kliento video</span><span class="chip chip--kind">Video loop 8–12 s</span><b>S01 · Hero</b></span>Po vandeniu: naro žibintas slysta per juodą kamieną dumble. Lėtas, tamsus, be teksto kadre. Spalvos korekcija į šaltą žalsvą.</figcaption>

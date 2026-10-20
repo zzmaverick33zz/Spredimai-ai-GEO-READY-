@@ -8,7 +8,9 @@ import { initForm } from './js/form.js';
 document.documentElement.classList.add('js');
 gsap.registerPlugin(ScrollTrigger);
 
-const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+// ?static renders the page with no motion at all (for design import / screenshots)
+const isStatic = new URLSearchParams(location.search).has('static');
+const reduce = isStatic || matchMedia('(prefers-reduced-motion: reduce)').matches;
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
@@ -130,6 +132,7 @@ function heroIntro() {
   tl.set('.hero__veil', { opacity: 1 })
     .to('.hero__veil', { opacity: 0, duration: 1.8, ease: 'power2.out' }, 0)
     .from(words, { yPercent: 110, duration: .9, stagger: .07 }, .35)
+    .fromTo('.hero .slot img', { scale: 1.12 }, { scale: 1, duration: 7, ease: 'power2.out' }, 0)
     .from('.hero__ctas, .hero__facts', { autoAlpha: 0, y: 14, duration: .7, stagger: .12 }, .9);
 }
 
@@ -183,7 +186,7 @@ function reveals() {
 }
 
 const mm = gsap.matchMedia();
-mm.add('(prefers-reduced-motion: no-preference)', () => {
+mm.add(isStatic ? '(max-width: 0px)' : '(prefers-reduced-motion: no-preference)', () => {
   heroIntro();
   if (innerWidth >= 900) lift();   // pin first: later triggers must measure after its spacer
   colourByDepth();
@@ -191,7 +194,7 @@ mm.add('(prefers-reduced-motion: no-preference)', () => {
   parallax();
 });
 // reduced motion: still tween nothing; chapters keep their own grounds
-mm.add('(prefers-reduced-motion: reduce)', () => {
+mm.add(isStatic ? '(min-width: 0px)' : '(prefers-reduced-motion: reduce)', () => {
   document.documentElement.classList.remove('js');
 });
 
