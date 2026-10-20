@@ -362,3 +362,19 @@ html{scroll-padding-top:76px}
 
 /* generated or stock media is always labelled */
 .slot__tag{position:absolute;z-index:4;right:12px;bottom:12px;padding:6px 9px;background:rgba(6,8,8,.72);color:var(--bone);font:500 .62rem/1 var(--f-body);letter-spacing:.18em;text-transform:uppercase}
+
+/* readable text where media is still missing (hidden while the team brief is on) */
+.slot__empty{position:absolute;inset:0;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:24px;text-align:center;color:var(--bone);font:300 clamp(1.1rem,.9rem + .8vw,1.5rem)/1.25 var(--f-display)}
+.slot__empty b{font:500 .65rem/1 var(--f-body);letter-spacing:.24em;color:var(--brass)}
+.slot__empty em{font:400 .7rem/1.3 var(--f-body);letter-spacing:.14em;text-transform:uppercase;color:var(--bone-dim);font-style:normal}
+.ph--room .slot__empty,.ph--light .slot__empty{color:var(--ink)}
+.ph--room .slot__empty b,.ph--light .slot__empty b{color:var(--brass-ink)}
+.ph--room .slot__empty em,.ph--light .slot__empty em{color:var(--ink-dim)}
+.show-brief .slot__empty{display:none}
+.prod .slot__empty{padding-bottom:96px}
+.slot--detail .slot__empty{padding:12px;font-size:1rem}
+.slot--detail .slot__empty em{display:none}
+.hero .slot__empty,.interlude .slot__empty{align-items:flex-end;justify-content:flex-start;text-align:right;padding:104px max(16px,var(--gutter-r)) 0}
+@media (min-width:900px){.hero .slot__empty,.interlude .slot__empty{padding-right:48px}}
+@media (max-width:899px){.hero .slot__empty{display:none}}
+@media (min-width:900px){.interlude .slot__empty{padding-right:max(110px,9vw)}}

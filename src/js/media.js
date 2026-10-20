@@ -36,6 +36,7 @@ export async function hydrateMedia() {
       if (m.width) img.width = m.width; if (m.height) img.height = m.height;
       el.append(img);
     } else continue;
+    slot.querySelector('.slot__empty')?.remove();
     slot.prepend(el);
     if (m.illustration) {
       slot.dataset.illustration = 'true';
