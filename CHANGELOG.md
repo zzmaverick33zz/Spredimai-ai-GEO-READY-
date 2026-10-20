@@ -1,0 +1,7 @@
+# Changelog
+
+- Stack: Vite + vanilla JS, GSAP/ScrollTrigger, Lenis. CSS and JS moved out of `index.html`; tokens kept in `:root`. Palette, fonts and narrative unchanged.
+- Chapter grounds are now tweened on `<body>` by scroll (instead of hard edges) when JS runs; without JS the original solid grounds remain.
+- Copy: removed or softened claims not confirmed on bffloors.com: "most sustainable timber we know", "This is where most of the time goes", "fly in to install", "finest European and American species", Bog Ash "lighter, more silvered tone", Bog Oak "smoked brown to near black".
+- Added `public/media/manifest.json`: slots take real media from the manifest; missing slots keep placeholder + brief.
+- Added SEO: OG/Twitter meta, JSON-LD (Organization, LocalBusiness showroom, Product Bog Oak), `llms.txt`, `robots.txt`.

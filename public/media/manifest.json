@@ -1,0 +1,15 @@
+{
+  "_readme": "Maps a slot id to real media; slots missing here keep their placeholder. Video: {type:'video', poster, sources:[{src,type,media?}]}. Image: {type:'image', alt, width, height, sources:[{srcset,type,sizes?}], src}. Illustrations (generated) must set illustration:true.",
+  "_example": {
+    "S05": {
+      "type": "video",
+      "poster": "/media/s05-lift-poster.avif",
+      "sources": [
+        { "src": "/media/s05-lift-9x16.webm", "type": "video/webm", "media": "(max-width: 759px)" },
+        { "src": "/media/s05-lift-9x16.mp4", "type": "video/mp4", "media": "(max-width: 759px)" },
+        { "src": "/media/s05-lift.webm", "type": "video/webm" },
+        { "src": "/media/s05-lift.mp4", "type": "video/mp4" }
+      ]
+    }
+  }
+}
