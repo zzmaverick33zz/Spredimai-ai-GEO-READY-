@@ -10,3 +10,4 @@
 - `?static` mode (no motion) added for design import and screenshots.
 - Focus ring on form fields.
 - From bffloors.com: project countries (Norway, Switzerland, France, Germany, Cyprus, USA) in Projects; footer column linking to the current site's pages.
+- Content from bffloors.com: copy aligned (most sustainable and rare wood, craftsmen fly in, design/stain/pattern, privacy note on projects, showroom email); 25 site photos wired into S03, S09–S31; client's message shown as a quote.

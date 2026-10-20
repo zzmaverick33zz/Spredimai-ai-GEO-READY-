@@ -24,43 +24,43 @@
   ]
  },
  "S03": {
-  "type": "video",
-  "poster": "/media/s03-dive-poster.avif",
+  "type": "image",
+  "alt": "A diver stands in a misty river beside a huge black bog trunk lying on the bank",
+  "width": 960,
+  "height": 1200,
+  "src": "/media/s03-dive-960.jpg",
   "sources": [
    {
-    "src": "/media/s03-dive.webm",
+    "srcset": "/media/s03-dive-640.avif 640w, /media/s03-dive-960.avif 960w",
+    "type": "image/avif",
+    "sizes": "(min-width:900px) 58vw, 100vw"
+   },
+   {
+    "srcset": "/media/s03-dive-640.webp 640w, /media/s03-dive-960.webp 960w",
+    "type": "image/webp",
+    "sizes": "(min-width:900px) 58vw, 100vw"
+   },
+   {
+    "srcset": "/media/s03-dive-640.jpg 640w, /media/s03-dive-960.jpg 960w",
+    "type": "image/jpeg",
+    "sizes": "(min-width:900px) 58vw, 100vw"
+   }
+  ]
+ },
+ "S04": {
+  "type": "video",
+  "poster": "/media/s04-detail-poster.avif",
+  "sources": [
+   {
+    "src": "/media/s04-detail.webm",
     "type": "video/webm"
    },
    {
-    "src": "/media/s03-dive.mp4",
+    "src": "/media/s04-detail.mp4",
     "type": "video/mp4"
    }
   ],
-  "alt": "A bog trunk lying on a sand bank at the lake shore"
- },
- "S04": {
-  "type": "image",
-  "alt": "Close-up of a bog trunk: tar-dark bark with a burnt patch",
-  "width": 478,
-  "height": 478,
-  "src": "/media/s04-detail-478.jpg",
-  "sources": [
-   {
-    "srcset": "/media/s04-detail-478.avif 478w",
-    "type": "image/avif",
-    "sizes": "(min-width:900px) 32vw, 56vw"
-   },
-   {
-    "srcset": "/media/s04-detail-478.webp 478w",
-    "type": "image/webp",
-    "sizes": "(min-width:900px) 32vw, 56vw"
-   },
-   {
-    "srcset": "/media/s04-detail-478.jpg 478w",
-    "type": "image/jpeg",
-    "sizes": "(min-width:900px) 32vw, 56vw"
-   }
-  ]
+  "alt": "Bark of a bog trunk lying on the lake shore"
  },
  "S05": {
   "type": "video",
@@ -162,25 +162,553 @@
  },
  "S09": {
   "type": "image",
-  "alt": "Bog oak slabs stacked at the sawmill at night, a band saw behind them",
-  "width": 2000,
-  "height": 1250,
-  "src": "/media/s09-stacks-2000.jpg",
+  "alt": "Boards stacked on racks with gaps between the layers",
+  "width": 1200,
+  "height": 750,
+  "src": "/media/s09-stacks-1200.jpg",
   "sources": [
    {
-    "srcset": "/media/s09-stacks-640.avif 640w, /media/s09-stacks-1024.avif 1024w, /media/s09-stacks-1600.avif 1600w, /media/s09-stacks-2000.avif 2000w",
+    "srcset": "/media/s09-stacks-640.avif 640w, /media/s09-stacks-1024.avif 1024w, /media/s09-stacks-1200.avif 1200w",
     "type": "image/avif",
     "sizes": "(min-width:900px) 58vw, 100vw"
    },
    {
-    "srcset": "/media/s09-stacks-640.webp 640w, /media/s09-stacks-1024.webp 1024w, /media/s09-stacks-1600.webp 1600w, /media/s09-stacks-2000.webp 2000w",
+    "srcset": "/media/s09-stacks-640.webp 640w, /media/s09-stacks-1024.webp 1024w, /media/s09-stacks-1200.webp 1200w",
     "type": "image/webp",
     "sizes": "(min-width:900px) 58vw, 100vw"
    },
    {
-    "srcset": "/media/s09-stacks-640.jpg 640w, /media/s09-stacks-1024.jpg 1024w, /media/s09-stacks-1600.jpg 1600w, /media/s09-stacks-2000.jpg 2000w",
+    "srcset": "/media/s09-stacks-640.jpg 640w, /media/s09-stacks-1024.jpg 1024w, /media/s09-stacks-1200.jpg 1200w",
     "type": "image/jpeg",
     "sizes": "(min-width:900px) 58vw, 100vw"
+   }
+  ]
+ },
+ "S10": {
+  "type": "image",
+  "alt": "A craftsman in the workshop assembling a star-shaped parquet medallion",
+  "width": 1200,
+  "height": 1500,
+  "src": "/media/s10-hands-1200.jpg",
+  "sources": [
+   {
+    "srcset": "/media/s10-hands-640.avif 640w, /media/s10-hands-1024.avif 1024w, /media/s10-hands-1200.avif 1200w",
+    "type": "image/avif",
+    "sizes": "(min-width:900px) 58vw, 100vw"
+   },
+   {
+    "srcset": "/media/s10-hands-640.webp 640w, /media/s10-hands-1024.webp 1024w, /media/s10-hands-1200.webp 1200w",
+    "type": "image/webp",
+    "sizes": "(min-width:900px) 58vw, 100vw"
+   },
+   {
+    "srcset": "/media/s10-hands-640.jpg 640w, /media/s10-hands-1024.jpg 1024w, /media/s10-hands-1200.jpg 1200w",
+    "type": "image/jpeg",
+    "sizes": "(min-width:900px) 58vw, 100vw"
+   }
+  ]
+ },
+ "S11": {
+  "type": "image",
+  "alt": "A dark bog-oak footprint inlaid into pale oak, the Big Foot mark",
+  "width": 1500,
+  "height": 1500,
+  "src": "/media/s11-inlay-1500.jpg",
+  "sources": [
+   {
+    "srcset": "/media/s11-inlay-640.avif 640w, /media/s11-inlay-1024.avif 1024w, /media/s11-inlay-1500.avif 1500w",
+    "type": "image/avif",
+    "sizes": "(min-width:900px) 32vw, 56vw"
+   },
+   {
+    "srcset": "/media/s11-inlay-640.webp 640w, /media/s11-inlay-1024.webp 1024w, /media/s11-inlay-1500.webp 1500w",
+    "type": "image/webp",
+    "sizes": "(min-width:900px) 32vw, 56vw"
+   },
+   {
+    "srcset": "/media/s11-inlay-640.jpg 640w, /media/s11-inlay-1024.jpg 1024w, /media/s11-inlay-1500.jpg 1500w",
+    "type": "image/jpeg",
+    "sizes": "(min-width:900px) 32vw, 56vw"
+   }
+  ]
+ },
+ "S12": {
+  "type": "image",
+  "alt": "A finished vaulted corridor with a laid parquet floor",
+  "width": 1600,
+  "height": 1000,
+  "src": "/media/s12-fitted-1600.jpg",
+  "sources": [
+   {
+    "srcset": "/media/s12-fitted-640.avif 640w, /media/s12-fitted-1024.avif 1024w, /media/s12-fitted-1600.avif 1600w",
+    "type": "image/avif",
+    "sizes": "(min-width:900px) 58vw, 100vw"
+   },
+   {
+    "srcset": "/media/s12-fitted-640.webp 640w, /media/s12-fitted-1024.webp 1024w, /media/s12-fitted-1600.webp 1600w",
+    "type": "image/webp",
+    "sizes": "(min-width:900px) 58vw, 100vw"
+   },
+   {
+    "srcset": "/media/s12-fitted-640.jpg 640w, /media/s12-fitted-1024.jpg 1024w, /media/s12-fitted-1600.jpg 1600w",
+    "type": "image/jpeg",
+    "sizes": "(min-width:900px) 58vw, 100vw"
+   }
+  ]
+ },
+ "S13": {
+  "type": "image",
+  "alt": "A living room with floor-to-ceiling windows, mountains outside, and a warm oak floor",
+  "width": 1920,
+  "height": 823,
+  "src": "/media/s13-home-1920.jpg",
+  "sources": [
+   {
+    "srcset": "/media/s13-home-640.avif 640w, /media/s13-home-1024.avif 1024w, /media/s13-home-1600.avif 1600w, /media/s13-home-1920.avif 1920w",
+    "type": "image/avif",
+    "sizes": "100vw"
+   },
+   {
+    "srcset": "/media/s13-home-640.webp 640w, /media/s13-home-1024.webp 1024w, /media/s13-home-1600.webp 1600w, /media/s13-home-1920.webp 1920w",
+    "type": "image/webp",
+    "sizes": "100vw"
+   },
+   {
+    "srcset": "/media/s13-home-640.jpg 640w, /media/s13-home-1024.jpg 1024w, /media/s13-home-1600.jpg 1600w, /media/s13-home-1920.jpg 1920w",
+    "type": "image/jpeg",
+    "sizes": "100vw"
+   }
+  ]
+ },
+ "S14": {
+  "type": "image",
+  "alt": "Bog oak chevron boards",
+  "width": 1006,
+  "height": 1341,
+  "src": "/media/s14-bog-oak-1006.jpg",
+  "sources": [
+   {
+    "srcset": "/media/s14-bog-oak-480.avif 480w, /media/s14-bog-oak-800.avif 800w, /media/s14-bog-oak-1006.avif 1006w",
+    "type": "image/avif",
+    "sizes": "(min-width:900px) 25vw, 50vw"
+   },
+   {
+    "srcset": "/media/s14-bog-oak-480.webp 480w, /media/s14-bog-oak-800.webp 800w, /media/s14-bog-oak-1006.webp 1006w",
+    "type": "image/webp",
+    "sizes": "(min-width:900px) 25vw, 50vw"
+   },
+   {
+    "srcset": "/media/s14-bog-oak-480.jpg 480w, /media/s14-bog-oak-800.jpg 800w, /media/s14-bog-oak-1006.jpg 1006w",
+    "type": "image/jpeg",
+    "sizes": "(min-width:900px) 25vw, 50vw"
+   }
+  ]
+ },
+ "S15": {
+  "type": "image",
+  "alt": "Bog ash in a hexagon pattern",
+  "width": 1200,
+  "height": 1600,
+  "src": "/media/s15-bog-ash-1200.jpg",
+  "sources": [
+   {
+    "srcset": "/media/s15-bog-ash-480.avif 480w, /media/s15-bog-ash-800.avif 800w, /media/s15-bog-ash-1200.avif 1200w",
+    "type": "image/avif",
+    "sizes": "(min-width:900px) 25vw, 50vw"
+   },
+   {
+    "srcset": "/media/s15-bog-ash-480.webp 480w, /media/s15-bog-ash-800.webp 800w, /media/s15-bog-ash-1200.webp 1200w",
+    "type": "image/webp",
+    "sizes": "(min-width:900px) 25vw, 50vw"
+   },
+   {
+    "srcset": "/media/s15-bog-ash-480.jpg 480w, /media/s15-bog-ash-800.jpg 800w, /media/s15-bog-ash-1200.jpg 1200w",
+    "type": "image/jpeg",
+    "sizes": "(min-width:900px) 25vw, 50vw"
+   }
+  ]
+ },
+ "S16": {
+  "type": "image",
+  "alt": "Oak floor laid in a sunburst pattern",
+  "width": 1200,
+  "height": 1600,
+  "src": "/media/s16-oak-1200.jpg",
+  "sources": [
+   {
+    "srcset": "/media/s16-oak-480.avif 480w, /media/s16-oak-800.avif 800w, /media/s16-oak-1200.avif 1200w",
+    "type": "image/avif",
+    "sizes": "(min-width:900px) 25vw, 50vw"
+   },
+   {
+    "srcset": "/media/s16-oak-480.webp 480w, /media/s16-oak-800.webp 800w, /media/s16-oak-1200.webp 1200w",
+    "type": "image/webp",
+    "sizes": "(min-width:900px) 25vw, 50vw"
+   },
+   {
+    "srcset": "/media/s16-oak-480.jpg 480w, /media/s16-oak-800.jpg 800w, /media/s16-oak-1200.jpg 1200w",
+    "type": "image/jpeg",
+    "sizes": "(min-width:900px) 25vw, 50vw"
+   }
+  ]
+ },
+ "S17": {
+  "type": "image",
+  "alt": "Elm slab with golden grain",
+  "width": 770,
+  "height": 1027,
+  "src": "/media/s17-elm-770.jpg",
+  "sources": [
+   {
+    "srcset": "/media/s17-elm-480.avif 480w, /media/s17-elm-770.avif 770w",
+    "type": "image/avif",
+    "sizes": "(min-width:900px) 25vw, 50vw"
+   },
+   {
+    "srcset": "/media/s17-elm-480.webp 480w, /media/s17-elm-770.webp 770w",
+    "type": "image/webp",
+    "sizes": "(min-width:900px) 25vw, 50vw"
+   },
+   {
+    "srcset": "/media/s17-elm-480.jpg 480w, /media/s17-elm-770.jpg 770w",
+    "type": "image/jpeg",
+    "sizes": "(min-width:900px) 25vw, 50vw"
+   }
+  ]
+ },
+ "S18": {
+  "type": "image",
+  "alt": "Ash planks with pale, flowing grain",
+  "width": 1200,
+  "height": 1600,
+  "src": "/media/s18-ash-1200.jpg",
+  "sources": [
+   {
+    "srcset": "/media/s18-ash-480.avif 480w, /media/s18-ash-800.avif 800w, /media/s18-ash-1200.avif 1200w",
+    "type": "image/avif",
+    "sizes": "(min-width:900px) 25vw, 50vw"
+   },
+   {
+    "srcset": "/media/s18-ash-480.webp 480w, /media/s18-ash-800.webp 800w, /media/s18-ash-1200.webp 1200w",
+    "type": "image/webp",
+    "sizes": "(min-width:900px) 25vw, 50vw"
+   },
+   {
+    "srcset": "/media/s18-ash-480.jpg 480w, /media/s18-ash-800.jpg 800w, /media/s18-ash-1200.jpg 1200w",
+    "type": "image/jpeg",
+    "sizes": "(min-width:900px) 25vw, 50vw"
+   }
+  ]
+ },
+ "S19": {
+  "type": "image",
+  "alt": "Black walnut parquet in a broken geometric pattern",
+  "width": 324,
+  "height": 432,
+  "src": "/media/s19-black-walnut-324.jpg",
+  "sources": [
+   {
+    "srcset": "/media/s19-black-walnut-324.avif 324w",
+    "type": "image/avif",
+    "sizes": "(min-width:900px) 25vw, 50vw"
+   },
+   {
+    "srcset": "/media/s19-black-walnut-324.webp 324w",
+    "type": "image/webp",
+    "sizes": "(min-width:900px) 25vw, 50vw"
+   },
+   {
+    "srcset": "/media/s19-black-walnut-324.jpg 324w",
+    "type": "image/jpeg",
+    "sizes": "(min-width:900px) 25vw, 50vw"
+   }
+  ]
+ },
+ "S20": {
+  "type": "image",
+  "alt": "A marquetry floor with a star medallion in a long corridor",
+  "width": 1500,
+  "height": 1875,
+  "src": "/media/s20-floors-1500.jpg",
+  "sources": [
+   {
+    "srcset": "/media/s20-floors-640.avif 640w, /media/s20-floors-1024.avif 1024w, /media/s20-floors-1500.avif 1500w",
+    "type": "image/avif",
+    "sizes": "(min-width:1080px) 50vw, 100vw"
+   },
+   {
+    "srcset": "/media/s20-floors-640.webp 640w, /media/s20-floors-1024.webp 1024w, /media/s20-floors-1500.webp 1500w",
+    "type": "image/webp",
+    "sizes": "(min-width:1080px) 50vw, 100vw"
+   },
+   {
+    "srcset": "/media/s20-floors-640.jpg 640w, /media/s20-floors-1024.jpg 1024w, /media/s20-floors-1500.jpg 1500w",
+    "type": "image/jpeg",
+    "sizes": "(min-width:1080px) 50vw, 100vw"
+   }
+  ]
+ },
+ "S21": {
+  "type": "image",
+  "alt": "A spiral staircase in pale wood seen from above",
+  "width": 1500,
+  "height": 1875,
+  "src": "/media/s21-stairs-1500.jpg",
+  "sources": [
+   {
+    "srcset": "/media/s21-stairs-640.avif 640w, /media/s21-stairs-1024.avif 1024w, /media/s21-stairs-1500.avif 1500w",
+    "type": "image/avif",
+    "sizes": "(min-width:1080px) 25vw, (min-width:760px) 50vw, 100vw"
+   },
+   {
+    "srcset": "/media/s21-stairs-640.webp 640w, /media/s21-stairs-1024.webp 1024w, /media/s21-stairs-1500.webp 1500w",
+    "type": "image/webp",
+    "sizes": "(min-width:1080px) 25vw, (min-width:760px) 50vw, 100vw"
+   },
+   {
+    "srcset": "/media/s21-stairs-640.jpg 640w, /media/s21-stairs-1024.jpg 1024w, /media/s21-stairs-1500.jpg 1500w",
+    "type": "image/jpeg",
+    "sizes": "(min-width:1080px) 25vw, (min-width:760px) 50vw, 100vw"
+   }
+  ]
+ },
+ "S22": {
+  "type": "image",
+  "alt": "A bedroom with wood-panelled walls",
+  "width": 1500,
+  "height": 1875,
+  "src": "/media/s22-walls-1500.jpg",
+  "sources": [
+   {
+    "srcset": "/media/s22-walls-640.avif 640w, /media/s22-walls-1024.avif 1024w, /media/s22-walls-1500.avif 1500w",
+    "type": "image/avif",
+    "sizes": "(min-width:1080px) 25vw, (min-width:760px) 50vw, 100vw"
+   },
+   {
+    "srcset": "/media/s22-walls-640.webp 640w, /media/s22-walls-1024.webp 1024w, /media/s22-walls-1500.webp 1500w",
+    "type": "image/webp",
+    "sizes": "(min-width:1080px) 25vw, (min-width:760px) 50vw, 100vw"
+   },
+   {
+    "srcset": "/media/s22-walls-640.jpg 640w, /media/s22-walls-1024.jpg 1024w, /media/s22-walls-1500.jpg 1500w",
+    "type": "image/jpeg",
+    "sizes": "(min-width:1080px) 25vw, (min-width:760px) 50vw, 100vw"
+   }
+  ]
+ },
+ "S23": {
+  "type": "image",
+  "alt": "A living room with a wood ceiling",
+  "width": 1500,
+  "height": 1875,
+  "src": "/media/s23-ceilings-1500.jpg",
+  "sources": [
+   {
+    "srcset": "/media/s23-ceilings-640.avif 640w, /media/s23-ceilings-1024.avif 1024w, /media/s23-ceilings-1500.avif 1500w",
+    "type": "image/avif",
+    "sizes": "(min-width:1080px) 25vw, (min-width:760px) 50vw, 100vw"
+   },
+   {
+    "srcset": "/media/s23-ceilings-640.webp 640w, /media/s23-ceilings-1024.webp 1024w, /media/s23-ceilings-1500.webp 1500w",
+    "type": "image/webp",
+    "sizes": "(min-width:1080px) 25vw, (min-width:760px) 50vw, 100vw"
+   },
+   {
+    "srcset": "/media/s23-ceilings-640.jpg 640w, /media/s23-ceilings-1024.jpg 1024w, /media/s23-ceilings-1500.jpg 1500w",
+    "type": "image/jpeg",
+    "sizes": "(min-width:1080px) 25vw, (min-width:760px) 50vw, 100vw"
+   }
+  ]
+ },
+ "S24": {
+  "type": "image",
+  "alt": "A dark wooden table with a live edge in a dark room",
+  "width": 1007,
+  "height": 1259,
+  "src": "/media/s24-tables-1007.jpg",
+  "sources": [
+   {
+    "srcset": "/media/s24-tables-640.avif 640w, /media/s24-tables-1007.avif 1007w",
+    "type": "image/avif",
+    "sizes": "(min-width:1080px) 25vw, (min-width:760px) 50vw, 100vw"
+   },
+   {
+    "srcset": "/media/s24-tables-640.webp 640w, /media/s24-tables-1007.webp 1007w",
+    "type": "image/webp",
+    "sizes": "(min-width:1080px) 25vw, (min-width:760px) 50vw, 100vw"
+   },
+   {
+    "srcset": "/media/s24-tables-640.jpg 640w, /media/s24-tables-1007.jpg 1007w",
+    "type": "image/jpeg",
+    "sizes": "(min-width:1080px) 25vw, (min-width:760px) 50vw, 100vw"
+   }
+  ]
+ },
+ "S25": {
+  "type": "image",
+  "alt": "A wine cellar with wooden racks and arched alcoves",
+  "width": 1920,
+  "height": 1080,
+  "src": "/media/s25-wine-cellar-1920.jpg",
+  "sources": [
+   {
+    "srcset": "/media/s25-wine-cellar-640.avif 640w, /media/s25-wine-cellar-1024.avif 1024w, /media/s25-wine-cellar-1600.avif 1600w, /media/s25-wine-cellar-1920.avif 1920w",
+    "type": "image/avif",
+    "sizes": "(min-width:1080px) 50vw, 100vw"
+   },
+   {
+    "srcset": "/media/s25-wine-cellar-640.webp 640w, /media/s25-wine-cellar-1024.webp 1024w, /media/s25-wine-cellar-1600.webp 1600w, /media/s25-wine-cellar-1920.webp 1920w",
+    "type": "image/webp",
+    "sizes": "(min-width:1080px) 50vw, 100vw"
+   },
+   {
+    "srcset": "/media/s25-wine-cellar-640.jpg 640w, /media/s25-wine-cellar-1024.jpg 1024w, /media/s25-wine-cellar-1600.jpg 1600w, /media/s25-wine-cellar-1920.jpg 1920w",
+    "type": "image/jpeg",
+    "sizes": "(min-width:1080px) 50vw, 100vw"
+   }
+  ]
+ },
+ "S26": {
+  "type": "image",
+  "alt": "A yacht saloon with a round dining table on a pale wooden floor",
+  "width": 1280,
+  "height": 720,
+  "src": "/media/s26-yachts-1280.jpg",
+  "sources": [
+   {
+    "srcset": "/media/s26-yachts-640.avif 640w, /media/s26-yachts-1024.avif 1024w, /media/s26-yachts-1280.avif 1280w",
+    "type": "image/avif",
+    "sizes": "(min-width:1080px) 50vw, 100vw"
+   },
+   {
+    "srcset": "/media/s26-yachts-640.webp 640w, /media/s26-yachts-1024.webp 1024w, /media/s26-yachts-1280.webp 1280w",
+    "type": "image/webp",
+    "sizes": "(min-width:1080px) 50vw, 100vw"
+   },
+   {
+    "srcset": "/media/s26-yachts-640.jpg 640w, /media/s26-yachts-1024.jpg 1024w, /media/s26-yachts-1280.jpg 1280w",
+    "type": "image/jpeg",
+    "sizes": "(min-width:1080px) 50vw, 100vw"
+   }
+  ]
+ },
+ "S27": {
+  "type": "image",
+  "alt": "A staircase and timber walls in a private residence",
+  "width": 1123,
+  "height": 1404,
+  "src": "/media/s27-project-1-1123.jpg",
+  "sources": [
+   {
+    "srcset": "/media/s27-project-1-640.avif 640w, /media/s27-project-1-1024.avif 1024w, /media/s27-project-1-1123.avif 1123w",
+    "type": "image/avif",
+    "sizes": "(min-width:760px) 40vw, 82vw"
+   },
+   {
+    "srcset": "/media/s27-project-1-640.webp 640w, /media/s27-project-1-1024.webp 1024w, /media/s27-project-1-1123.webp 1123w",
+    "type": "image/webp",
+    "sizes": "(min-width:760px) 40vw, 82vw"
+   },
+   {
+    "srcset": "/media/s27-project-1-640.jpg 640w, /media/s27-project-1-1024.jpg 1024w, /media/s27-project-1-1123.jpg 1123w",
+    "type": "image/jpeg",
+    "sizes": "(min-width:760px) 40vw, 82vw"
+   }
+  ]
+ },
+ "S28": {
+  "type": "image",
+  "alt": "A living room with oak walls and warm lighting",
+  "width": 1025,
+  "height": 1281,
+  "src": "/media/s28-project-2-1025.jpg",
+  "sources": [
+   {
+    "srcset": "/media/s28-project-2-640.avif 640w, /media/s28-project-2-1024.avif 1024w, /media/s28-project-2-1025.avif 1025w",
+    "type": "image/avif",
+    "sizes": "(min-width:760px) 40vw, 82vw"
+   },
+   {
+    "srcset": "/media/s28-project-2-640.webp 640w, /media/s28-project-2-1024.webp 1024w, /media/s28-project-2-1025.webp 1025w",
+    "type": "image/webp",
+    "sizes": "(min-width:760px) 40vw, 82vw"
+   },
+   {
+    "srcset": "/media/s28-project-2-640.jpg 640w, /media/s28-project-2-1024.jpg 1024w, /media/s28-project-2-1025.jpg 1025w",
+    "type": "image/jpeg",
+    "sizes": "(min-width:760px) 40vw, 82vw"
+   }
+  ]
+ },
+ "S29": {
+  "type": "image",
+  "alt": "A lobby with a staircase and a pale wooden floor",
+  "width": 682,
+  "height": 853,
+  "src": "/media/s29-project-3-682.jpg",
+  "sources": [
+   {
+    "srcset": "/media/s29-project-3-640.avif 640w, /media/s29-project-3-682.avif 682w",
+    "type": "image/avif",
+    "sizes": "(min-width:760px) 40vw, 82vw"
+   },
+   {
+    "srcset": "/media/s29-project-3-640.webp 640w, /media/s29-project-3-682.webp 682w",
+    "type": "image/webp",
+    "sizes": "(min-width:760px) 40vw, 82vw"
+   },
+   {
+    "srcset": "/media/s29-project-3-640.jpg 640w, /media/s29-project-3-682.jpg 682w",
+    "type": "image/jpeg",
+    "sizes": "(min-width:760px) 40vw, 82vw"
+   }
+  ]
+ },
+ "S30": {
+  "type": "image",
+  "alt": "A double-height living room with gold columns and a glass staircase",
+  "width": 1029,
+  "height": 1286,
+  "src": "/media/s30-project-4-1029.jpg",
+  "sources": [
+   {
+    "srcset": "/media/s30-project-4-640.avif 640w, /media/s30-project-4-1024.avif 1024w, /media/s30-project-4-1029.avif 1029w",
+    "type": "image/avif",
+    "sizes": "(min-width:760px) 40vw, 82vw"
+   },
+   {
+    "srcset": "/media/s30-project-4-640.webp 640w, /media/s30-project-4-1024.webp 1024w, /media/s30-project-4-1029.webp 1029w",
+    "type": "image/webp",
+    "sizes": "(min-width:760px) 40vw, 82vw"
+   },
+   {
+    "srcset": "/media/s30-project-4-640.jpg 640w, /media/s30-project-4-1024.jpg 1024w, /media/s30-project-4-1029.jpg 1029w",
+    "type": "image/jpeg",
+    "sizes": "(min-width:760px) 40vw, 82vw"
+   }
+  ]
+ },
+ "S31": {
+  "type": "image",
+  "alt": "A woodworker standing beside a finished dark oak cabinet in the workshop",
+  "width": 883,
+  "height": 1104,
+  "src": "/media/s31-heritage-883.jpg",
+  "sources": [
+   {
+    "srcset": "/media/s31-heritage-640.avif 640w, /media/s31-heritage-883.avif 883w",
+    "type": "image/avif",
+    "sizes": "(min-width:900px) 40vw, 100vw"
+   },
+   {
+    "srcset": "/media/s31-heritage-640.webp 640w, /media/s31-heritage-883.webp 883w",
+    "type": "image/webp",
+    "sizes": "(min-width:900px) 40vw, 100vw"
+   },
+   {
+    "srcset": "/media/s31-heritage-640.jpg 640w, /media/s31-heritage-883.jpg 883w",
+    "type": "image/jpeg",
+    "sizes": "(min-width:900px) 40vw, 100vw"
    }
   ]
  }

@@ -17,10 +17,9 @@ out = {}
 for k, m in M.items():
     if k.startswith('_'): continue
     if m['type'] == 'image':
-        webp = pick(m['sources'][1]['srcset'], 1024)
+        webp = pick(m['sources'][1]['srcset'], 900)
         jpg = pick(m['sources'][2]['srcset'], 1024)
-        out[k] = {**{x: m[x] for x in ('type', 'alt', 'width', 'height')}, 'src': uri(jpg),
-                  'sources': [{'srcset': uri(webp), 'type': 'image/webp'}]}
+        out[k] = {**{x: m[x] for x in ('type', 'alt', 'width', 'height')}, 'src': uri(webp), 'sources': []}
     else:
         srcs = [{'src': uri(s['src']), 'type': s['type'], **({'media': s['media']} if 'media' in s else {})} for s in m['sources'] if s['type'] == 'video/mp4']
         out[k] = {'type': 'video', 'poster': uri(m['poster'].replace('.avif', '.jpg')), 'sources': srcs, 'alt': m.get('alt', '')}

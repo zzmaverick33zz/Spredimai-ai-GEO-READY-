@@ -383,3 +383,8 @@ html{scroll-padding-top:76px}
 .hero .slot::before{background:linear-gradient(90deg,rgba(8,16,19,.88) 0%,rgba(8,16,19,.55) 45%,rgba(8,16,19,.15) 100%),linear-gradient(180deg,rgba(8,16,19,.35) 0%,rgba(8,16,19,.1) 40%,rgba(8,16,19,.92) 100%)}
 @media (max-width:759px){.hero .slot::before{background:linear-gradient(180deg,rgba(8,16,19,.55) 0%,rgba(8,16,19,.7) 55%,rgba(8,16,19,.95) 100%)}}
 .field input:focus-visible,.field select:focus-visible,.field textarea:focus-visible{outline:2px solid var(--brass);outline-offset:3px}
+
+.quote{margin:56px 0 0;display:grid;gap:12px;max-width:34ch}
+.quote blockquote{margin:0;font:300 var(--t-h3)/1.15 var(--f-display);color:var(--ink);text-wrap:balance}
+.quote figcaption{font:500 var(--t-xs)/1.4 var(--f-body);letter-spacing:.2em;text-transform:uppercase;color:var(--ink-dim)}
+.arrival__props{padding-top:40px}
