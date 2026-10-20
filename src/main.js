@@ -96,7 +96,8 @@ targets.forEach(t => rio.observe(t));
 const bar = $('.rail__bar > i', rail);
 const railVis = () => {
   const y = window.scrollY + innerHeight / 2;
-  const a = first.offsetTop, b = last.offsetTop;
+  const top = el => el.getBoundingClientRect().top + window.scrollY;
+  const a = top(first), b = top(last);
   rail.classList.toggle('is-on', y > a && y < b + innerHeight * .4);
   bar.style.transform = `scaleY(${Math.min(1, Math.max(0, (y - a) / (b - a)))})`;
 };

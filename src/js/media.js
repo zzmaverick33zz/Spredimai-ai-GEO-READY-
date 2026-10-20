@@ -1,8 +1,8 @@
 // Replaces a slot's placeholder with real media listed in public/media/manifest.json.
 // Slots absent from the manifest keep their placeholder + brief.
 export async function hydrateMedia() {
-  let manifest = {};
-  try {
+  let manifest = window.__MANIFEST__ || {};
+  if (!window.__MANIFEST__) try {
     const r = await fetch('/media/manifest.json', { cache: 'no-cache' });
     if (r.ok) manifest = await r.json();
   } catch { /* no manifest yet */ }
