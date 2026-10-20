@@ -9,3 +9,4 @@
 - Media wired: S01–S09 use real client photos/video (see MEDIA_MAP.md). Videos load only when they scroll into view. Remaining slots show text placeholders.
 - `?static` mode (no motion) added for design import and screenshots.
 - Focus ring on form fields.
+- From bffloors.com: project countries (Norway, Switzerland, France, Germany, Cyprus, USA) in Projects; footer column linking to the current site's pages.
