@@ -4,3 +4,4 @@ source-media
 work
 .env
 .env.local
+out
