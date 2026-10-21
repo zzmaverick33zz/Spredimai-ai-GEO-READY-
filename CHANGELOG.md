@@ -14,3 +14,4 @@
 - Fonts: body/UI Montserrat -> Hanken Grotesk (Montserrat is generic and wide next to Garamond-style Cormorant); Cormorant kept for display. See AUDIT.md.
 - Motion: six 3D beats (Three.js) between chapters, headings reveal word by word, photos open like a curtain, hero silt particles, film grain. Beats use `position: sticky`, not pins; reduced motion, `?static`, no WebGL and data saver hide them. Departs from the "minimal motion" brief at the client's request.
 - Single-file build (`scripts/make_single_html.py`) inlines the 3D chunk and textures.
+- 3D trunk rebuilt from the reference trunk photo (scripts/scan_trunk.py): scanned outline and ragged butt, photo projected as bark, mirrored beyond the visible side. Sling, chains and drips removed. First frame is the cleaned photo itself, handed over to the 3D mesh, which turns on a turntable.

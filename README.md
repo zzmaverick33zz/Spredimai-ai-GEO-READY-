@@ -16,3 +16,5 @@ npm run preview    # serve dist/
 
 ## 3D beats
 `src/js/scene.js` (Three.js) draws one trunk that turns, opens, becomes boards and then a floor, driven by scroll across six `.beat` sections. Textures in `public/media/3d/` are cut from the client's photos: `python3 scripts/make_textures.py`. It loads only when the first beat is near, and is hidden under reduced motion, `?static`, no WebGL and data saver. `AUDIT.md` has the reasoning and the limits.
+
+`scripts/scan_trunk.py` rebuilds `src/js/trunk-profile.json` and the trunk textures from `source-media/generated/ai-9.jpg`.

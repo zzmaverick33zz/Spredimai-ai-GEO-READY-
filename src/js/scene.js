@@ -4,8 +4,9 @@
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { gsap } from 'gsap';
+import PROFILE from './trunk-profile.json';   // scanned from the reference trunk photo (scripts/scan_trunk.py)
 
-const R = 0.78, LEN = 4.2;
+const LEN = 4.8, R = LEN / PROFILE.lenOverR;
 
 export async function createScene(canvas) {
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
@@ -33,49 +34,96 @@ export async function createScene(canvas) {
     t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
     Object.assign(t, opts); res(t);
   }, undefined, () => res(null)));
-  const [rings, disc, inside, bark, chevron] = await Promise.all([
+  const [rings, disc, inside, bark, chevron, cutout] = await Promise.all([
     load('rings'), load('disc'), load('inside'),
-    load('bark', { wrapS: THREE.RepeatWrapping, wrapT: THREE.RepeatWrapping }),
-    load('chevron', { wrapS: THREE.RepeatWrapping, wrapT: THREE.RepeatWrapping })
+    load('trunk-photo', { wrapS: THREE.ClampToEdgeWrapping, wrapT: THREE.ClampToEdgeWrapping }),
+    load('chevron', { wrapS: THREE.RepeatWrapping, wrapT: THREE.RepeatWrapping }),
+    load('trunk-cutout')
   ]);
-  bark?.repeat.set(5, 2.2);
   const boardTex = inside?.clone(); if (boardTex) { boardTex.needsUpdate = true; boardTex.rotation = Math.PI / 2; boardTex.center.set(0.5, 0.5); }
 
   const std = (o) => new THREE.MeshStandardMaterial({ roughness: 0.82, metalness: 0, transparent: true, ...o });
-  const barkMat = std({ map: bark, bumpMap: bark, bumpScale: 2.4, color: 0x453e37, roughness: 1 });
+  // the photo is projected onto the mesh, so it carries its own light; the 3D lights only add a little relief and sheen
+  const barkMat = new THREE.MeshPhysicalMaterial({ map: bark, emissiveMap: bark, emissive: 0xffffff, emissiveIntensity: 0.72, bumpMap: bark, bumpScale: 4, color: 0x5e5e5e, roughness: 0.86, clearcoat: 0.04, clearcoatRoughness: 0.8, envMapIntensity: 0.12, transparent: true });
+    const buttMat = std({ map: bark, color: 0x6e6254, roughness: 1, side: THREE.DoubleSide });   // the broken butt end: dark, muddy
   const capMat = std({ map: rings, roughness: 0.8, color: 0xcbbfa9 });
   const insideMat = std({ map: inside, roughness: 0.7 });
-  const mats = [barkMat, capMat, insideMat];
-
+  
   // ---------- the trunk: two half-cylinders so one cut can open it ----------
+  // Outline, centre line and ragged butt (u = 0) are scanned from the reference photo; the photo itself is projected on the mesh.
+  const NB = PROFILE.yc.length, R0 = PROFILE.R0, TEXW = PROFILE.bbox[0], TEXH = PROFILE.bbox[1];
+  const bin = (arr, u) => { const x = Math.min(Math.max(u * NB - 0.5, 0), NB - 1), i = Math.floor(x), j = Math.min(i + 1, NB - 1); return arr[i] + (arr[j] - arr[i]) * (x - i); };
+  const sstep = (a, b, x) => { const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
+  const kAt = (u) => { const k = bin(PROFILE.hh, Math.max(u, 0.1)) / R0; return k + (Math.max(0.92, k) - k) * 0.55 * sstep(0.4, 1, u); };   // photo radius, with the far taper eased (part of it is perspective)                                            // radius factor along the axis
+  const shiftAt = (u) => (bin(PROFILE.yc, Math.max(u, 0.04)) - PROFILE.cy) / R0;                       // centre line, in radii (down is +)
+  const wobble = (a, y) => 1 + 0.012 * Math.sin(a * 3 + y * 1.7) + 0.01 * Math.sin(a * 5 - y * 2.9 + 1.3);
+  const retreat = (a) => {                                                                              // how far the butt rim sits back, per angle
+    const n = Math.sin(a), row = bin(PROFILE.yc, 0.1) + n * bin(PROFILE.hh, 0.1) - PROFILE.rowsTop;
+    const j = Math.min(PROFILE.end.length - 1, Math.max(0, row)), i = Math.floor(j), f = j - i;
+    const e = PROFILE.end[i] + (PROFILE.end[Math.min(i + 1, PROFILE.end.length - 1)] - PROFILE.end[i]) * f;
+    return Math.max(0, e) * LEN;
+  };
+  function shape(x, y, z, a, r) {                                                                       // r: 0 at axis, 1 at rim
+    let ny = y; const u0 = (y + LEN / 2) / LEN;
+    if (u0 < 0.12) ny += retreat(a) * Math.pow(sstep(0.12, 0, u0), 1.1) * (0.3 + 0.7 * r) + (1 - r) * 0.1 * sstep(0.12, 0, u0);
+    const u = (ny + LEN / 2) / LEN, k = kAt(u) * (1 + (wobble(a, y) - 1) * r);
+    return [x * k + shiftAt(u) * R, ny, z * k];                                                         // local x is "down" on screen
+  }
+  // Around the log the photo is used as in the picture for the visible front (|angle| < 50 deg), then the bark is
+  // continued by mirroring, so turning the log never stretches the edge of the photo into streaks.
+  const TH0 = 50 * Math.PI / 180, S0 = Math.sin(TH0), C0 = Math.cos(TH0), HI = 0.8, LO = 0.42;
+  const around = (th) => {
+    const sg = th < 0 ? -1 : 1, t = Math.abs(th);
+    if (t <= TH0) return Math.sin(th);
+    let m = S0 + C0 * (t - TH0);
+    for (let i = 0; i < 12 && (m > HI || m < LO); i++) m = m > HI ? 2 * HI - m : 2 * LO - m;
+    return sg * m;
+  };
+  const uvFor = (xPre, zPre, yFinal) => {                                                               // photo coordinates for a vertex
+    const u = Math.min(1, Math.max(0, (yFinal + LEN / 2) / LEN)), n = around(Math.atan2(xPre, zPre));
+    const px = PROFILE.x0 + u * PROFILE.len, py = bin(PROFILE.yc, u) + n * bin(PROFILE.hh, u);
+    return [px / TEXW, 1 - py / TEXH];
+  };
   function half(thetaStart) {
-    const g = new THREE.CylinderGeometry(R, R, LEN, 80, 28, false, thetaStart, Math.PI);
-    const p = g.attributes.position;
+    const rs = 128, hs = 120, g = new THREE.CylinderGeometry(R, R, LEN, rs, hs, false, thetaStart, Math.PI);
+    const p = g.attributes.position, uv = g.attributes.uv, torso = (rs + 1) * (hs + 1), cap = 2 * rs + 1;
     for (let i = 0; i < p.count; i++) {
-      const x = p.getX(i), y = p.getY(i), z = p.getZ(i), a = Math.atan2(x, z), r = Math.hypot(x, z);
-      const n = 1 + 0.06 * Math.sin(a * 3 + y * 1.7) + 0.04 * Math.sin(a * 5 - y * 2.9 + 1.3) + 0.035 * Math.sin(y * 3.3);
-      const taper = 1 + 0.07 * (y / LEN);
-      const k = (1 + (n - 1) * (r / R)) * taper;
-      p.setXYZ(i, x * k, y, z * k);
+      const x = p.getX(i), y = p.getY(i), z = p.getZ(i), a = Math.atan2(x, z), r = Math.min(1, Math.hypot(x, z) / R);
+      const [nx, ny, nz] = shape(x, y, z, a, r); p.setXYZ(i, nx, ny, nz);
+      if (i < torso) { const [uu, vv] = uvFor(x, z, ny); uv.setXY(i, uu, vv); }
+      else if (i >= torso + cap) uv.setXY(i, 0.1 + 0.09 * (z / R), 0.5 + 0.2 * (x / R));      // butt end: a patch of muddy bark, not a stretched edge
     }
     g.computeVertexNormals();
-    return new THREE.Mesh(g, [barkMat, capMat, capMat]);
+    const nrm = g.attributes.normal;                                                                    // flat, even shading on both ends (no fan facets)
+    for (let i = torso; i < p.count; i++) nrm.setXYZ(i, 0, i < torso + cap ? 1 : -1, 0);
+    return new THREE.Mesh(g, [barkMat, capMat, buttMat]);
   }
-  const faceGeo = new THREE.PlaneGeometry(2 * R * 0.98, LEN * 0.995);
-  const top = new THREE.Group(), bottom = new THREE.Group();
-  const topMesh = half(0), bottomMesh = half(Math.PI);
-  const topFace = new THREE.Mesh(faceGeo.clone().rotateY(-Math.PI / 2), insideMat); topFace.position.x = 0.002;
-  const botFace = new THREE.Mesh(faceGeo.clone().rotateY(Math.PI / 2), insideMat); botFace.position.x = -0.002;
-  top.add(topMesh, topFace); bottom.add(bottomMesh, botFace);
+  function face(rot) {                                                                                  // the cut surface follows the same outline
+    const g = new THREE.PlaneGeometry(2 * R, LEN, 28, 96).rotateY(rot), p = g.attributes.position;
+    for (let i = 0; i < p.count; i++) {
+      const y = p.getY(i), z = p.getZ(i), a = z >= 0 ? 0 : Math.PI, r = Math.min(1, Math.abs(z) / R);
+      const [nx, ny, nz] = shape(0, y, z, a, r); p.setXYZ(i, nx, ny, nz);
+    }
+    g.computeVertexNormals(); return g;
+  }
+  // local +x is down on screen, so the half that goes up when the trunk opens is the x <= 0 one
+  const upper = new THREE.Group(), lower = new THREE.Group();
+  upper.add(half(Math.PI), new THREE.Mesh(face(Math.PI / 2), insideMat)); upper.children[1].position.x = -0.03;
+  lower.add(half(0), new THREE.Mesh(face(-Math.PI / 2), insideMat)); lower.children[1].position.x = 0.03;
 
-  const spin = new THREE.Group(); spin.rotation.z = Math.PI / 2; spin.add(top, bottom);
+  const spin = new THREE.Group(); spin.rotation.z = -Math.PI / 2; spin.add(upper, lower);
   const roll = new THREE.Group(); roll.add(spin);
-  const yaw = new THREE.Group(); yaw.add(roll); scene.add(yaw);
+  const yaw = new THREE.Group(); yaw.add(roll); const hang = new THREE.Group(); hang.add(yaw); const turn = new THREE.Group(); turn.add(hang); scene.add(turn);   // turn: the turntable spin, hang: the tilt it hangs at
+
+  // the reference photograph itself, as the first frame: same pose and outline as the mesh, then it fades into the 3D
+  const photoMat = new THREE.MeshBasicMaterial({ map: cutout, transparent: true, opacity: 0, depthTest: false, depthWrite: false, toneMapped: false });
+  const photo = new THREE.Mesh(new THREE.PlaneGeometry(TEXW / R0 * R, TEXH / R0 * R), photoMat);
+  photo.position.set((TEXW / 2 - (PROFILE.x0 + PROFILE.len / 2)) / R0 * R, -(TEXH / 2 - PROFILE.cy) / R0 * R, 0.4); photo.renderOrder = 10; hang.add(photo);
 
   // dated disc, seen on the cut end
   const discMat = std({ map: disc, roughness: 0.75, opacity: 0, depthWrite: false });
-  const discMesh = new THREE.Mesh(new THREE.CircleGeometry(R * 0.93, 80), discMat);
-  discMesh.rotation.y = -Math.PI / 2; discMesh.position.x = -LEN / 2 - 0.004; // faces the -X end
+  const discMesh = new THREE.Mesh(new THREE.CircleGeometry(R * kAt(1) * 0.97, 80), discMat);
+  discMesh.rotation.y = Math.PI / 2; discMesh.position.set(LEN / 2 + 0.004, shiftAt(1) * -R, 0); // faces the +X end (the sawn top)
   yaw.add(discMesh);
 
   // ---------- boards (drying stack) ----------
@@ -119,16 +167,16 @@ export async function createScene(canvas) {
   const sx = sc.getContext('2d'), gr = sx.createRadialGradient(64, 64, 4, 64, 64, 64);
   gr.addColorStop(0, 'rgba(0,0,0,.55)'); gr.addColorStop(1, 'rgba(0,0,0,0)'); sx.fillStyle = gr; sx.fillRect(0, 0, 128, 128);
   const shadowMat = new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(sc), transparent: true, depthWrite: false, opacity: 0 });
-  const shadow = new THREE.Mesh(new THREE.PlaneGeometry(7.5, 3.2), shadowMat); shadow.rotation.x = -Math.PI / 2; shadow.position.y = -1.02; scene.add(shadow);
+  const shadow = new THREE.Mesh(new THREE.PlaneGeometry(7.5, 3.2), shadowMat); shadow.rotation.x = -Math.PI / 2; shadow.position.y = -1.05; scene.add(shadow);
 
   // ---------- keyframes (t: 0..6, one unit per beat) ----------
-  const P = { fade: 0, roll: 0, yaw: 0.55, scale: 0.6, camZ: 9.6, camY: 0.5, lookY: 0, split: 0, tilt: 0, topFade: 1, bottom: 1,
+  const P = { photo: 1, turn: 0, hang: 0.395, fade: 0, roll: 0, yaw: 0, scale: 0.6, camZ: 9.6, camY: 0.5, lookY: 0, split: 0, tilt: 0, topFade: 1, bottom: 1,
     boards: 0, spread: 0, lift: 0, pattern: 0, floor: 0, disc: 0, shadow: 0, topDown: 0, stack: 1 };
   const TAU = Math.PI * 2, tl = gsap.timeline({ paused: true, defaults: { ease: 'none' } });
   // beat 0: the trunk appears out of the dark and makes a full turn
-  tl.to(P, { fade: 1, scale: 1, duration: 0.5 }, 0).to(P, { roll: TAU, yaw: 0.38, camZ: 8.4, duration: 1 }, 0).to(P, { shadow: 0.5, duration: 0.6 }, 0.2)
+  tl.to(P, { fade: 1, scale: 1, duration: 0.4 }, 0).to(P, { camZ: 9.4, duration: 0.45 }, 0).to(P, { photo: 0, duration: 0.18 }, 0.34).to(P, { turn: -TAU, hang: 0, yaw: 0.1, duration: 0.6 }, 0.4).to(P, { shadow: 0.5, duration: 0.6 }, 0.4)
   // beat 1: the cut end turns to the camera; the dated disc fades in
-    .to(P, { yaw: Math.PI / 2, camZ: 6.2, camY: 0.1, duration: 1 }, 1).to(P, { disc: 1, duration: 0.45 }, 1.5)
+    .to(P, { yaw: -Math.PI / 2, camZ: 6.4, camY: 0.1, duration: 1 }, 1).to(P, { disc: 1, duration: 0.45 }, 1.5)
   // beat 2: back to the side, one cut opens the trunk
     .to(P, { disc: 0, duration: 0.2 }, 2).to(P, { yaw: 0.2, camZ: 9.4, camY: 3.4, lookY: -0.45, duration: 1 }, 2)
     .to(P, { split: 1.15, tilt: 0.42, duration: 0.8 }, 2.2)
@@ -151,14 +199,17 @@ export async function createScene(canvas) {
 
   function apply() {
     const o = P.fade;
-    yaw.rotation.y = P.yaw; roll.rotation.x = P.roll; yaw.scale.setScalar(P.scale * (1 - P.topDown * 0.0));
+    yaw.rotation.y = P.yaw; roll.rotation.x = P.roll; hang.rotation.z = -P.hang; turn.rotation.y = P.turn; yaw.scale.setScalar(P.scale * (1 - P.topDown * 0.0));
     yaw.visible = o > 0.001 && (P.bottom > 0.001 || P.topFade > 0.001 || P.disc > 0);
+    turn.visible = yaw.visible;
     spin.visible = P.bottom > 0.001 || P.topFade > 0.001;
-    top.position.x = P.split; top.rotation.z = -P.tilt * 0.35; top.rotation.y = P.tilt * 0.18;
-    top.visible = P.topFade > 0.01; bottom.visible = P.bottom > 0.01;
+    upper.position.x = -P.split; upper.rotation.z = P.tilt * 0.35; upper.rotation.y = P.tilt * 0.18;
+    upper.visible = P.topFade > 0.01; lower.visible = P.bottom > 0.01;
+    upper.children[1].visible = lower.children[1].visible = P.split > 0.03;     // the cut faces only exist once the trunk is opened
     setOpacity(barkMat, o * (P.bottom > P.topFade ? P.bottom : Math.max(P.topFade, P.bottom)));
     setOpacity(capMat, o * Math.max(P.topFade, P.bottom)); setOpacity(insideMat, o * Math.max(P.topFade, P.bottom));
     setOpacity(discMat, o * P.disc);
+    photo.visible = P.photo > 0.003; photoMat.opacity = o * P.photo;
     // boards
     boards.visible = P.boards > 0.01 && P.stack > 0.01;
     const sp = ease(P.spread), lf = ease(P.lift);
