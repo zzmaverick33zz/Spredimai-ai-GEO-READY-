@@ -4,7 +4,7 @@ import base64, json, os, re, mimetypes
 R = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 import subprocess
 subprocess.run(['npx', 'vite', 'build', '--mode', 'single'], cwd=R, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-D = os.path.join(R, 'dist-single'); os.makedirs(os.path.join(R, 'out'), exist_ok=True)
+D = os.path.join(R, 'dist-single') if os.path.isdir(os.path.join(R, 'dist-single')) else os.path.join(R, 'dist'); os.makedirs(os.path.join(R, 'out'), exist_ok=True)
 def uri(path):
     p = os.path.join(D, path.lstrip('/'))
     mt = mimetypes.guess_type(p)[0] or {'.avif': 'image/avif', '.webm': 'video/webm'}.get(os.path.splitext(p)[1], 'application/octet-stream')
@@ -19,7 +19,7 @@ out = {}
 for k, m in M.items():
     if k.startswith('_'): continue
     if m['type'] == 'image':
-        webp = pick(m['sources'][1]['srcset'], 900)
+        webp = pick(m['sources'][1]['srcset'], 1280)
         jpg = pick(m['sources'][2]['srcset'], 1024)
         out[k] = {**{x: m[x] for x in ('type', 'alt', 'width', 'height')}, 'src': uri(webp), 'sources': []}
     else:
@@ -43,8 +43,23 @@ h = re.sub(r'<link rel="stylesheet" crossorigin href="/assets/[^"]+\.css">', '',
 h = h.replace('</head>', '<style>' + css + '</style></head>')
 js = open(os.path.join(D, re.search(r'src="(/assets/[^"]+\.js)"', h).group(1).lstrip('/')), encoding='utf8').read()
 h = re.sub(r'<script type="module" crossorigin src="/assets/[^"]+\.js"></script>', '', h)
-tex = {n[:-5]: uri('media/3d/' + n) for n in os.listdir(os.path.join(D, 'media', '3d'))}
+tex = {n[:-5]: uri('media/3d/' + n) for n in os.listdir(os.path.join(D, 'media', '3d'))} if os.path.isdir(os.path.join(D, 'media', '3d')) else {}
 inline = '<script>window.__TEX__=' + json.dumps(tex) + ';window.__MANIFEST__=' + json.dumps(out).replace('</', '<\\/') + '</script>'
 h = h.replace('</body>', inline + '<script type="module">' + js.replace('</script', '<\\/script') + '</script></body>')
+
+# ---- static media: write every photo and video straight into the markup, so the file also works with JavaScript off ----
+def esc(t): return t.replace('&', '&amp;').replace('"', '&quot;')
+def media_html(m):
+    if m['type'] == 'image':
+        return '<img src="%s" alt="%s" width="%d" height="%d" decoding="async">' % (m['src'], esc(m.get('alt', '')), m['width'], m['height'])
+    srcs = ''.join('<source src="%s" type="%s"%s>' % (x['src'], x['type'], (' media="%s"' % x['media']) if 'media' in x else '') for x in m['sources'])
+    return '<video muted loop playsinline autoplay preload="auto" poster="%s" aria-hidden="true">%s</video>' % (m['poster'], srcs)
+for sid, m in out.items():
+    pat = re.compile(r'(<figure class="slot[^"]*" data-slot="%s"[^>]*>)(.*?)(</figure>)' % sid, re.S)
+    mm = pat.search(h)
+    if not mm: continue
+    inner = re.sub(r'<span class="slot__empty".*?</span>', '', mm.group(2), flags=re.S)
+    h = h[:mm.start()] + mm.group(1) + media_html(m) + inner + mm.group(3) + h[mm.end():]
+h = h.replace('window.__MANIFEST__=' + json.dumps(out).replace('</', '<\\/'), 'window.__MANIFEST__={}')
 open(os.path.join(R, 'out', 'bigfoot-floors-draft.html'), 'w', encoding='utf8').write(h)
 print(round(len(h) / 1e6, 2), 'MB')
