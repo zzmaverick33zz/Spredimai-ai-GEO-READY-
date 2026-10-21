@@ -2,7 +2,9 @@
 """Builds out/bigfoot-floors-draft.html: one self-contained file (CSS, JS and media inlined). Run after `npm run build`."""
 import base64, json, os, re, mimetypes
 R = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-D = os.path.join(R, 'dist'); os.makedirs(os.path.join(R, 'out'), exist_ok=True)
+import subprocess
+subprocess.run(['npx', 'vite', 'build', '--mode', 'single'], cwd=R, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+D = os.path.join(R, 'dist-single'); os.makedirs(os.path.join(R, 'out'), exist_ok=True)
 def uri(path):
     p = os.path.join(D, path.lstrip('/'))
     mt = mimetypes.guess_type(p)[0] or {'.avif': 'image/avif', '.webm': 'video/webm'}.get(os.path.splitext(p)[1], 'application/octet-stream')
@@ -41,7 +43,8 @@ h = re.sub(r'<link rel="stylesheet" crossorigin href="/assets/[^"]+\.css">', '',
 h = h.replace('</head>', '<style>' + css + '</style></head>')
 js = open(os.path.join(D, re.search(r'src="(/assets/[^"]+\.js)"', h).group(1).lstrip('/')), encoding='utf8').read()
 h = re.sub(r'<script type="module" crossorigin src="/assets/[^"]+\.js"></script>', '', h)
-inline = '<script>window.__MANIFEST__=' + json.dumps(out).replace('</', '<\\/') + '</script>'
+tex = {n[:-5]: uri('media/3d/' + n) for n in os.listdir(os.path.join(D, 'media', '3d'))}
+inline = '<script>window.__TEX__=' + json.dumps(tex) + ';window.__MANIFEST__=' + json.dumps(out).replace('</', '<\\/') + '</script>'
 h = h.replace('</body>', inline + '<script type="module">' + js.replace('</script', '<\\/script') + '</script></body>')
 open(os.path.join(R, 'out', 'bigfoot-floors-draft.html'), 'w', encoding='utf8').write(h)
 print(round(len(h) / 1e6, 2), 'MB')

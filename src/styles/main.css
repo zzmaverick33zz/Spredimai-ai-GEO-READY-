@@ -5,7 +5,7 @@
   Each process chapter darkens less than the one before (progressive reveal).
   Single deliberate visual world: colors are set explicitly, no theme switch.
   Design system source: ui-ux-pro-max --design-system (Scroll-Triggered Storytelling,
-  Cormorant + Montserrat, black + brass). Liquid Glass style was rejected: it is for app chrome.
+  Cormorant + Hanken Grotesk, black + brass). Liquid Glass style was rejected: it is for app chrome.
 */
 :root{
   color-scheme: dark;
@@ -31,7 +31,7 @@
   --chip-client:#5E8C6A; --chip-retouch:#B3874A; --chip-generate:#7C6BA8; --chip-film:#B0553F;
 
   --f-display:"Cormorant","Cormorant Garamond",Garamond,"Times New Roman",serif;
-  --f-body:"Montserrat","Helvetica Neue",Arial,sans-serif;
+  --f-body:"Hanken Grotesk","Helvetica Neue",Arial,sans-serif;
 
   /* type scale (1.333) */
   --t-xs:.75rem; --t-sm:.875rem; --t-md:1rem; --t-lg:1.25rem;
@@ -346,7 +346,6 @@ html{scroll-padding-top:76px}
 
 /* first daylight: fade the oak ground of chapter VIII into linen */
 .arrival{position:relative}
-.arrival::before{content:"";position:absolute;inset:0 0 auto;height:96px;background:linear-gradient(var(--oak),transparent);pointer-events:none}
 .ftr li a,.ftr li{display:inline-block;padding-block:8px}
 .link{padding-block:14px 6px}
 .drawer a{min-height:48px}
@@ -388,3 +387,25 @@ html{scroll-padding-top:76px}
 .quote blockquote{margin:0;font:300 var(--t-h3)/1.15 var(--f-display);color:var(--ink);text-wrap:balance}
 .quote figcaption{font:500 var(--t-xs)/1.4 var(--f-body);letter-spacing:.2em;text-transform:uppercase;color:var(--ink-dim)}
 .arrival__props{padding-top:40px}
+
+/* ---------- 3D beats ---------- */
+#gl{position:fixed;inset:0;width:100%;height:100%;z-index:2;pointer-events:none;opacity:0;visibility:hidden}
+#gl.is-on{visibility:visible}
+.beat{position:relative;height:240vh}
+.beat__sticky{position:sticky;top:0;height:100svh;display:flex;align-items:flex-end;padding-bottom:max(56px,env(safe-area-inset-bottom,0px));z-index:3;pointer-events:none}
+.beat__sticky .wrap{width:100%}
+.beat__cap{display:grid;gap:12px;max-width:34ch}
+.beat__cap p{font:300 var(--t-h3)/1.1 var(--f-display);color:var(--bone);text-wrap:balance}
+.beat__cap small{font:500 .62rem/1.4 var(--f-body);letter-spacing:.18em;text-transform:uppercase;color:var(--bone-dim)}
+.beat[data-g="linen"] .eyebrow{color:var(--brass-ink)}
+.beat[data-g="linen"] .beat__cap p{color:var(--ink)}
+.beat[data-g="linen"] .beat__cap small{color:var(--ink-dim)}
+@media (max-width:759px){.beat{height:200vh}.beat__cap{max-width:26ch}}
+@media print{#gl,.beat{display:none}}
+
+.silt{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none}
+/* film grain over everything, very light */
+body::after{content:"";position:fixed;inset:-20%;z-index:45;pointer-events:none;opacity:.07;background-image:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:grain 1.2s steps(6) infinite}
+@keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-3%,2%)}40%{transform:translate(2%,-3%)}60%{transform:translate(-2%,-1%)}80%{transform:translate(3%,3%)}100%{transform:translate(0,0)}}
+@media (prefers-reduced-motion:reduce){body::after{animation:none}}
+.beat[data-g="linen"] .beat__cap{background:var(--linen);padding:22px 26px}

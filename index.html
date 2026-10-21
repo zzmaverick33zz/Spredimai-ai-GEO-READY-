@@ -18,8 +18,8 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap"></noscript>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Hanken+Grotesk:wght@300;400;500;600&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Hanken+Grotesk:wght@300;400;500;600&display=swap"></noscript>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
  {"@type":"Organization","@id":"https://bffloors.com/#org","name":"Big Foot Floors","url":"https://bffloors.com/","email":"info@bffloors.com","telephone":"+1 801 608 6876","sameAs":["https://www.instagram.com/big_foot_parquet/"],"description":"Bog oak and bog ash raised from lakes and peat bogs, carbon-dated and crafted in Lithuania into floors, stairs, walls, ceilings, tables, wine cellars and yacht flooring."},
@@ -61,6 +61,8 @@
   <a href="#ch7">VII <span>The hands</span></a><a href="#ch8">VIII <span>Fitted</span></a><a href="#arrival">· <span>Your home</span></a>
 </nav>
 
+<canvas id="gl" role="img" aria-label="Illustration: a bog oak trunk turns, shows its rings, opens, becomes boards in a drying stack and finally a herringbone floor." tabindex="-1"></canvas>
+
 <main id="main">
 
 <!-- ============ 00 HERO ============ -->
@@ -77,6 +79,7 @@
     <!-- REPLACE: <video autoplay muted loop playsinline preload="metadata" poster="media/s01-poster.avif"><source src="media/s01.webm" type="video/webm"><source src="media/s01.mp4" type="video/mp4"></video> -->
     <figcaption class="brief"><span class="brief__top"><span class="chip chip--client">Kliento video</span><span class="chip chip--kind">Video loop 8–12 s</span><b>S01 · Hero</b></span>Po vandeniu: naro žibintas slysta per juodą kamieną dumble. Lėtas, tamsus, be teksto kadre. Spalvos korekcija į šaltą žalsvą.</figcaption>
   </figure>
+  <canvas class="silt" aria-hidden="true"></canvas>
   <div class="wrap hero__body">
     <span class="eyebrow">Bog oak · Bog ash · Carbon-dated</span>
     <h1 id="h-hero">Wood that waited <em>millennia</em> under water</h1>
@@ -100,6 +103,9 @@
 </section>
 
 <!-- ============ 02 JOURNEY (8 real steps, so roman numerals are information) ============ -->
+<section class="beat" data-beat="0" data-g="silt" hidden aria-label="The trunk">
+  <div class="beat__sticky"><div class="wrap"><div class="beat__cap"><span class="eyebrow">The trunk</span><p>Every trunk begins whole, and no two are alike.</p><small>3D illustration made from photos of the client’s timber</small></div></div></div>
+</section>
 <div class="journey" id="journey">
 
   <article class="chapter" id="ch1" data-g="silt" aria-labelledby="h-ch1">
@@ -155,7 +161,10 @@
 </section>
 
 <div class="journey">
-  <article class="chapter" id="ch4" data-g="peat" aria-labelledby="h-ch4">
+  <section class="beat" data-beat="1" data-g="peat" hidden aria-label="The cut end">
+  <div class="beat__sticky"><div class="wrap"><div class="beat__cap"><span class="eyebrow">The cut end</span><p>Turned to the light, the cut end shows its rings.</p><small>3D illustration made from photos of the client’s timber</small></div></div></div>
+</section>
+<article class="chapter" id="ch4" data-g="peat" aria-labelledby="h-ch4">
     <div class="wrap chapter__grid">
       <div class="chapter__media">
         <figure class="slot slot--wide ph--grain" data-slot="S06">
@@ -172,7 +181,10 @@
     </div>
   </article>
 
-  <article class="chapter chapter--flip" id="ch5" data-g="char" aria-labelledby="h-ch5">
+  <section class="beat" data-beat="2" data-g="char" hidden aria-label="The cut">
+  <div class="beat__sticky"><div class="wrap"><div class="beat__cap"><span class="eyebrow">The cut</span><p>One cut opens the trunk, and its colour appears.</p><small>3D illustration made from photos of the client’s timber</small></div></div></div>
+</section>
+<article class="chapter chapter--flip" id="ch5" data-g="char" aria-labelledby="h-ch5">
     <div class="wrap chapter__grid">
       <div class="chapter__media">
         <figure class="slot slot--main ph--grain" data-slot="S07">
@@ -193,7 +205,10 @@
     </div>
   </article>
 
-  <article class="chapter" id="ch6" data-g="char" aria-labelledby="h-ch6">
+  <section class="beat" data-beat="3" data-g="char" hidden aria-label="The stack">
+  <div class="beat__sticky"><div class="wrap"><div class="beat__cap"><span class="eyebrow">The stack</span><p>The halves part. The boards rest, layer by layer.</p><small>3D illustration made from photos of the client’s timber</small></div></div></div>
+</section>
+<article class="chapter" id="ch6" data-g="char" aria-labelledby="h-ch6">
     <div class="wrap chapter__grid">
       <div class="chapter__media">
         <figure class="slot slot--wide ph--shop" data-slot="S09">
@@ -210,7 +225,10 @@
     </div>
   </article>
 
-  <article class="chapter chapter--flip" id="ch7" data-g="oak" aria-labelledby="h-ch7">
+  <section class="beat" data-beat="4" data-g="oak" hidden aria-label="The grain">
+  <div class="beat__sticky"><div class="wrap"><div class="beat__cap"><span class="eyebrow">The grain</span><p>Each board is chosen for its grain, and given its pattern.</p><small>3D illustration made from photos of the client’s timber</small></div></div></div>
+</section>
+<article class="chapter chapter--flip" id="ch7" data-g="oak" aria-labelledby="h-ch7">
     <div class="wrap chapter__grid">
       <div class="chapter__media">
         <figure class="slot slot--main ph--shop" data-slot="S10">
@@ -249,6 +267,9 @@
   </article>
 </div>
 
+<section class="beat" data-beat="5" data-g="linen" hidden aria-label="The floor">
+  <div class="beat__sticky"><div class="wrap"><div class="beat__cap"><span class="eyebrow">The floor</span><p>Laid board by board, the trunk becomes a floor.</p><small>3D illustration made from photos of the client’s timber</small></div></div></div>
+</section>
 <!-- ============ 03 ARRIVAL — the "glass in hand" moment, first daylight section ============ -->
 <section class="light arrival" id="arrival" aria-labelledby="h-arrival">
   <div class="wrap">

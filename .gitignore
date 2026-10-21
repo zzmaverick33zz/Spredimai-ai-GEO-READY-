@@ -5,3 +5,4 @@ work
 .env
 .env.local
 out
+dist-single
