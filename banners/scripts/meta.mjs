@@ -2,7 +2,7 @@
 import fs from 'node:fs';
 const src = fs.readFileSync(new URL('../src/variants/index.ts', import.meta.url), 'utf8');
 const durs = {};
-for (const f of ['A1', 'A2', 'B1']) {
+for (const f of ['A1', 'A2', 'B1', 'C1']) {
 	const s = fs.readFileSync(new URL(`../src/variants/${f}.tsx`, import.meta.url), 'utf8');
 	for (const m of s.matchAll(/export const (V\d+)_D = (\d+);/g)) durs[m[1]] = +m[2];
 }

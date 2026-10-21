@@ -1,5 +1,7 @@
 # Animated B2B banners: QC report
 
+> **Update:** 7 character variants were added (v16–v22, rigged mascot + text animation). See the section *Character variants* at the end. 22 of 22 passed.
+
 15 variants, 1584×396, 30 fps, H.264 / yuv420p / CRF 17 (preset slow), no audio track, 6–9 s, 0.65–1.8 MB each.
 Source: `source/banner-1.png` (message A), `source/banner-2.png` (message B; `banner-3` in the brief was identical to banner-2).
 
@@ -69,3 +71,40 @@ Frame 0 is the finished poster. Re-staged elements leave in 9 frames (ease-in), 
 ## Not done / limits
 - The source texts were used verbatim. No numbers, names, or logos were added. Competitor cards are skeletons without names, as in the source.
 - The "→" in the CTA is drawn as an SVG arrow (same meaning; Lexend has no arrow glyph).
+
+---
+
+# Character variants v16–v22 (rigged mascot)
+
+## The rig
+`scripts/rig.py` splits the cut-out mascot into layers: the **body** (with the eyes and smile painted out by harmonic/Laplace fill plus a matched luminance-only grain), and the **left eye, right eye and smile** as separate layers holding the original pixels with feathered alpha. Recomposing the layers reproduces the original exactly. The filled skin was checked with the eyes removed: it is smooth, with no colour speckle and no darker sockets.
+The rig can do squash-and-stretch hops (anticipation → stretched rise → landing squash on a spring), eye looks (±5 px, the smile follows at 70 %), blinks (7 frames), smile up/down (`smile` 0.2 = neutral line, 1.2 = bigger), eye scale (surprise), tilt/nod about the feet, a mint glow aura, and a contact shadow that shrinks and fades with height.
+**Not rigged:** the little arm is fused with the glass body, and separating it would mean inventing hidden body pixels, so it moves with the body only (no waving).
+
+## Scores (1–5)
+
+| # | File | Mascot acting | Text mechanic | Readability | Contrast | Smoothness | Premium look | B2B fit | Clean edges | Result |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 16 | v16-mascot-hop-in | hops in from the right in 3 hops (squash & stretch), looks at the text, blinks, follows the cards | each landing "drops" the next words (spring pop); "AI" pops on the last landing | 5 | 5 | 5 | 4 | 4 | 5 | ✅ |
+| 17 | v17-mascot-reads-along | eyes follow each line, then the cards, then the CTA; small nod at the CTA; tilt toward the cards | line mask reveal + glass highlighter sweeping behind "konkurentus," | 5 | 5 | 5 | 5 | 5 | 5 | ✅ |
+| 18 | v18-mascot-peek | peeks up from below the frame, looks left/right, blinks, pops up with stretch and landing squash | letter-by-letter cascade (rise + 6° settle), watched by the mascot | 4 | 5 | 5 | 4 | 4 | 5 | ✅ |
+| 19 | v19-mascot-mood | happy → sees the competitors recommended → deflates (flat smile, slump) → "Jūsų įmonė" gets the badge → small joy hop, bigger smile | word-by-word rise; "o ne jus?" gets an emphasis bump | 5 | 5 | 4 | 5 | 5 | 5 | ✅ |
+| 20 | v20-mascot-nod | blinks while reading; surprised when "AI" drops in (eyes widen, tiny hop), then nods twice | focus-pull words (scale 1.3 + blur → sharp); "AI" plate drops in on a spring | 5 | 5 | 5 | 5 | 4 | 5 | ✅ |
+| 21 | v21-mascot-wake-dark | starts asleep (dim, eyes closed), double blink, wakes up with a mint glow and a growing smile | neon outline wipes in, then fills (dark theme, "o ne jus?" in mint) | 5 | 5 | 5 | 5 | 4 | 4 | ✅ |
+| 22 | v22-mascot-loop-a-b | glances at the cards before each change, hops at each hand-over, looks at the CTA | seamless A→B→A loop by letters: drop out / fall in | 5 | 5 | 5 | 4 | 5 | 5 | ✅ |
+
+Notes on the 4s:
+- **v16 / v18**: the most playful (hops, peeking). Fine for a friendly brand, but less "corporate" than v17/v19/v20.
+- **v18**: the headline appears only at ~3.3 s, after the peek.
+- **v19**: while "Jūsų įmonė" pops in, it briefly overlaps the ghost cards as they shift.
+- **v21**: same dark-background edge note as v13.
+
+## Technical checks
+All 7: h264 / yuv420p / 30 fps / no audio, 8–10 s, 1.1–1.6 MB, **0 glitch frames**. The final 1.5 s keeps all text still. The only motion is the mascot breathing or blinking (max mean step 0.74/255). The v22 loop seam is 0.47 (seamless). Small text sizes and colours are unchanged from v01–v15.
+
+## Fixed during QC
+1. **v22**: the outgoing letters of one headline overlapped the incoming letters of the other. Each entrance now starts only after the exit sweep has finished, and the loop was lengthened to 9.2 s to keep a 1.5 s final hold.
+2. **v19**: the joy hop cropped the top of the head at the frame edge. The mascot sits 10 px lower in this variant and its stretch is halved.
+3. **v16**: the first ~10 frames were empty while the mascot was off-screen, so it now starts half in frame.
+4. **v18**: letter rotation reduced from 10° to 6° (calmer).
+5. **Rig**: the first eye/smile fill showed colour speckle and darker sockets. Fixed with luminance-only grain, a wider solve band, and colour sampled further from the eye shadow.

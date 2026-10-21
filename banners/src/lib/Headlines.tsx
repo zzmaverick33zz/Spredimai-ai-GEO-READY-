@@ -9,11 +9,14 @@ export const SUB = 'GEO OPTIMIZAVIMAS ĮMONĖMS LIETUVOJE';
 export const CTA_TEXT = 'Sužinokite, ar ChatGPT rekomenduoja jus';
 
 type WS = (line: number, word: number, gi: number) => CSSProperties | undefined;
+/** per-character style; ci = index of the (non-space) character across the whole headline */
+export type CS = (line: number, ci: number) => CSSProperties | undefined;
 
 /** Renders a line as words; `typedLeft` chars of this line visible (Infinity = all). */
-const Words: React.FC<{text: string; line: number; giStart: number; wordStyle?: WS; typedLeft?: number}> = ({text, line, giStart, wordStyle, typedLeft = Infinity}) => {
+const Words: React.FC<{text: string; line: number; giStart: number; wordStyle?: WS; typedLeft?: number; charStyle?: CS; ciStart?: number}> = ({text, line, giStart, wordStyle, typedLeft = Infinity, charStyle, ciStart = 0}) => {
 	const words = text.split(' ');
 	let used = 0;
+	let ci = ciStart;
 	return (
 		<>
 			{words.map((w, i) => {
@@ -23,7 +26,13 @@ const Words: React.FC<{text: string; line: number; giStart: number; wordStyle?: 
 				return (
 					<React.Fragment key={i}>
 						<span style={{display: 'inline-block', whiteSpace: 'pre', ...(wordStyle?.(line, i, giStart + i) ?? {})}}>
-							{shown}
+							{charStyle
+								? [...shown].map((ch, k) => (
+										<span key={k} style={{display: 'inline-block', ...(charStyle(line, ci++) ?? {})}}>
+											{ch}
+										</span>
+									))
+								: shown}
 							{/* keep layout stable while typing: invisible remainder */}
 							{typedLeft !== Infinity && visible < w.length ? <span style={{visibility: 'hidden'}}>{w.slice(visible)}</span> : null}
 						</span>
@@ -146,16 +155,17 @@ export const HeadlineA: React.FC<
 		hideSub?: boolean;
 		style?: CSSProperties;
 		plateWrapStyle?: CSSProperties;
+		charStyle?: CS;
 	} & LineOpts &
 		AIPlateProps
-> = ({x = 46, y = 52, size = 84, color = '#081A14', wordStyle, subStyle, hideSub, style, plateWrapStyle, mask, lineStyle, innerStyle, ...plate}) => (
+> = ({x = 46, y = 52, size = 84, color = '#081A14', wordStyle, charStyle, subStyle, hideSub, style, plateWrapStyle, mask, lineStyle, innerStyle, ...plate}) => (
 	<div style={{position: 'absolute', left: x, top: y, fontFamily: HEAD, fontWeight: 700, fontSize: size, lineHeight: 1.06, letterSpacing: '-0.025em', color, ...style}}>
 		<Line i={0} size={size} mask={mask} lineStyle={lineStyle} innerStyle={innerStyle}>
-			<Words text={A_LINES[0]} line={0} giStart={0} wordStyle={wordStyle} />
+			<Words text={A_LINES[0]} line={0} giStart={0} wordStyle={wordStyle} charStyle={charStyle} />
 		</Line>
 		<div style={{display: 'flex', alignItems: 'flex-end', gap: size * 0.22, marginTop: size * 0.04}}>
 			<Line i={1} size={size} mask={mask} lineStyle={lineStyle} innerStyle={innerStyle} style={{paddingBottom: (mask ? size * MASK_PAD_BOTTOM : 0) + size * 0.04}}>
-				<Words text={A_LINES[1]} line={1} giStart={3} wordStyle={wordStyle} />
+				<Words text={A_LINES[1]} line={1} giStart={3} wordStyle={wordStyle} charStyle={charStyle} ciStart={A_LINES[0].replace(/ /g, '').length} />
 			</Line>
 			<div style={{display: 'inline-block', ...plateWrapStyle}}>
 				<AIPlate size={size * 1.32} {...plate} />
@@ -177,8 +187,9 @@ export const HeadlineB: React.FC<
 		typed?: number; // characters across all three lines
 		caret?: number;
 		style?: CSSProperties;
+		charStyle?: CS;
 	} & LineOpts
-> = ({x = 46, y = 34, size = 60, color = '#081A14', accent, accentStyle, wordStyle, typed, caret = 0, style, mask, lineStyle, innerStyle}) => {
+> = ({x = 46, y = 34, size = 60, color = '#081A14', accent, accentStyle, wordStyle, charStyle, typed, caret = 0, style, mask, lineStyle, innerStyle}) => {
 	let left = typed ?? Infinity;
 	let gi = 0;
 	// which line holds the caret
@@ -207,7 +218,7 @@ export const HeadlineB: React.FC<
 				return (
 					<Line key={i} i={i} size={size} mask={mask} lineStyle={lineStyle} innerStyle={innerStyle}>
 						<span style={{position: 'relative', color: isAccent ? accent : undefined, ...(i === 2 ? accentStyle : {})}}>
-							<Words text={t} line={i} giStart={g} wordStyle={wordStyle} typedLeft={tl === Infinity ? Infinity : tl} />
+							<Words text={t} line={i} giStart={g} wordStyle={wordStyle} charStyle={charStyle} ciStart={B_LINES.slice(0, i).join('').replace(/ /g, '').length} typedLeft={tl === Infinity ? Infinity : tl} />
 							{caret > 0 && caretLine === i ? (
 								<Caret size={size} opacity={caret} offsetChars={t.length - shownLen} text={t} />
 							) : null}

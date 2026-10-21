@@ -1,6 +1,6 @@
 # Animated banners (Remotion)
 
-15 animated 1584×396 banners built from `source/banner-1.png` / `banner-2.png`. Results and QC: `out/REPORT.md`, `out/contact-sheet.png`.
+22 animated 1584×396 banners (v16–v22 use the rigged mascot from `scripts/rig.py`) built from `source/banner-1.png` / `banner-2.png`. Results and QC: `out/REPORT.md`, `out/contact-sheet.png`.
 
 ```bash
 npm install
@@ -12,4 +12,4 @@ npx remotion studio src/index.ts                        # preview
 ```
 
 Uses the full Chromium at `/opt/pw-browsers/chromium` (chrome-for-testing mode) so Google Fonts load through the proxy CA. Render concurrency is 1: parallel tabs produced partially painted frames.
-Code: `src/lib` (background, mascot, cards, headlines, animation helpers), `src/variants` (A1/A2 = message A, B1 = message B).
+Code: `src/lib` (background, mascot, rig, cards, headlines, animation helpers), `src/variants` (A1/A2 = message A, B1 = message B, C1 = character variants).
