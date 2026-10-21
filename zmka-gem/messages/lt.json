@@ -1,0 +1,146 @@
+{
+  "meta": {
+    "title": "ZM_KA GEM — dantų papuošalai Vilniuje",
+    "description": "Dantų papuošalų meistras Vilniuje. Swarovski kristalai ir aukščiausios kokybės stiklas, be gręžimo, be skausmo. Užsiregistruokite vizitui."
+  },
+  "skip": "Pereiti prie turinio",
+  "nav": {
+    "label": "Pagrindinis meniu",
+    "home": "ZM_KA GEM, pradžia",
+    "work": "Darbai",
+    "services": "Paslaugos",
+    "training": "Mokymai",
+    "booking": "Registracija",
+    "events": "Renginiai",
+    "book": "Registruotis",
+    "language": "Kalba",
+    "menu": "Meniu",
+    "openMenu": "Atidaryti meniu",
+    "closeMenu": "Uždaryti meniu",
+    "mobileLabel": "Mobilusis meniu"
+  },
+  "hero": {
+    "badge": "Dantų papuošalų meistras · Vilnius, LT",
+    "titleA": "Maži kristalai.",
+    "titleB": "Didelis",
+    "titleAccent": "spindesys.",
+    "lead": "Swarovski kristalai ir aukščiausios kokybės stiklas, klijuojami rankomis. Be gręžimo, be skausmo, visiškai laikina — mažas meno kūrinys jūsų šypsenai.",
+    "ctaPrimary": "Registruotis vizitui",
+    "ctaSecondary": "Žiūrėti darbus",
+    "proof": "Pirmasis sertifikuotas dantų papuošalų meistras Vilniuje",
+    "butterflyAlt": "ZM_KA GEM pikselinis drugelis"
+  },
+  "marquee": {
+    "label": "Kiekvienas rinkinys",
+    "items": [
+      "Swarovski kristalai",
+      "Draugiška emaliui",
+      "Be gręžimo",
+      "Medicininiai klijai",
+      "Laikina",
+      "Rankų darbas Vilniuje"
+    ]
+  },
+  "signature": {
+    "text": "Kiekvienas rinkinys sukuriamas ir priklijuojamas rankomis — viena šypsena, viena kompozicija.",
+    "by": "meistras"
+  },
+  "work": {
+    "title": "Atrinkti darbai",
+    "instagram": "@zm_ka_gem Instagram →",
+    "open": "Atidaryti nuotrauką",
+    "placeholder": "NUOTRAUKA",
+    "dialog": "Nuotraukų peržiūra",
+    "close": "Uždaryti",
+    "prev": "Ankstesnė nuotrauka",
+    "next": "Kita nuotrauka",
+    "counter": "{n} iš {total}"
+  },
+  "services": {
+    "title": "Paslaugos",
+    "items": {
+      "single": { "title": "Vienas kristalas", "text": "Vienas kristalas, priklijuotas kruopščiai. Lengviausia pradžia." },
+      "set": { "title": "Kristalų rinkinys", "text": "Keli kristalai, sujungti į nedidelę, darnią kompoziciją." },
+      "freestyle": { "title": "Laisvas dizainas", "text": "Formos, spalvos ir deriniai, kuriami kartu su jumis." },
+      "events": { "title": "Renginiai ir bendradarbiavimas", "text": "Dantų papuošalai vietoje: pop-up renginiams, fotosesijoms ir prekių ženklams." }
+    }
+  },
+  "why": {
+    "titleA": "Kodėl jums",
+    "titleAccent": "patiks",
+    "items": [
+      "100% saugu ir draugiška emaliui",
+      "Be gręžimo, be skausmo",
+      "Neinvaziška ir laikina",
+      "Medicininiai klijai"
+    ]
+  },
+  "training": {
+    "eyebrow": "Mokymai",
+    "title": "Išmokite šio amato",
+    "lead": "Norite patys klijuoti dantų papuošalus? Mokykitės iš pirmojo sertifikuoto dantų papuošalų meistro Vilniuje — technika, medžiagos ir menininko akis kompozicijai.",
+    "programTitle": "Ko išmoksite",
+    "program": [
+      "Medžiagos: kristalai, stiklas ir klijai",
+      "Darbo vietos paruošimas ir higiena",
+      "Klijavimo technika žingsnis po žingsnio",
+      "Kompozicija: nuo vieno kristalo iki rinkinio",
+      "Nuėmimas ir priežiūros patarimai klientams",
+      "Praktika su grįžtamuoju ryšiu"
+    ],
+    "facts": {
+      "format": "Formatas",
+      "duration": "Trukmė",
+      "price": "Kaina",
+      "next": "Artimiausios datos"
+    },
+    "cta": "Klausti apie mokymus",
+    "dm": "Rašyti per DM",
+    "photoAlt": "Dantų papuošalų rinkinys iš arti, modelis su rožiniais akiniais"
+  },
+  "booking": {
+    "title": "Kaip užsiregistruoti",
+    "steps": [
+      { "title": "Išsirinkite idėją", "text": "Peržiūrėkite darbus, pasirinkite dizainą arba aprašykite savo." },
+      { "title": "Atsiųskite užklausą", "text": "Pasirinkite datą ir palikite kontaktą." },
+      { "title": "Patvirtinkite avansu", "text": "Avansas rezervuoja jūsų laiką." },
+      { "title": "Gaukite kristalus", "text": "Greitas, neskausmingas klijavimas, tada priežiūros patarimai ir garantija." }
+    ],
+    "form": {
+      "title": "Registracija vizitui",
+      "name": "Vardas",
+      "contact": "Instagram arba telefonas",
+      "contactPlaceholder": "@vardas arba +370…",
+      "type": "Mane domina",
+      "types": { "appointment": "Vizitas", "training": "Mokymai", "event": "Renginys ar bendradarbiavimas" },
+      "date": "Pageidaujama data",
+      "datePlaceholder": "pvz., penktadienio vakaras…",
+      "idea": "Jūsų idėja",
+      "ideaPlaceholder": "Spalvos, formos, kiek kristalų…",
+      "optional": "neprivaloma",
+      "submit": "Siųsti užklausą",
+      "sending": "Siunčiama…",
+      "success": "Ačiū! Užklausa gauta — netrukus atsakysime.",
+      "error": "Kažkas nepavyko. Bandykite dar kartą arba parašykite Instagram DM.",
+      "errors": {
+        "name": "Įveskite savo vardą.",
+        "contact": "Nurodykite Instagram arba telefoną, kad galėtume atsakyti."
+      },
+      "note": "Laiką patvirtina {deposit} avansas. Priežiūros ir garantijos informaciją atsiųsime po registracijos."
+    }
+  },
+  "events": {
+    "title": "Renginiai, fotosesijos ir bendradarbiavimas",
+    "text": "Pop-up renginiai, prekių ženklų aktyvacijos ir redakcinės fotosesijos. Šiek tiek spindesio jūsų renginiui.",
+    "cta": "Rašyti dėl bendradarbiavimo"
+  },
+  "feedback": { "title": "Atsiliepimai" },
+  "warranty": { "title": "Garantija" },
+  "footer": {
+    "city": "Vilnius, Lietuva",
+    "pause": "Sustabdyti animacijas",
+    "play": "Paleisti animacijas",
+    "rights": "Visi darbai — meistro."
+  },
+  "external": "atsidaro naujame skirtuke"
+}

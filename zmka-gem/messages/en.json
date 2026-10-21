@@ -1,0 +1,146 @@
+{
+  "meta": {
+    "title": "ZM_KA GEM — tooth gems in Vilnius",
+    "description": "Tooth gem artist in Vilnius. Swarovski crystals & premium glass, no drilling, no pain. Book an appointment."
+  },
+  "skip": "Skip to Content",
+  "nav": {
+    "label": "Primary",
+    "home": "ZM_KA GEM, home",
+    "work": "Work",
+    "services": "Services",
+    "training": "Training",
+    "booking": "Booking",
+    "events": "Events",
+    "book": "Book Now",
+    "language": "Language",
+    "menu": "Menu",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "mobileLabel": "Mobile"
+  },
+  "hero": {
+    "badge": "Tooth gem artist · Vilnius, LT",
+    "titleA": "Tiny gems.",
+    "titleB": "Big",
+    "titleAccent": "sparkle.",
+    "lead": "Swarovski crystals & premium glass, placed by hand. No drilling, no pain, fully temporary — a small piece of art for your smile.",
+    "ctaPrimary": "Book an Appointment",
+    "ctaSecondary": "See the Work",
+    "proof": "1st certified tooth gem master in Vilnius",
+    "butterflyAlt": "ZM_KA GEM pixel butterfly"
+  },
+  "marquee": {
+    "label": "What every set comes with",
+    "items": [
+      "Swarovski crystals",
+      "Enamel-friendly",
+      "No drilling",
+      "Medical-grade adhesive",
+      "Temporary",
+      "Handmade in Vilnius"
+    ]
+  },
+  "signature": {
+    "text": "Every set is designed and placed by hand — one smile, one composition.",
+    "by": "artist"
+  },
+  "work": {
+    "title": "Selected Sets",
+    "instagram": "@zm_ka_gem on Instagram →",
+    "open": "Open photo",
+    "placeholder": "PHOTO",
+    "dialog": "Photo viewer",
+    "close": "Close",
+    "prev": "Previous photo",
+    "next": "Next photo",
+    "counter": "{n} of {total}"
+  },
+  "services": {
+    "title": "Services",
+    "items": {
+      "single": { "title": "Single Gem", "text": "One crystal, placed with care. The easiest way to start." },
+      "set": { "title": "Gem Set", "text": "Several crystals composed into a small, balanced design." },
+      "freestyle": { "title": "Freestyle Design", "text": "Shapes, colours and mixes made together with you." },
+      "events": { "title": "Events & Collabs", "text": "On-site tooth gem experience for pop-ups, shoots and brands." }
+    }
+  },
+  "why": {
+    "titleA": "Why You’ll",
+    "titleAccent": "Love It",
+    "items": [
+      "100% safe & enamel-friendly",
+      "No drilling, no pain",
+      "Non-invasive & temporary",
+      "Medical-grade adhesive"
+    ]
+  },
+  "training": {
+    "eyebrow": "Training",
+    "title": "Learn the Craft",
+    "lead": "Want to place tooth gems yourself? Learn from the 1st certified tooth gem master in Vilnius — technique, materials and the artist’s eye for composition.",
+    "programTitle": "What You’ll Learn",
+    "program": [
+      "Materials: crystals, glass and adhesive",
+      "Preparation and hygiene at the workstation",
+      "Placement technique, step by step",
+      "Composition: from a single gem to a full set",
+      "Removal and aftercare advice for clients",
+      "Hands-on practice with feedback"
+    ],
+    "facts": {
+      "format": "Format",
+      "duration": "Duration",
+      "price": "Price",
+      "next": "Next dates"
+    },
+    "cta": "Ask About Training",
+    "dm": "Ask in DM",
+    "photoAlt": "Close-up of a tooth gem set on a model in pink glasses"
+  },
+  "booking": {
+    "title": "How to Book",
+    "steps": [
+      { "title": "Choose Your Idea", "text": "Browse the work, pick a design or describe your own." },
+      { "title": "Send a Request", "text": "Pick a date and leave your contact." },
+      { "title": "Confirm With a Deposit", "text": "The deposit holds your time slot." },
+      { "title": "Get Your Gems", "text": "Quick, painless application, then aftercare notes and warranty." }
+    ],
+    "form": {
+      "title": "Request an Appointment",
+      "name": "Name",
+      "contact": "Instagram or Phone",
+      "contactPlaceholder": "@handle or +370…",
+      "type": "I’m Interested In",
+      "types": { "appointment": "Appointment", "training": "Training", "event": "Event or collab" },
+      "date": "Preferred Date",
+      "datePlaceholder": "e.g. Friday evening…",
+      "idea": "Your Idea",
+      "ideaPlaceholder": "Colours, shapes, how many gems…",
+      "optional": "optional",
+      "submit": "Send Request",
+      "sending": "Sending…",
+      "success": "Thank you! Your request is in — you’ll get a reply soon.",
+      "error": "Something went wrong. Please try again or write in Instagram DM.",
+      "errors": {
+        "name": "Please enter your name.",
+        "contact": "Please add your Instagram or phone so we can reply."
+      },
+      "note": "A deposit {deposit} confirms your slot. Aftercare & warranty details are sent after booking."
+    }
+  },
+  "events": {
+    "title": "Events, Shoots & Collabs",
+    "text": "Pop-ups, brand activations and editorial sets. Bring a little sparkle to your event.",
+    "cta": "DM for Collabs"
+  },
+  "feedback": { "title": "Feedback" },
+  "warranty": { "title": "Warranty" },
+  "footer": {
+    "city": "Vilnius, Lithuania",
+    "pause": "Pause Animations",
+    "play": "Play Animations",
+    "rights": "All works are by the artist."
+  },
+  "external": "opens in a new tab"
+}
