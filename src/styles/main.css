@@ -409,3 +409,11 @@ body::after{content:"";position:fixed;inset:-20%;z-index:45;pointer-events:none;
 @keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-3%,2%)}40%{transform:translate(2%,-3%)}60%{transform:translate(-2%,-1%)}80%{transform:translate(3%,3%)}100%{transform:translate(0,0)}}
 @media (prefers-reduced-motion:reduce){body::after{animation:none}}
 .beat[data-g="linen"] .beat__cap{background:var(--linen);padding:22px 26px}
+
+/* species: a card is never taller than the screen nor wider than its column; name and tag wrap instead of overflowing */
+.species .sp .slot{aspect-ratio:4/5;max-height:min(78svh,720px);width:100%}
+.species.species--four .sp .slot{aspect-ratio:3/4;max-height:none}
+@media (max-width:560px){.species:not(.species--four){grid-template-columns:minmax(0,1fr)}}
+.sp__name{flex-wrap:wrap;row-gap:4px}
+.sp__name h3,.sp__tag{min-width:0}
+.sp{overflow:hidden}
