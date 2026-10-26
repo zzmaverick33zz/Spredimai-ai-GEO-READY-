@@ -54,13 +54,13 @@
     $$('#heritage .fact b').forEach((b) => {
       const m = b.textContent.trim().match(/^(\D*)(\d+)(\D*)$/); if (!m) return;      // "3rd", "20+"; leaves "LT . ES" alone
       const label = b.textContent.trim();
-      b.setAttribute('aria-label', label);
+      const sr = document.createElement('span'); sr.className = 'sr-only'; sr.textContent = label;
       const num = document.createElement('span'); num.setAttribute('aria-hidden', 'true'); num.className = 'odo__num';
       const cols = m[2].split('').map((d) => column(Number(d), 1));
       if (m[1]) num.append(m[1]);
       cols.forEach((c) => { num.append(c.el); c.strip.style.setProperty('--d', still ? c.to : 0); });
       if (m[3]) num.append(m[3]);
-      b.textContent = ''; b.append(num);
+      b.textContent = ''; b.append(sr, num);
       if (!still) window.ScrollTrigger.create({ trigger: b, start: 'top 88%', once: true, onEnter: () => play(cols) });
     });
   }

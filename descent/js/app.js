@@ -149,7 +149,7 @@
 
   function reveals() {
     $$('.chapter__text, .arrival__head, .sec-head').forEach((el) => gsap.from(el.children, {
-      autoAlpha: 0, y: 24, duration: 0.8, ease: 'power3.out', stagger: 0.1, scrollTrigger: { trigger: el, start: 'top 82%', once: true }
+      opacity: 0, y: 24, duration: 0.8, ease: 'power3.out', stagger: 0.1, scrollTrigger: { trigger: el, start: 'top 82%', once: true }   // opacity only: autoAlpha sets visibility:hidden, which made the slider unreachable by keyboard
     }));
   }
 

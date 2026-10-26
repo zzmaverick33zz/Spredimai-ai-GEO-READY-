@@ -36,7 +36,8 @@
 .sp__name{flex-wrap:wrap;row-gap:4px}
 .sp__name h3,.sp__tag{min-width:0}
 .sp{overflow:hidden}
-</style><link rel="stylesheet" href="css/effects.css">
+</style><link rel="preload" as="image" type="image/webp" imagesrcset="media/s01-img-800.webp 800w, media/s01-img-1400.webp 1400w" imagesizes="100vw" fetchpriority="high">
+<link rel="stylesheet" href="css/effects.css">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -75,9 +76,7 @@
 <!-- ============ 00 HERO ============ -->
 <section class="hero" id="top" aria-labelledby="h-hero">
   <figure class="slot ph--water" data-slot="S01" data-static data-ripple data-ripple-frequency="14" data-ripple-amplitude="0.012" data-ripple-speed="0.6">
-    <picture>
-      <img src="media/s01-img.jpg" alt="At night a truck-mounted crane lifts a huge root mass of an ancient trunk over a loaded trailer" width="2000" height="1125" fetchpriority="high">
-    </picture>
+    <picture><source type="image/webp" srcset="media/s01-img-800.webp 800w, media/s01-img-1400.webp 1400w" sizes="100vw"><img src="media/s01-img.jpg" alt="At night a truck-mounted crane lifts a huge root mass of an ancient trunk over a loaded trailer" width="2000" height="1125" fetchpriority="high"></picture>
     <span class="hero__veil" aria-hidden="true"></span>
     <!-- REPLACE: <video autoplay muted loop playsinline preload="metadata" poster="media/s01-poster.avif"><source src="media/s01.webm" type="video/webm"><source src="media/s01.mp4" type="video/mp4"></video> -->
     <figcaption class="brief"><span class="brief__top"><span class="chip chip--client">Kliento video</span><span class="chip chip--kind">Video loop 8–12 s</span><b>S01 · Hero</b></span>Po vandeniu: naro žibintas slysta per juodą kamieną dumble. Lėtas, tamsus, be teksto kadre. Spalvos korekcija į šaltą žalsvą.</figcaption>
@@ -110,7 +109,7 @@
   <article class="chapter" id="ch1" data-g="silt" aria-labelledby="h-ch1">
     <div class="wrap chapter__grid">
       <div class="chapter__media">
-        <figure class="slot slot--main ph--silt" data-slot="S02" data-ripple data-ripple-frequency="10" data-ripple-amplitude="0.006" data-ripple-speed="0.5"><img src="media/s02-img.webp" alt="A huge uprooted bog oak with its root ball, resting on a trailer in the yard" width="960" height="1200">
+        <figure class="slot slot--main ph--silt" data-slot="S02" data-ripple data-ripple-frequency="10" data-ripple-amplitude="0.006" data-ripple-speed="0.5"><img src="media/s02-img.webp" alt="A huge uprooted bog oak with its root ball, resting on a trailer in the yard" width="960" height="1200" loading="lazy" decoding="async">
     
           <figcaption class="brief"><span class="brief__top"><span class="chip chip--generate">Generuoti</span><span class="chip chip--kind">Foto / lėtas video</span><b>S02 · Fallen</b></span>Nufilmuoti neįmanoma: senovinis ąžuolas virsta į ežerą, kamienas grimzta į dumblą. Kino stilius, ne fantastika. Pažymėti kaip iliustraciją.</figcaption>
         </figure>
@@ -127,11 +126,11 @@
   <article class="chapter chapter--flip" id="ch2" data-g="deep" aria-labelledby="h-ch2">
     <div class="wrap chapter__grid">
       <div class="chapter__media">
-        <figure class="slot slot--main ph--water" data-slot="S03" data-torch data-torch-radius="240"><img src="media/s03-img.webp" alt="A diver stands in a misty river beside a huge black bog trunk lying on the bank" width="960" height="1200">
+        <figure class="slot slot--main ph--water" data-slot="S03" data-torch data-torch-radius="240"><img src="media/s03-img.webp" alt="A diver stands in a misty river beside a huge black bog trunk lying on the bank" width="960" height="1200" loading="lazy" decoding="async">
     
           <figcaption class="brief"><span class="brief__top"><span class="chip chip--client">Kliento video</span><span class="chip chip--kind">Video loop</span><b>S03 · The dive</b></span>Narai nardo, ieško, tikrina kamieną. Atrinkti ryškiausią WhatsApp fragmentą; jei kokybė per silpna, pažymėti FILMUOTI.</figcaption>
         </figure>
-        <figure class="slot slot--detail ph--silt" data-slot="S04" data-torch data-torch-radius="150"><video muted loop playsinline autoplay preload="auto" poster="media/s04-poster.jpg" aria-hidden="true"><source src="media/s04-video.mp4" type="video/mp4"></video>
+        <figure class="slot slot--detail ph--silt" data-slot="S04" data-torch data-torch-radius="150"><video muted loop playsinline autoplay preload="none" poster="media/s04-poster.jpg" aria-hidden="true"><source src="media/s04-video.mp4" type="video/mp4"></video>
     
           <figcaption class="brief"><span class="brief__top"><span class="chip chip--client">Kliento foto</span><b>S04</b></span>Detalė: naro ranka ant kamieno.</figcaption>
         </figure>
@@ -148,7 +147,7 @@
 
 <!-- the lift: one full-bleed moment where the story turns from darkness to daylight -->
 <section class="interlude" id="ch3" aria-labelledby="h-ch3">
-  <figure class="slot ph--water" data-slot="S05"><video muted loop playsinline autoplay preload="auto" poster="media/s05-poster.jpg" aria-hidden="true"><source src="media/s05-video.mp4" type="video/mp4" media="(max-width: 899px)"><source src="media/s05-video-2.mp4" type="video/mp4"></video>
+  <figure class="slot ph--water" data-slot="S05"><video muted loop playsinline autoplay preload="none" poster="media/s05-poster.jpg" aria-hidden="true"><source src="media/s05-video.mp4" type="video/mp4" media="(max-width: 899px)"><source src="media/s05-video-2.mp4" type="video/mp4"></video>
     
     <figcaption class="brief"><span class="brief__top"><span class="chip chip--client">Kliento video</span><span class="chip chip--kind">Video 6–10 s</span><b>S05 · The lift (svarbiausias kadras)</b></span>Kamienas prasiveržia pro vandens paviršių, varva vanduo, krano / gervės lynas. Jei tokio kadro nėra — FILMUOTI kitame iškėlime.</figcaption>
   </figure>
@@ -163,7 +162,7 @@
   <article class="chapter" id="ch4" data-g="peat" aria-labelledby="h-ch4">
     <div class="wrap chapter__grid">
       <div class="chapter__media">
-        <figure class="slot slot--wide ph--grain" data-slot="S06"><img src="media/s06-img.webp" alt="Cross-section disc of a bog trunk by the lake, measured with a tape" width="1600" height="1000">
+        <figure class="slot slot--wide ph--grain" data-slot="S06"><img src="media/s06-img.webp" alt="Cross-section disc of a bog trunk by the lake, measured with a tape" width="1600" height="1000" loading="lazy" decoding="async">
     
           <figcaption class="brief"><span class="brief__top"><span class="chip chip--film">Filmuoti / fotografuoti</span><b>S06 · Dated</b></span>Ištrauktas kamieno pjūvio diskas, mėginys, sertifikatas ant stalo. Jei sertifikato skeno yra — RETUŠUOTI.</figcaption>
         </figure>
@@ -186,11 +185,11 @@
   <article class="chapter chapter--flip" id="ch5" data-g="char" aria-labelledby="h-ch5">
     <div class="wrap chapter__grid">
       <div class="chapter__media">
-        <figure class="slot slot--main ph--grain" data-slot="S07"><img src="media/s07-img.webp" alt="A freshly sawn bog oak slab on the saw bed: black bark and a golden-brown heart" width="1200" height="1500">
+        <figure class="slot slot--main ph--grain" data-slot="S07"><img src="media/s07-img.webp" alt="A freshly sawn bog oak slab on the saw bed: black bark and a golden-brown heart" width="1200" height="1500" loading="lazy" decoding="async">
     
           <figcaption class="brief"><span class="brief__top"><span class="chip chip--client">Kliento video</span><span class="chip chip--kind">Video loop</span><b>S07 · First cut</b></span>Juostinis pjūklas atveria rąstą, matosi vidaus spalva. Jei nėra — FILMUOTI.</figcaption>
         </figure>
-        <figure class="slot slot--detail ph--grain" data-slot="S08"><img src="media/s08-img.webp" alt="Freshly cut cross-section of a bog log with pale heartwood rings" width="1500" height="1500">
+        <figure class="slot slot--detail ph--grain" data-slot="S08"><img src="media/s08-img.webp" alt="Freshly cut cross-section of a bog log with pale heartwood rings" width="1500" height="1500" loading="lazy" decoding="async">
     
           <figcaption class="brief"><span class="brief__top"><span class="chip chip--retouch">Retušuoti</span><b>S08</b></span>Skerspjūvis: rievės, tamsus centras.</figcaption>
         </figure>
@@ -202,8 +201,8 @@
         <p>Only when the trunk is opened do we see its colour. No two logs are alike: some are honey-brown, some nearly black. <strong>The water decided, not us.</strong></p>
         <!-- TODO: swap both images for a real before/after pair once the client sends it (raw cut surface vs. the same board finished and oiled). Until then: S08 (just opened) and S11 (finished). -->
         <div class="compare" data-compare data-start="50" data-hover="true" data-label-before="just opened" data-label-after="finished">
-          <img class="compare__after" src="media/s11-img.webp" alt="The finished, oiled bog-oak inlay" width="1500" height="1500" draggable="false">
-          <img class="compare__before" src="media/s08-img.webp" alt="The freshly cut cross-section, just opened" width="1500" height="1500" draggable="false">
+          <img class="compare__after" src="media/s11-img.webp" alt="The finished, oiled bog-oak inlay" width="1500" height="1500" draggable="false" loading="lazy" decoding="async">
+          <img class="compare__before" src="media/s08-img.webp" alt="The freshly cut cross-section, just opened" width="1500" height="1500" draggable="false" loading="lazy" decoding="async">
           <span class="compare__tag compare__tag--l" aria-hidden="true">Just opened</span>
           <span class="compare__tag compare__tag--r" aria-hidden="true">Finished</span>
           <span class="compare__line" aria-hidden="true"></span>
@@ -218,7 +217,7 @@
   <article class="chapter" id="ch6" data-g="char" aria-labelledby="h-ch6">
     <div class="wrap chapter__grid">
       <div class="chapter__media">
-        <figure class="slot slot--wide ph--shop" data-slot="S09"><img src="media/s09-img.webp" alt="Boards stacked on racks with gaps between the layers" width="1200" height="750">
+        <figure class="slot slot--wide ph--shop" data-slot="S09"><img src="media/s09-img.webp" alt="Boards stacked on racks with gaps between the layers" width="1200" height="750" loading="lazy" decoding="async">
     
           <figcaption class="brief"><span class="brief__top"><span class="chip chip--film">Filmuoti</span><b>S09 · Drying</b></span>Lentų kaminai su tarpikliais džiovykloje, drėgmės matuoklis rankoje. Ramus, šiltas kadras.</figcaption>
         </figure>
@@ -235,11 +234,11 @@
   <article class="chapter chapter--flip" id="ch7" data-g="oak" aria-labelledby="h-ch7">
     <div class="wrap chapter__grid">
       <div class="chapter__media">
-        <figure class="slot slot--main ph--shop" data-slot="S10"><img src="media/s10-img.webp" alt="A craftsman in the workshop assembling a star-shaped parquet medallion" width="1200" height="1500">
+        <figure class="slot slot--main ph--shop" data-slot="S10"><img src="media/s10-img.webp" alt="A craftsman in the workshop assembling a star-shaped parquet medallion" width="1200" height="1500" loading="lazy" decoding="async">
     
           <figcaption class="brief"><span class="brief__top"><span class="chip chip--client">Kliento video</span><span class="chip chip--kind">Video loop</span><b>S10 · The hands</b></span>Meistras obliuoja, šlifuoja, alyvuoja, perbraukia ranka per lentą. Rankos ir įrankiai, ne veidai.</figcaption>
         </figure>
-        <figure class="slot slot--detail ph--grain" data-slot="S11"><img src="media/s11-img.webp" alt="A dark bog-oak footprint inlaid into pale oak, the Big Foot mark" width="1500" height="1500">
+        <figure class="slot slot--detail ph--grain" data-slot="S11"><img src="media/s11-img.webp" alt="A dark bog-oak footprint inlaid into pale oak, the Big Foot mark" width="1500" height="1500" loading="lazy" decoding="async">
     
           <figcaption class="brief"><span class="brief__top"><span class="chip chip--retouch">Retušuoti</span><b>S11</b></span>Makro: alyvuota tekstūra (naudosim ir kaip fono tekstūrą).</figcaption>
         </figure>
@@ -256,7 +255,7 @@
   <article class="chapter" id="ch8" data-g="oak" aria-labelledby="h-ch8">
     <div class="wrap chapter__grid">
       <div class="chapter__media">
-        <figure class="slot slot--wide ph--shop" data-slot="S12"><img src="media/s12-img.webp" alt="A finished vaulted corridor with a laid parquet floor" width="1600" height="1000">
+        <figure class="slot slot--wide ph--shop" data-slot="S12"><img src="media/s12-img.webp" alt="A finished vaulted corridor with a laid parquet floor" width="1600" height="1000" loading="lazy" decoding="async">
     
           <figcaption class="brief"><span class="brief__top"><span class="chip chip--client">Kliento foto</span><b>S12 · Fitted</b></span>Montuotojai kloja lentas objekte (dabartinio web IMG_8280 tipo kadras).</figcaption>
         </figure>
@@ -278,7 +277,7 @@
       <span class="eyebrow">The end of the journey</span>
       <h2 id="h-arrival">And then, one morning, it is simply your floor.</h2>
     </div>
-    <figure class="slot ph--room" data-slot="S13"><img src="media/s13-img.webp" alt="A living room with floor-to-ceiling windows, mountains outside, and a warm oak floor" width="1920" height="823">
+    <figure class="slot ph--room" data-slot="S13"><img src="media/s13-img.webp" alt="A living room with floor-to-ceiling windows, mountains outside, and a warm oak floor" width="1920" height="823" loading="lazy" decoding="async">
     
       <figcaption class="brief"><span class="brief__top"><span class="chip chip--retouch">Retušuoti / filmuoti</span><span class="chip chip--kind">Foto arba lėtas video</span><b>S13 · Your home</b></span>Gyvas interjeras su žmogumi: basos kojos ant juodo ąžuolo, rytinė šviesa, puodelis. Iš geriausio kliento projekto; jei tokio nėra — filmuoti.</figcaption>
     </figure>
@@ -301,13 +300,13 @@
     </div>
     <div class="species">
       <div class="sp">
-        <figure class="slot ph--grain" data-slot="S14" data-torch data-torch-dim="light" data-torch-radius="170"><img src="media/s14-img.webp" alt="Bog oak chevron boards" width="1006" height="1341">
+        <figure class="slot ph--grain" data-slot="S14" data-torch data-torch-dim="light" data-torch-radius="170"><img src="media/s14-img.webp" alt="Bog oak chevron boards" width="1006" height="1341" loading="lazy" decoding="async">
     <figcaption class="brief"><span class="brief__top"><span class="chip chip--film">Fotografuoti</span><b>S14</b></span>Studijinis lentos pavyzdys, vienodas apšvietimas visiems.</figcaption></figure>
         <div class="sp__name"><h3>Bog Oak</h3><span class="sp__tag">From the water</span></div>
         <p>The signature. Famous for its wide natural colour palette and intricate grain.</p>
       </div>
       <div class="sp">
-        <figure class="slot ph--grain" data-slot="S15" data-torch data-torch-dim="light" data-torch-radius="170"><img src="media/s15-img.webp" alt="Bog ash in a hexagon pattern" width="1200" height="1600">
+        <figure class="slot ph--grain" data-slot="S15" data-torch data-torch-dim="light" data-torch-radius="170"><img src="media/s15-img.webp" alt="Bog ash in a hexagon pattern" width="1200" height="1600" loading="lazy" decoding="async">
     <figcaption class="brief"><span class="brief__top"><span class="chip chip--film">Fotografuoti</span><b>S15</b></span>Bog Ash pavyzdys.</figcaption></figure>
         <div class="sp__name"><h3>Bog Ash</h3><span class="sp__tag">From the water</span></div>
         <p>Rich, deep colours and intricate, unique grain patterns.</p>
@@ -315,13 +314,13 @@
     </div>
     <p class="subhead">From the forest</p>
     <div class="species species--four">
-      <div class="sp"><figure class="slot ph--light" data-slot="S16" data-torch data-torch-dim="light" data-torch-radius="170"><img src="media/s16-img.webp" alt="Oak floor laid in a sunburst pattern" width="1200" height="1600">
+      <div class="sp"><figure class="slot ph--light" data-slot="S16" data-torch data-torch-dim="light" data-torch-radius="170"><img src="media/s16-img.webp" alt="Oak floor laid in a sunburst pattern" width="1200" height="1600" loading="lazy" decoding="async">
     <figcaption class="brief"><span class="brief__top"><span class="chip chip--film">Fotografuoti</span><b>S16</b></span>Oak</figcaption></figure><div class="sp__name"><h3>Oak</h3></div></div>
-      <div class="sp"><figure class="slot ph--light" data-slot="S17" data-torch data-torch-dim="light" data-torch-radius="170"><img src="media/s17-img.webp" alt="Elm slab with golden grain" width="770" height="1027">
+      <div class="sp"><figure class="slot ph--light" data-slot="S17" data-torch data-torch-dim="light" data-torch-radius="170"><img src="media/s17-img.webp" alt="Elm slab with golden grain" width="770" height="1027" loading="lazy" decoding="async">
     <figcaption class="brief"><span class="brief__top"><span class="chip chip--film">Fotografuoti</span><b>S17</b></span>Elm</figcaption></figure><div class="sp__name"><h3>Elm</h3></div></div>
-      <div class="sp"><figure class="slot ph--light" data-slot="S18" data-torch data-torch-dim="light" data-torch-radius="170"><img src="media/s18-img.webp" alt="Ash planks with pale, flowing grain" width="1200" height="1600">
+      <div class="sp"><figure class="slot ph--light" data-slot="S18" data-torch data-torch-dim="light" data-torch-radius="170"><img src="media/s18-img.webp" alt="Ash planks with pale, flowing grain" width="1200" height="1600" loading="lazy" decoding="async">
     <figcaption class="brief"><span class="brief__top"><span class="chip chip--film">Fotografuoti</span><b>S18</b></span>Ash</figcaption></figure><div class="sp__name"><h3>Ash</h3></div></div>
-      <div class="sp"><figure class="slot ph--grain" data-slot="S19" data-torch data-torch-dim="light" data-torch-radius="170"><img src="media/s19-img.webp" alt="Black walnut parquet in a broken geometric pattern" width="324" height="432">
+      <div class="sp"><figure class="slot ph--grain" data-slot="S19" data-torch data-torch-dim="light" data-torch-radius="170"><img src="media/s19-img.webp" alt="Black walnut parquet in a broken geometric pattern" width="324" height="432" loading="lazy" decoding="async">
     <figcaption class="brief"><span class="brief__top"><span class="chip chip--film">Fotografuoti</span><b>S19</b></span>Black Walnut</figcaption></figure><div class="sp__name"><h3>Black Walnut</h3></div></div>
     </div>
   </div>
@@ -337,21 +336,21 @@
     </div>
     <div class="prod-grid">
       <a class="prod prod--feature" href="#consult">
-        <figure class="slot ph--room" data-slot="S20"><img src="media/s20-img.webp" alt="A marquetry floor with a star medallion in a long corridor" width="1500" height="1875">
+        <figure class="slot ph--room" data-slot="S20"><img src="media/s20-img.webp" alt="A marquetry floor with a star medallion in a long corridor" width="1500" height="1875" loading="lazy" decoding="async">
     <figcaption class="brief"><span class="brief__top"><span class="chip chip--client">Kliento foto</span><span class="chip chip--retouch">Retušuoti</span><b>S20 · Floors</b></span>Geriausias grindų projektas, plati erdvė, raštas (eglutė / Versailles).</figcaption></figure>
         <span class="prod__label"><span><h3>Floors</h3><small>Planks · Patterns · Colours</small></span><span class="prod__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m0 0-6-6m6 6-6 6"/></svg></span></span>
       </a>
-      <a class="prod" href="#consult"><figure class="slot ph--shop" data-slot="S21"><img src="media/s21-img.webp" alt="A spiral staircase in pale wood seen from above" width="1500" height="1875">
+      <a class="prod" href="#consult"><figure class="slot ph--shop" data-slot="S21"><img src="media/s21-img.webp" alt="A spiral staircase in pale wood seen from above" width="1500" height="1875" loading="lazy" decoding="async">
     <figcaption class="brief"><span class="brief__top"><span class="chip chip--client">Kliento foto</span><b>S21</b></span>Laiptai</figcaption></figure><span class="prod__label"><span><h3>Stairs</h3></span><span class="prod__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m0 0-6-6m6 6-6 6"/></svg></span></span></a>
-      <a class="prod" href="#consult"><figure class="slot ph--grain" data-slot="S22"><img src="media/s22-img.webp" alt="A bedroom with wood-panelled walls" width="1500" height="1875">
+      <a class="prod" href="#consult"><figure class="slot ph--grain" data-slot="S22"><img src="media/s22-img.webp" alt="A bedroom with wood-panelled walls" width="1500" height="1875" loading="lazy" decoding="async">
     <figcaption class="brief"><span class="brief__top"><span class="chip chip--client">Kliento foto</span><b>S22</b></span>Sienų apdaila</figcaption></figure><span class="prod__label"><span><h3>Walls</h3></span><span class="prod__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m0 0-6-6m6 6-6 6"/></svg></span></span></a>
-      <a class="prod" href="#consult"><figure class="slot ph--shop" data-slot="S23"><img src="media/s23-img.webp" alt="A living room with a wood ceiling" width="1500" height="1875">
+      <a class="prod" href="#consult"><figure class="slot ph--shop" data-slot="S23"><img src="media/s23-img.webp" alt="A living room with a wood ceiling" width="1500" height="1875" loading="lazy" decoding="async">
     <figcaption class="brief"><span class="brief__top"><span class="chip chip--client">Kliento foto</span><b>S23</b></span>Lubos</figcaption></figure><span class="prod__label"><span><h3>Ceilings</h3></span><span class="prod__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m0 0-6-6m6 6-6 6"/></svg></span></span></a>
-      <a class="prod" href="#consult"><figure class="slot ph--grain" data-slot="S24"><img src="media/s24-img.webp" alt="A dark wooden table with a live edge in a dark room" width="1007" height="1259">
+      <a class="prod" href="#consult"><figure class="slot ph--grain" data-slot="S24"><img src="media/s24-img.webp" alt="A dark wooden table with a live edge in a dark room" width="1007" height="1259" loading="lazy" decoding="async">
     <figcaption class="brief"><span class="brief__top"><span class="chip chip--client">Kliento foto</span><span class="chip chip--generate">arba generuoti</span><b>S24</b></span>Stalas iš vientiso bog oak.</figcaption></figure><span class="prod__label"><span><h3>Tables</h3></span><span class="prod__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m0 0-6-6m6 6-6 6"/></svg></span></span></a>
-      <a class="prod prod--wide" href="#consult"><figure class="slot ph--shop" data-slot="S25"><img src="media/s25-img.webp" alt="A wine cellar with wooden racks and arched alcoves" width="1920" height="1080">
+      <a class="prod prod--wide" href="#consult"><figure class="slot ph--shop" data-slot="S25"><img src="media/s25-img.webp" alt="A wine cellar with wooden racks and arched alcoves" width="1920" height="1080" loading="lazy" decoding="async">
     <figcaption class="brief"><span class="brief__top"><span class="chip chip--client">Kliento foto</span><b>S25</b></span>Vyno rūsys</figcaption></figure><span class="prod__label"><span><h3>Wine cellars</h3></span><span class="prod__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m0 0-6-6m6 6-6 6"/></svg></span></span></a>
-      <a class="prod prod--wide" href="#consult"><figure class="slot ph--water" data-slot="S26"><img src="media/s26-img.webp" alt="A yacht saloon with a round dining table on a pale wooden floor" width="1280" height="720">
+      <a class="prod prod--wide" href="#consult"><figure class="slot ph--water" data-slot="S26"><img src="media/s26-img.webp" alt="A yacht saloon with a round dining table on a pale wooden floor" width="1280" height="720" loading="lazy" decoding="async">
     <figcaption class="brief"><span class="brief__top"><span class="chip chip--client">Kliento foto</span><b>S26</b></span>Jachtos grindys / denis</figcaption></figure><span class="prod__label"><span><h3>Yachts</h3></span><span class="prod__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m0 0-6-6m6 6-6 6"/></svg></span></span></a>
     </div>
   </div>
@@ -366,13 +365,13 @@
       <p>A selection of interiors where our wood now lives, from private residences to commercial spaces. Residences in Norway, Switzerland, France, Germany, Cyprus and the USA, and yachts. We respect our clients’ privacy, so we do not always share the name or photos of a project.</p>
     </div>
     <div class="reel" id="reel" tabindex="0" aria-label="Projects, scroll sideways">
-      <article class="proj"><figure class="slot ph--room" data-slot="S27"><img src="media/s27-img.webp" alt="A staircase and timber walls in a private residence" width="1123" height="1404">
+      <article class="proj"><figure class="slot ph--room" data-slot="S27"><img src="media/s27-img.webp" alt="A staircase and timber walls in a private residence" width="1123" height="1404" loading="lazy" decoding="async">
     <figcaption class="brief"><span class="brief__top"><span class="chip chip--client">Kliento foto</span><b>S27</b></span>Projektas 1 — reikia pavadinimo, vietos, metų.</figcaption></figure><div class="proj__meta"><span>Private commission</span><span>Details on request</span></div><h3>Private residence</h3></article>
-      <article class="proj"><figure class="slot ph--shop" data-slot="S28"><img src="media/s28-img.webp" alt="A living room with oak walls and warm lighting" width="1025" height="1281">
+      <article class="proj"><figure class="slot ph--shop" data-slot="S28"><img src="media/s28-img.webp" alt="A living room with oak walls and warm lighting" width="1025" height="1281" loading="lazy" decoding="async">
     <figcaption class="brief"><span class="brief__top"><span class="chip chip--client">Kliento foto</span><b>S28</b></span>Projektas 2</figcaption></figure><div class="proj__meta"><span>Private commission</span><span>Details on request</span></div><h3>Private residence</h3></article>
-      <article class="proj"><figure class="slot ph--water" data-slot="S29"><img src="media/s29-img.webp" alt="A lobby with a staircase and a pale wooden floor" width="682" height="853">
+      <article class="proj"><figure class="slot ph--water" data-slot="S29"><img src="media/s29-img.webp" alt="A lobby with a staircase and a pale wooden floor" width="682" height="853" loading="lazy" decoding="async">
     <figcaption class="brief"><span class="brief__top"><span class="chip chip--client">Kliento foto</span><b>S29</b></span>Projektas 3 (jachta)</figcaption></figure><div class="proj__meta"><span>Private commission</span><span>Details on request</span></div><h3>Private residence</h3></article>
-      <article class="proj"><figure class="slot ph--grain" data-slot="S30"><img src="media/s30-img.webp" alt="A double-height living room with gold columns and a glass staircase" width="1029" height="1286">
+      <article class="proj"><figure class="slot ph--grain" data-slot="S30"><img src="media/s30-img.webp" alt="A double-height living room with gold columns and a glass staircase" width="1029" height="1286" loading="lazy" decoding="async">
     <figcaption class="brief"><span class="brief__top"><span class="chip chip--client">Kliento foto</span><b>S30</b></span>Projektas 4</figcaption></figure><div class="proj__meta"><span>Private commission</span><span>Details on request</span></div><h3>Private residence</h3></article>
     </div>
     <div class="reel-nav">
@@ -385,7 +384,7 @@
 <!-- ============ 07 HERITAGE ============ -->
 <section class="section heritage" id="heritage" aria-labelledby="h-her">
   <div class="wrap heritage__grid">
-    <figure class="slot ph--shop" data-slot="S31"><img src="media/s31-img.webp" alt="A woodworker standing beside a finished dark oak cabinet in the workshop" width="883" height="1104">
+    <figure class="slot ph--shop" data-slot="S31"><img src="media/s31-img.webp" alt="A woodworker standing beside a finished dark oak cabinet in the workshop" width="883" height="1104" loading="lazy" decoding="async">
     <figcaption class="brief"><span class="brief__top"><span class="chip chip--client">Kliento foto</span><span class="chip chip--retouch">Retušuoti</span><b>S31 · Heritage</b></span>Šeima / meistrai dirbtuvėse (dabartinio web IMG_5022). Jei yra senų archyvinių nuotraukų — puiku.</figcaption></figure>
     <div style="display:grid;gap:28px;min-width:0">
       <span class="eyebrow">Big Foot Floors</span>
