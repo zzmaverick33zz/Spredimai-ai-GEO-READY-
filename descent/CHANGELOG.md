@@ -38,3 +38,6 @@ A close MIT port needs the sources: set `API_KEY_21ST`, run the install commands
 - Lighthouse mobile: Performance 90-95, Accessibility 100, Best practices 100, CLS 0.001, LCP 2.6-3.5 s (simulated throttling; the hero image is preloaded).
 - Reduced motion verified by emulation: no ripple, torch, pin, Lenis, counting; chapter grounds and all content visible.
 - Keyboard: Tab reaches the compare slider (arrows, Home, End work), every stop shows a focus outline.
+
+## Ultra media (client Drive)
+S01, S03, S04, S05, S10, S11, S12, S13 are now video from the 1080p originals; S02, S20, S21 stills from them (process_ultra.py, MEDIA_MAP.md section 8). The hero ripple reads the video as its texture. The single-file build uses the -lite mp4.

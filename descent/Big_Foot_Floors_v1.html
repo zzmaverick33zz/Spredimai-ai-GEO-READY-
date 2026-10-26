@@ -36,7 +36,7 @@
 .sp__name{flex-wrap:wrap;row-gap:4px}
 .sp__name h3,.sp__tag{min-width:0}
 .sp{overflow:hidden}
-</style><link rel="preload" as="image" type="image/webp" imagesrcset="media/s01-img-800.webp 800w, media/s01-img-1400.webp 1400w" imagesizes="100vw" fetchpriority="high">
+</style><link rel="preload" as="image" type="image/webp" href="media/s01-hero-poster.webp" fetchpriority="high">
 <link rel="stylesheet" href="css/effects.css">
 </head>
 <body>
@@ -75,8 +75,7 @@
 
 <!-- ============ 00 HERO ============ -->
 <section class="hero" id="top" aria-labelledby="h-hero">
-  <figure class="slot ph--water" data-slot="S01" data-static data-ripple data-ripple-frequency="14" data-ripple-amplitude="0.012" data-ripple-speed="0.6">
-    <picture><source type="image/webp" srcset="media/s01-img-800.webp 800w, media/s01-img-1400.webp 1400w" sizes="100vw"><img src="media/s01-img.jpg" alt="At night a truck-mounted crane lifts a huge root mass of an ancient trunk over a loaded trailer" width="2000" height="1125" fetchpriority="high"></picture>
+  <figure class="slot ph--water" data-slot="S01" data-static data-ripple data-ripple-frequency="14" data-ripple-amplitude="0.012" data-ripple-speed="0.6"><video muted loop playsinline autoplay preload="auto" poster="media/s01-hero-poster.webp" role="img" aria-label="Underwater: a huge ancient trunk resting on a lake bed"><source src="media/s01-hero.webm" type="video/webm"><source src="media/s01-hero.mp4" type="video/mp4"></video>
     <span class="hero__veil" aria-hidden="true"></span>
     <!-- REPLACE: <video autoplay muted loop playsinline preload="metadata" poster="media/s01-poster.avif"><source src="media/s01.webm" type="video/webm"><source src="media/s01.mp4" type="video/mp4"></video> -->
     <figcaption class="brief"><span class="brief__top"><span class="chip chip--client">Kliento video</span><span class="chip chip--kind">Video loop 8–12 s</span><b>S01 · Hero</b></span>Po vandeniu: naro žibintas slysta per juodą kamieną dumble. Lėtas, tamsus, be teksto kadre. Spalvos korekcija į šaltą žalsvą.</figcaption>
@@ -109,7 +108,7 @@
   <article class="chapter" id="ch1" data-g="silt" aria-labelledby="h-ch1">
     <div class="wrap chapter__grid">
       <div class="chapter__media">
-        <figure class="slot slot--main ph--silt" data-slot="S02" data-ripple data-ripple-frequency="10" data-ripple-amplitude="0.006" data-ripple-speed="0.5"><img src="media/s02-img.webp" alt="A huge uprooted bog oak with its root ball, resting on a trailer in the yard" width="960" height="1200" loading="lazy" decoding="async">
+        <figure class="slot slot--main ph--silt" data-slot="S02" data-ripple data-ripple-frequency="10" data-ripple-amplitude="0.006" data-ripple-speed="0.5"><img src="media/s02-fallen.webp" alt="A moss-covered fallen tree lying in a winter forest by the lake" width="1007" height="1258" loading="lazy" decoding="async">
     
           <figcaption class="brief"><span class="brief__top"><span class="chip chip--generate">Generuoti</span><span class="chip chip--kind">Foto / lėtas video</span><b>S02 · Fallen</b></span>Nufilmuoti neįmanoma: senovinis ąžuolas virsta į ežerą, kamienas grimzta į dumblą. Kino stilius, ne fantastika. Pažymėti kaip iliustraciją.</figcaption>
         </figure>
@@ -126,11 +125,11 @@
   <article class="chapter chapter--flip" id="ch2" data-g="deep" aria-labelledby="h-ch2">
     <div class="wrap chapter__grid">
       <div class="chapter__media">
-        <figure class="slot slot--main ph--water" data-slot="S03" data-torch data-torch-radius="240"><img src="media/s03-img.webp" alt="A diver stands in a misty river beside a huge black bog trunk lying on the bank" width="960" height="1200" loading="lazy" decoding="async">
+        <figure class="slot slot--main ph--water" data-slot="S03" data-torch data-torch-radius="240"><video muted loop playsinline autoplay preload="none" poster="media/s03-dive-poster.webp" role="img" aria-label="A diver with a torch inspects a trunk on the lake bed"><source src="media/s03-dive.webm" type="video/webm"><source src="media/s03-dive.mp4" type="video/mp4"></video>
     
           <figcaption class="brief"><span class="brief__top"><span class="chip chip--client">Kliento video</span><span class="chip chip--kind">Video loop</span><b>S03 · The dive</b></span>Narai nardo, ieško, tikrina kamieną. Atrinkti ryškiausią WhatsApp fragmentą; jei kokybė per silpna, pažymėti FILMUOTI.</figcaption>
         </figure>
-        <figure class="slot slot--detail ph--silt" data-slot="S04" data-torch data-torch-radius="150"><video muted loop playsinline autoplay preload="none" poster="media/s04-poster.jpg" aria-hidden="true"><source src="media/s04-video.mp4" type="video/mp4"></video>
+        <figure class="slot slot--detail ph--silt" data-slot="S04" data-torch data-torch-radius="150"><video muted loop playsinline autoplay preload="none" poster="media/s04-detail-poster.webp" role="img" aria-label="Close-up of a bog trunk lifted from the water, covered with mussels"><source src="media/s04-detail.webm" type="video/webm"><source src="media/s04-detail.mp4" type="video/mp4"></video>
     
           <figcaption class="brief"><span class="brief__top"><span class="chip chip--client">Kliento foto</span><b>S04</b></span>Detalė: naro ranka ant kamieno.</figcaption>
         </figure>
@@ -147,7 +146,7 @@
 
 <!-- the lift: one full-bleed moment where the story turns from darkness to daylight -->
 <section class="interlude" id="ch3" aria-labelledby="h-ch3">
-  <figure class="slot ph--water" data-slot="S05"><video muted loop playsinline autoplay preload="none" poster="media/s05-poster.jpg" aria-hidden="true"><source src="media/s05-video.mp4" type="video/mp4" media="(max-width: 899px)"><source src="media/s05-video-2.mp4" type="video/mp4"></video>
+  <figure class="slot ph--water" data-slot="S05"><video muted loop playsinline autoplay preload="none" poster="media/s05-lift-poster.webp" role="img" aria-label="A bog trunk is pulled out of the lake onto the shore"><source src="media/s05-lift-9x16.webm" type="video/webm" media="(max-width: 899px)"><source src="media/s05-lift-9x16.mp4" type="video/mp4" media="(max-width: 899px)"><source src="media/s05-lift.webm" type="video/webm"><source src="media/s05-lift.mp4" type="video/mp4"></video>
     
     <figcaption class="brief"><span class="brief__top"><span class="chip chip--client">Kliento video</span><span class="chip chip--kind">Video 6–10 s</span><b>S05 · The lift (svarbiausias kadras)</b></span>Kamienas prasiveržia pro vandens paviršių, varva vanduo, krano / gervės lynas. Jei tokio kadro nėra — FILMUOTI kitame iškėlime.</figcaption>
   </figure>
@@ -234,11 +233,11 @@
   <article class="chapter chapter--flip" id="ch7" data-g="oak" aria-labelledby="h-ch7">
     <div class="wrap chapter__grid">
       <div class="chapter__media">
-        <figure class="slot slot--main ph--shop" data-slot="S10"><img src="media/s10-img.webp" alt="A craftsman in the workshop assembling a star-shaped parquet medallion" width="1200" height="1500" loading="lazy" decoding="async">
+        <figure class="slot slot--main ph--shop" data-slot="S10"><video muted loop playsinline autoplay preload="none" poster="media/s10-hands-poster.webp" role="img" aria-label="Hands cutting a layered board in the workshop"><source src="media/s10-hands.webm" type="video/webm"><source src="media/s10-hands.mp4" type="video/mp4"></video>
     
           <figcaption class="brief"><span class="brief__top"><span class="chip chip--client">Kliento video</span><span class="chip chip--kind">Video loop</span><b>S10 · The hands</b></span>Meistras obliuoja, šlifuoja, alyvuoja, perbraukia ranka per lentą. Rankos ir įrankiai, ne veidai.</figcaption>
         </figure>
-        <figure class="slot slot--detail ph--grain" data-slot="S11"><img src="media/s11-img.webp" alt="A dark bog-oak footprint inlaid into pale oak, the Big Foot mark" width="1500" height="1500" loading="lazy" decoding="async">
+        <figure class="slot slot--detail ph--grain" data-slot="S11"><video muted loop playsinline autoplay preload="none" poster="media/s11-grain-poster.webp" role="img" aria-label="Close-up of weathered, dark bog wood grain"><source src="media/s11-grain.webm" type="video/webm"><source src="media/s11-grain.mp4" type="video/mp4"></video>
     
           <figcaption class="brief"><span class="brief__top"><span class="chip chip--retouch">Retušuoti</span><b>S11</b></span>Makro: alyvuota tekstūra (naudosim ir kaip fono tekstūrą).</figcaption>
         </figure>
@@ -255,7 +254,7 @@
   <article class="chapter" id="ch8" data-g="oak" aria-labelledby="h-ch8">
     <div class="wrap chapter__grid">
       <div class="chapter__media">
-        <figure class="slot slot--wide ph--shop" data-slot="S12"><img src="media/s12-img.webp" alt="A finished vaulted corridor with a laid parquet floor" width="1600" height="1000" loading="lazy" decoding="async">
+        <figure class="slot slot--wide ph--shop" data-slot="S12"><video muted loop playsinline autoplay preload="none" poster="media/s12-fitted-poster.webp" role="img" aria-label="Hands laying a wide oak board into adhesive on a concrete floor"><source src="media/s12-fitted.webm" type="video/webm"><source src="media/s12-fitted.mp4" type="video/mp4"></video>
     
           <figcaption class="brief"><span class="brief__top"><span class="chip chip--client">Kliento foto</span><b>S12 · Fitted</b></span>Montuotojai kloja lentas objekte (dabartinio web IMG_8280 tipo kadras).</figcaption>
         </figure>
@@ -277,7 +276,7 @@
       <span class="eyebrow">The end of the journey</span>
       <h2 id="h-arrival">And then, one morning, it is simply your floor.</h2>
     </div>
-    <figure class="slot ph--room" data-slot="S13"><img src="media/s13-img.webp" alt="A living room with floor-to-ceiling windows, mountains outside, and a warm oak floor" width="1920" height="823" loading="lazy" decoding="async">
+    <figure class="slot ph--room" data-slot="S13"><video muted loop playsinline autoplay preload="none" poster="media/s13-home-poster.webp" role="img" aria-label="A bright living room with a wide oak plank floor and floor-to-ceiling windows"><source src="media/s13-home.webm" type="video/webm"><source src="media/s13-home.mp4" type="video/mp4"></video>
     
       <figcaption class="brief"><span class="brief__top"><span class="chip chip--retouch">Retušuoti / filmuoti</span><span class="chip chip--kind">Foto arba lėtas video</span><b>S13 · Your home</b></span>Gyvas interjeras su žmogumi: basos kojos ant juodo ąžuolo, rytinė šviesa, puodelis. Iš geriausio kliento projekto; jei tokio nėra — filmuoti.</figcaption>
     </figure>
@@ -336,11 +335,11 @@
     </div>
     <div class="prod-grid">
       <a class="prod prod--feature" href="#consult">
-        <figure class="slot ph--room" data-slot="S20"><img src="media/s20-img.webp" alt="A marquetry floor with a star medallion in a long corridor" width="1500" height="1875" loading="lazy" decoding="async">
+        <figure class="slot ph--room" data-slot="S20"><img src="media/s20-floors.webp" alt="A bright room with a dark parquet floor in a wide pattern and a glass door" width="1007" height="1258" loading="lazy" decoding="async">
     <figcaption class="brief"><span class="brief__top"><span class="chip chip--client">Kliento foto</span><span class="chip chip--retouch">Retušuoti</span><b>S20 · Floors</b></span>Geriausias grindų projektas, plati erdvė, raštas (eglutė / Versailles).</figcaption></figure>
         <span class="prod__label"><span><h3>Floors</h3><small>Planks · Patterns · Colours</small></span><span class="prod__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m0 0-6-6m6 6-6 6"/></svg></span></span>
       </a>
-      <a class="prod" href="#consult"><figure class="slot ph--shop" data-slot="S21"><img src="media/s21-img.webp" alt="A spiral staircase in pale wood seen from above" width="1500" height="1875" loading="lazy" decoding="async">
+      <a class="prod" href="#consult"><figure class="slot ph--shop" data-slot="S21"><img src="media/s21-stairs.webp" alt="Oak stair treads and a white wall in a modern house" width="1007" height="1258" loading="lazy" decoding="async">
     <figcaption class="brief"><span class="brief__top"><span class="chip chip--client">Kliento foto</span><b>S21</b></span>Laiptai</figcaption></figure><span class="prod__label"><span><h3>Stairs</h3></span><span class="prod__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m0 0-6-6m6 6-6 6"/></svg></span></span></a>
       <a class="prod" href="#consult"><figure class="slot ph--grain" data-slot="S22"><img src="media/s22-img.webp" alt="A bedroom with wood-panelled walls" width="1500" height="1875" loading="lazy" decoding="async">
     <figcaption class="brief"><span class="brief__top"><span class="chip chip--client">Kliento foto</span><b>S22</b></span>Sienų apdaila</figcaption></figure><span class="prod__label"><span><h3>Walls</h3></span><span class="prod__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m0 0-6-6m6 6-6 6"/></svg></span></span></a>

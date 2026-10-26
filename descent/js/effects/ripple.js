@@ -27,8 +27,9 @@ void main(){
 }`;
 
   function setup(slot) {
-    const img = slot.querySelector('img');
+    const video = slot.querySelector('video'), img = video || slot.querySelector('img');
     if (!img) return;
+    const isVideo = !!video;
     const num = (a, d) => { const x = parseFloat(slot.getAttribute(a)); return isNaN(x) ? d : x; };
     const freq = num('data-ripple-frequency', 14), amp = num('data-ripple-amplitude', 0.012), speed = num('data-ripple-speed', 0.6);
     const canvas = document.createElement('canvas'); canvas.className = 'fx-ripple'; canvas.setAttribute('aria-hidden', 'true');
@@ -45,14 +46,15 @@ void main(){
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
     // limit texture size so a big source never costs memory on weak GPUs
     const cap = Math.min(2048, gl.getParameter(gl.MAX_TEXTURE_SIZE));
+    const nw = () => (isVideo ? img.videoWidth : img.naturalWidth), nh = () => (isVideo ? img.videoHeight : img.naturalHeight);
     const upload = () => {
       let src = img;
-      if (Math.max(img.naturalWidth, img.naturalHeight) > cap) {
-        const k = cap / Math.max(img.naturalWidth, img.naturalHeight), c = document.createElement('canvas');
-        c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k); c.getContext('2d').drawImage(img, 0, 0, c.width, c.height); src = c;
+      if (!isVideo && Math.max(nw(), nh()) > cap) {
+        const k = cap / Math.max(nw(), nh()), c = document.createElement('canvas');
+        c.width = Math.round(nw() * k); c.height = Math.round(nh() * k); c.getContext('2d').drawImage(img, 0, 0, c.width, c.height); src = c;
       }
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, src);   // throws SecurityError for cross-origin images (e.g. file://)
-      gl.uniform2f(u.img, img.naturalWidth, img.naturalHeight);
+      gl.uniform2f(u.img, nw(), nh());
     };
     const ripples = new Float32Array(N * 4); let head = 0, last = { x: -1e3, y: -1e3, t: 0 };
     const t0 = performance.now(), now = () => (performance.now() - t0) / 1000;
@@ -63,6 +65,7 @@ void main(){
     let raf = 0, on = false, ready = false;
     const frame = () => {
       raf = 0; if (!on) return;
+      if (isVideo && img.readyState >= 2 && !img.paused) { try { gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img); } catch (_) {} }   // video: a fresh frame every tick
       gl.uniform2f(u.res, canvas.width, canvas.height); gl.uniform1f(u.t, now()); gl.uniform4fv(u.r, ripples);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
       if (!ready) { ready = true; canvas.classList.add('is-ready'); }
@@ -83,7 +86,8 @@ void main(){
       }, { passive: true });
       BFF.whenVisible(slot, () => { on = true; if (!raf) raf = requestAnimationFrame(frame); }, () => { on = false; });
       return true; };
-    if (img.complete && img.naturalWidth) start(); else img.addEventListener('load', start, { once: true });
+    if (isVideo) { if (img.readyState >= 2) start(); else img.addEventListener('loadeddata', start, { once: true }); }
+    else if (img.complete && img.naturalWidth) start(); else img.addEventListener('load', start, { once: true });
   }
 
   BFF.fx.ripple = {

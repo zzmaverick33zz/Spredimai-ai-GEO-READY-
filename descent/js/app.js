@@ -116,7 +116,7 @@
       .set('.hero__veil', { opacity: 1 })
       .to('.hero__veil', { opacity: 0, duration: 1.8, ease: 'power2.out' }, 0)
       .from(words, { yPercent: 110, duration: 0.9, stagger: 0.07 }, 0.35)
-      .fromTo('.hero .slot img, .hero .slot canvas', { scale: 1.12 }, { scale: 1, duration: 7, ease: 'power2.out' }, 0)
+      .fromTo('.hero .slot img, .hero .slot video, .hero .slot canvas', { scale: 1.12 }, { scale: 1, duration: 7, ease: 'power2.out' }, 0)
       .from('.hero__ctas, .hero__facts', { autoAlpha: 0, y: 14, duration: 0.7, stagger: 0.12 }, 0.9);
   }
 
