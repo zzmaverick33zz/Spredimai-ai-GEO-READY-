@@ -1,0 +1,3 @@
+/* ===== Effect 1: ripple ===== */
+.slot>canvas.fx-ripple{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:0;transition:opacity .6s var(--ease);pointer-events:none}
+.slot>canvas.fx-ripple.is-ready{opacity:1}
