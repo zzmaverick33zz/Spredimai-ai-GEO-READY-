@@ -1,3 +1,12 @@
 /* ===== Effect 1: ripple ===== */
 .slot>canvas.fx-ripple{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:0;transition:opacity .6s var(--ease);pointer-events:none}
 .slot>canvas.fx-ripple.is-ready{opacity:1}
+
+/* ===== Effect 2: torch (dark scrim with a soft hole that follows the pointer) ===== */
+.torch{position:absolute;inset:0;z-index:1;pointer-events:none;--x:50%;--y:50%;--r:220px;--dim:rgba(4,11,13,.8)}
+.torch--light{--dim:rgba(24,19,14,.5)}
+.torch__dim{position:absolute;inset:0;background:var(--dim);
+  -webkit-mask-image:radial-gradient(circle var(--r) at var(--x) var(--y),transparent 0,transparent 32%,#000 100%);
+  mask-image:radial-gradient(circle var(--r) at var(--x) var(--y),transparent 0,transparent 32%,#000 100%)}
+.torch__glow{position:absolute;inset:0;mix-blend-mode:screen;background:radial-gradient(circle calc(var(--r) * .9) at var(--x) var(--y),rgba(194,154,98,.2),rgba(194,154,98,.06) 45%,transparent 70%)}
+.torch--light .torch__glow{mix-blend-mode:soft-light;background:radial-gradient(circle calc(var(--r) * .9) at var(--x) var(--y),rgba(255,226,170,.35),transparent 70%)}
