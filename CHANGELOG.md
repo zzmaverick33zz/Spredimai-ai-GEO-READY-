@@ -15,3 +15,10 @@
 - Motion: six 3D beats (Three.js) between chapters, headings reveal word by word, photos open like a curtain, hero silt particles, film grain. Beats use `position: sticky`, not pins; reduced motion, `?static`, no WebGL and data saver hide them. Departs from the "minimal motion" brief at the client's request.
 - Single-file build (`scripts/make_single_html.py`) inlines the 3D chunk and textures.
 - 3D trunk rebuilt from the reference trunk photo (scripts/scan_trunk.py): scanned outline and ragged butt, photo projected as bark, mirrored beyond the visible side. Sling, chains and drips removed. First frame is the cleaned photo itself, handed over to the 3D mesh, which turns on a turntable.
+
+## grand (after "final")
+- Replaced the scroll-scrubbed film by **The descent**: seven single-shot scenes, natural-speed playback, scroll only changes scene (timed dissolve + slow push-in), huge captions, relative depth gauge, scene dots, pointer parallax.
+- New cursor: growth rings (replaces the dot + ring + pill).
+- Grandeur pass: larger type scale, full-screen manifest with word-by-word reading, bigger chapter spacing, enlarged section headings.
+- New **The material** infographic (tones, stat rings, trunk dimensions, growth rings) with placeholder values.
+- Single file now ships the **HD video tier** (`Big_Foot_Floors_HD.html`); light build for web preview.
