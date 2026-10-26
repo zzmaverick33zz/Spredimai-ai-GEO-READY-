@@ -9,3 +9,4 @@ Plain HTML + CSS + JS (GSAP, ScrollTrigger, Lenis in `vendor/`). **Serve with `p
 - Media briefs off; `#brief` shows them. `?static` = no motion.
 - Video tiers: `*-hd.mp4` >= 1100 px, `*-sd.mp4` below, `*-hd.webm` fallback. Scenes: `python3 process_scenes.py [names]` (needs `source-media/ultra`).
 - Single files: `python3 build_single.py hd` (full quality, ~45 MB) and `python3 build_single.py light` (<16 MB).
+- Videos: every clip is a seamless loop made from ONE cut-free shot (the source film is cut every ~1-2.5 s). `process_scenes.py` (descent) and `process_loops.py` (hero and chapters). Radiocarbon figures: `js/data/samples.js` (edit only this file).
