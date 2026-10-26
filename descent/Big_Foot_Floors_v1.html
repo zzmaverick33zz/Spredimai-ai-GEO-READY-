@@ -200,6 +200,17 @@
         <div class="chapter__meta"><span>Sawmill</span><span>The reveal</span></div>
         <h3 id="h-ch5">First cut</h3>
         <p>Only when the trunk is opened do we see its colour. No two logs are alike: some are honey-brown, some nearly black. <strong>The water decided, not us.</strong></p>
+        <!-- TODO: swap both images for a real before/after pair once the client sends it (raw cut surface vs. the same board finished and oiled). Until then: S08 (just opened) and S11 (finished). -->
+        <div class="compare" data-compare data-start="50" data-hover="true" data-label-before="just opened" data-label-after="finished">
+          <img class="compare__after" src="media/s11-img.webp" alt="The finished, oiled bog-oak inlay" width="1500" height="1500" draggable="false">
+          <img class="compare__before" src="media/s08-img.webp" alt="The freshly cut cross-section, just opened" width="1500" height="1500" draggable="false">
+          <span class="compare__tag compare__tag--l" aria-hidden="true">Just opened</span>
+          <span class="compare__tag compare__tag--r" aria-hidden="true">Finished</span>
+          <span class="compare__line" aria-hidden="true"></span>
+          <button type="button" class="compare__handle" role="slider" aria-label="Compare the cut surface with the finished board" aria-orientation="horizontal" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 7l-5 5 5 5M15 7l5 5-5 5"/></svg>
+          </button>
+        </div>
       </div>
     </div>
   </article>
@@ -463,5 +474,6 @@
 <script src="js/effects/torch.js"></script>
 <script src="js/effects/lift.js"></script>
 <script src="js/effects/counter.js"></script>
+<script src="js/effects/compare.js"></script>
 <script src="js/app.js"></script></body>
 </html>

@@ -38,3 +38,13 @@
 .odo__strip i{overflow:hidden}
 .facts .fact b span{font:inherit;font-size:inherit;line-height:1;letter-spacing:inherit;text-transform:none;color:inherit}   /* beats ".fact span" */
 .facts .fact b{display:flex;align-items:baseline;font-size:3rem;line-height:1}
+
+/* ===== Effect 5: before / after ===== */
+.compare{position:relative;aspect-ratio:4/3;max-width:34rem;width:100%;overflow:hidden;cursor:ew-resize;touch-action:pan-y;user-select:none;-webkit-user-select:none;border:1px solid var(--line-d);margin-top:10px;--pos:50%;background:var(--silt)}
+.compare img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
+.compare__line{position:absolute;top:0;bottom:0;left:var(--pos);width:1px;background:var(--brass);transform:translateX(-.5px);pointer-events:none}
+.compare__handle{position:absolute;top:50%;left:var(--pos);width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;border:1px solid var(--brass);background:rgba(10,12,12,.78);color:var(--brass);display:grid;place-items:center;cursor:ew-resize;padding:0;backdrop-filter:blur(4px);transition:transform .25s var(--ease),background .25s}
+.compare__handle:hover,.compare.is-drag .compare__handle{background:var(--brass);color:#16110B;transform:scale(1.08)}
+.compare__handle:focus-visible{outline:2px solid var(--bone);outline-offset:3px}
+.compare__tag{position:absolute;bottom:12px;padding:6px 9px;background:rgba(6,8,8,.72);color:var(--bone);font:500 .62rem/1 var(--f-body);letter-spacing:.18em;text-transform:uppercase;pointer-events:none}
+.compare__tag--l{left:12px}.compare__tag--r{right:12px}
