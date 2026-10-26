@@ -1,0 +1,206 @@
+[
+ {
+  "file": "s01-img.jpg",
+  "slot": "S01",
+  "role": "img",
+  "bytes": 235320
+ },
+ {
+  "file": "s02-img.webp",
+  "slot": "S02",
+  "role": "img",
+  "bytes": 195768
+ },
+ {
+  "file": "s03-img.webp",
+  "slot": "S03",
+  "role": "img",
+  "bytes": 295959
+ },
+ {
+  "file": "s04-poster.jpg",
+  "slot": "S04",
+  "role": "poster",
+  "bytes": 34512
+ },
+ {
+  "file": "s04-video.mp4",
+  "slot": "S04",
+  "role": "video",
+  "bytes": 433296
+ },
+ {
+  "file": "s05-poster.jpg",
+  "slot": "S05",
+  "role": "poster",
+  "bytes": 55296
+ },
+ {
+  "file": "s05-video.mp4",
+  "slot": "S05",
+  "role": "video",
+  "bytes": 731361
+ },
+ {
+  "file": "s05-video-2.mp4",
+  "slot": "S05",
+  "role": "video",
+  "bytes": 578934
+ },
+ {
+  "file": "s06-img.webp",
+  "slot": "S06",
+  "role": "img",
+  "bytes": 69036
+ },
+ {
+  "file": "s07-img.webp",
+  "slot": "S07",
+  "role": "img",
+  "bytes": 164997
+ },
+ {
+  "file": "s08-img.webp",
+  "slot": "S08",
+  "role": "img",
+  "bytes": 350868
+ },
+ {
+  "file": "s09-img.webp",
+  "slot": "S09",
+  "role": "img",
+  "bytes": 52143
+ },
+ {
+  "file": "s10-img.webp",
+  "slot": "S10",
+  "role": "img",
+  "bytes": 121818
+ },
+ {
+  "file": "s11-img.webp",
+  "slot": "S11",
+  "role": "img",
+  "bytes": 68994
+ },
+ {
+  "file": "s12-img.webp",
+  "slot": "S12",
+  "role": "img",
+  "bytes": 39609
+ },
+ {
+  "file": "s13-img.webp",
+  "slot": "S13",
+  "role": "img",
+  "bytes": 53409
+ },
+ {
+  "file": "s14-img.webp",
+  "slot": "S14",
+  "role": "img",
+  "bytes": 389850
+ },
+ {
+  "file": "s15-img.webp",
+  "slot": "S15",
+  "role": "img",
+  "bytes": 283452
+ },
+ {
+  "file": "s16-img.webp",
+  "slot": "S16",
+  "role": "img",
+  "bytes": 295893
+ },
+ {
+  "file": "s17-img.webp",
+  "slot": "S17",
+  "role": "img",
+  "bytes": 39318
+ },
+ {
+  "file": "s18-img.webp",
+  "slot": "S18",
+  "role": "img",
+  "bytes": 85422
+ },
+ {
+  "file": "s19-img.webp",
+  "slot": "S19",
+  "role": "img",
+  "bytes": 14532
+ },
+ {
+  "file": "s20-img.webp",
+  "slot": "S20",
+  "role": "img",
+  "bytes": 142197
+ },
+ {
+  "file": "s21-img.webp",
+  "slot": "S21",
+  "role": "img",
+  "bytes": 113463
+ },
+ {
+  "file": "s22-img.webp",
+  "slot": "S22",
+  "role": "img",
+  "bytes": 157440
+ },
+ {
+  "file": "s23-img.webp",
+  "slot": "S23",
+  "role": "img",
+  "bytes": 179169
+ },
+ {
+  "file": "s24-img.webp",
+  "slot": "S24",
+  "role": "img",
+  "bytes": 49206
+ },
+ {
+  "file": "s25-img.webp",
+  "slot": "S25",
+  "role": "img",
+  "bytes": 68214
+ },
+ {
+  "file": "s26-img.webp",
+  "slot": "S26",
+  "role": "img",
+  "bytes": 62529
+ },
+ {
+  "file": "s27-img.webp",
+  "slot": "S27",
+  "role": "img",
+  "bytes": 103875
+ },
+ {
+  "file": "s28-img.webp",
+  "slot": "S28",
+  "role": "img",
+  "bytes": 68550
+ },
+ {
+  "file": "s29-img.webp",
+  "slot": "S29",
+  "role": "img",
+  "bytes": 25047
+ },
+ {
+  "file": "s30-img.webp",
+  "slot": "S30",
+  "role": "img",
+  "bytes": 125607
+ },
+ {
+  "file": "s31-img.webp",
+  "slot": "S31",
+  "role": "img",
+  "bytes": 40794
+ }
+]
