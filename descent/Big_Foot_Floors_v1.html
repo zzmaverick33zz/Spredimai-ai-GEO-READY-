@@ -173,6 +173,12 @@
         <div class="chapter__meta"><span>Authentication</span><span>Radiocarbon</span></div>
         <h3 id="h-ch4">Dated</h3>
         <p>A sample from the trunk is sent for <strong>carbon dating</strong>. The result tells us when the tree was alive, and it is the age you will be standing on.</p>
+        <!-- TODO: confirm with client. data-years must hold the carbon-dating result (digits only). Empty on purpose: no age is invented. -->
+        <div class="dated" data-years="">
+          <div class="dated__row"><span class="dated__count">&ndash; &ndash; &ndash; &ndash;</span><span class="dated__unit">years</span></div>
+          <div class="dated__line" aria-hidden="true"><i></i><span class="dated__today">Today</span></div>
+          <small class="dated__todo todo-only">Placeholder. Waiting for the carbon-dating result (TODO: confirm with client).</small>
+        </div>
       </div>
     </div>
   </article>
@@ -456,5 +462,6 @@
 <script src="js/effects/ripple.js"></script>
 <script src="js/effects/torch.js"></script>
 <script src="js/effects/lift.js"></script>
+<script src="js/effects/counter.js"></script>
 <script src="js/app.js"></script></body>
 </html>

@@ -17,3 +17,24 @@
 @media (min-width:900px){#ch3.interlude{min-height:100svh}}   /* pinned: fill the screen */
 .lift__spray{position:absolute;inset:0;z-index:2;pointer-events:none;will-change:transform}
 .lift__spray i{position:absolute;border-radius:50%;background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.9),rgba(200,225,225,.35) 55%,transparent 72%)}
+
+/* ===== Effect 4: odometer counter ===== */
+.todo-only{display:none}
+.show-brief .todo-only{display:block}
+.dated{display:grid;gap:14px;margin-top:6px;max-width:34rem}
+.dated__row{display:flex;align-items:baseline;gap:.7em;flex-wrap:wrap}
+.dated__count{font:300 clamp(3.2rem,2rem + 4.4vw,5.8rem)/1 var(--f-display);color:var(--bone);font-variant-numeric:tabular-nums;letter-spacing:.02em;display:inline-flex}
+.dated__unit{font:500 var(--t-xs)/1 var(--f-body);letter-spacing:.24em;text-transform:uppercase;color:var(--brass)}
+.dated__line{position:relative;height:1px;background:var(--line-d);margin-top:4px}
+.dated__line i{position:absolute;inset:0;background:var(--brass);transform-origin:left;transform:scaleX(1)}
+.dated__today{position:absolute;right:0;top:12px;font:500 .62rem/1 var(--f-body);letter-spacing:.22em;text-transform:uppercase;color:var(--bone-dim)}
+.dated__line::after{content:"";position:absolute;right:0;top:-4px;width:1px;height:9px;background:var(--brass)}
+.dated__todo{font:400 .72rem/1.4 var(--f-body);color:var(--bone-dim);margin-top:18px}
+.odo{display:inline-block;height:1em;line-height:1;overflow:hidden;vertical-align:top}
+.odo__strip{display:block;transform:translateY(calc(var(--d,0) * -1em));will-change:transform}
+.odo__strip i{display:block;height:1em;line-height:1;font-style:normal;text-align:center}
+.odo__num{display:inline-flex}
+.odo,.odo__num,.dated__count{font-variant-numeric:lining-nums tabular-nums;font-feature-settings:"lnum" 1,"tnum" 1}   /* Cormorant's default figures descend; lining ones stay inside their cell */
+.odo__strip i{overflow:hidden}
+.facts .fact b span{font:inherit;font-size:inherit;line-height:1;letter-spacing:inherit;text-transform:none;color:inherit}   /* beats ".fact span" */
+.facts .fact b{display:flex;align-items:baseline;font-size:3rem;line-height:1}
