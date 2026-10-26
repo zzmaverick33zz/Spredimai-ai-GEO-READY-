@@ -6,3 +6,4 @@ work
 .env.local
 out
 dist-single
+descent/dist
