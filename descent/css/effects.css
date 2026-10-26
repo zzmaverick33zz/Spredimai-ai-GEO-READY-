@@ -10,3 +10,10 @@
   mask-image:radial-gradient(circle var(--r) at var(--x) var(--y),transparent 0,transparent 32%,#000 100%)}
 .torch__glow{position:absolute;inset:0;mix-blend-mode:screen;background:radial-gradient(circle calc(var(--r) * .9) at var(--x) var(--y),rgba(194,154,98,.2),rgba(194,154,98,.06) 45%,transparent 70%)}
 .torch--light .torch__glow{mix-blend-mode:soft-light;background:radial-gradient(circle calc(var(--r) * .9) at var(--x) var(--y),rgba(255,226,170,.35),transparent 70%)}
+
+/* ===== Effect 3: the lift (layers added by js/effects/lift.js) ===== */
+.lift__sky{position:absolute;inset:0;z-index:1;pointer-events:none;mix-blend-mode:screen;opacity:0;will-change:opacity,transform;
+  background:radial-gradient(130% 90% at 50% -5%,rgba(246,228,196,.85),rgba(214,170,106,.32) 42%,transparent 74%)}
+@media (min-width:900px){#ch3.interlude{min-height:100svh}}   /* pinned: fill the screen */
+.lift__spray{position:absolute;inset:0;z-index:2;pointer-events:none;will-change:transform}
+.lift__spray i{position:absolute;border-radius:50%;background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.9),rgba(200,225,225,.35) 55%,transparent 72%)}
