@@ -48,3 +48,12 @@
 .compare__handle:focus-visible{outline:2px solid var(--bone);outline-offset:3px}
 .compare__tag{position:absolute;bottom:12px;padding:6px 9px;background:rgba(6,8,8,.72);color:var(--bone);font:500 .62rem/1 var(--f-body);letter-spacing:.18em;text-transform:uppercase;pointer-events:none}
 .compare__tag--l{left:12px}.compare__tag--r{right:12px}
+
+/* ===== Effect 6: depth gauge + growth rings ===== */
+.rail__depth{position:relative;display:grid;gap:6px;justify-items:start;margin-top:10px;padding-left:10px}
+.rail__depth-k{font:500 .56rem/1 var(--f-body);letter-spacing:.22em;text-transform:uppercase;color:rgba(237,230,218,.38)}
+.rail__depth-track{position:relative;display:block;width:1px;height:64px;background:rgba(237,230,218,.2);margin-left:3px}
+.rail__depth-track i{position:absolute;left:-2px;top:0;width:5px;height:5px;margin-top:-2px;border-radius:50%;background:var(--brass);box-shadow:0 0 8px rgba(194,154,98,.6);will-change:transform}
+.rail__depth-track i{transform:translateY(0);--h:64px}
+.rail__depth-todo{font:400 .55rem/1.3 var(--f-body);color:var(--bone-dim);max-width:14ch}
+.slot>svg.rings{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
