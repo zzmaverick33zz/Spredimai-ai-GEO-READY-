@@ -23,7 +23,10 @@
   function build(host, digits, still) {                    // digits: array of 0-9 or DASH
     host.textContent = '';
     const cols = digits.map((d, i) => column(d, 1 + Math.floor(i / 2)));
-    cols.forEach((c) => host.append(c.el));
+    cols.forEach((c, i) => {
+      if (i > 0 && (cols.length - i) % 3 === 0 && cols.length > 3) { const s = document.createElement('span'); s.className = 'odo__sep'; s.textContent = ','; s.setAttribute('aria-hidden', 'true'); host.append(s); }
+      host.append(c.el);
+    });
     cols.forEach((c) => c.strip.style.setProperty('--d', still ? c.to : 0));
     return cols;
   }

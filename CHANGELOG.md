@@ -22,3 +22,10 @@
 - Grandeur pass: larger type scale, full-screen manifest with word-by-word reading, bigger chapter spacing, enlarged section headings.
 - New **The material** infographic (tones, stat rings, trunk dimensions, growth rings) with placeholder values.
 - Single file now ships the **HD video tier** (`Big_Foot_Floors_HD.html`); light build for web preview.
+
+## grand 2
+- Scenes are now seamless loops (boomerang for landscapes and textures, cross-fade loops for action, slow motion where the shot was too short); each is a cut-free shot.
+- Chapter layout: media fits the screen (height capped to the viewport), detail photo anchored to the main frame, rail labels only on hover so they never touch the text, smaller chapter numerals, tablet layout (600–899 px) added, chapter spacing reduced.
+- Mobile: product cards 4:3, statement no longer full-height, footer lists tightened.
+- Radiocarbon data from protocol BGRL-357 wired into chapter IV (3,334 years) and the material section (dated-samples chart, two stat rings). Placeholder numbers hidden unless `#brief` / `#example`.
+- Odometer shows thousands separators.

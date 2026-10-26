@@ -11,7 +11,7 @@
       const sec = $('#material'); if (!sec) return;
       if (location.hash === '#example') {
         $$('[data-ph]', sec).forEach((b) => { if (b.dataset.ex) { b.textContent = b.dataset.ex; b.removeAttribute('data-ph'); b.classList.add('is-example'); } });
-        const n = $('[data-example]', sec); if (n) n.hidden = false;
+        sec.classList.add('is-example'); const n = $('[data-example]', sec); if (n) n.hidden = false;
         const t = $('[data-example-note]', sec); if (t) t.hidden = true;
       }
       if (opts && opts.still) return;
@@ -25,9 +25,16 @@
       // stat rings draw themselves
       $$('.stat', sec).forEach((s) => once(s, () => {
         const ring = $('.stat__ring', s);
-        gsap.fromTo(ring, { strokeDashoffset: 1 }, { strokeDashoffset: 0.12, duration: 2, ease: 'power3.out' });
+        gsap.fromTo(ring, { strokeDashoffset: 1 }, { strokeDashoffset: parseFloat(s.dataset.off), duration: 2.2, ease: 'power3.out' });
         gsap.from($('div', s), { opacity: 0, scale: 0.9, duration: 1.2, ease: 'power3.out', delay: 0.3 });
       }));
+      // dated samples: each bar grows from today towards its age
+      once($('.dates', sec), () => {
+        $$('.dates li', sec).forEach((li, i) => {
+          gsap.fromTo([$('.dates__err', li), $('.dates__dot', li)], { scaleX: 0 }, { scaleX: 1, duration: 1.6, ease: 'power3.out', delay: 0.15 * i });
+          gsap.from([$('.dates__n', li), $('.dates__v', li)], { opacity: 0, y: 12, duration: 0.9, ease: 'power3.out', delay: 0.15 * i });
+        });
+      }, 'top 85%');
       // log outline, then dimension lines
       const lg = $('.logsvg', sec);
       once(lg, () => {

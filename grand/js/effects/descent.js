@@ -1,7 +1,7 @@
 /* "The descent": seven short films play at their natural speed. Scroll does not scrub video; it only moves from one scene
    to the next, and each change is a timed cross-dissolve (opacity + a slow push-in), so playback is always smooth and sharp.
    Only the current and the next scene are loaded / playing. Captions rise word by word (CSS transitions, transform only).
-   Fallbacks: reduced motion / ?static -> first scene poster + caption, no pin. A video that fails keeps its poster. */
+   Each scene is a seamless loop (see process_scenes.py). Fallbacks: reduced motion / ?static -> first scene poster + caption, no pin. A video that fails keeps its poster. */
 (function () {
   'use strict';
   const { $, $$, clamp } = BFF;
