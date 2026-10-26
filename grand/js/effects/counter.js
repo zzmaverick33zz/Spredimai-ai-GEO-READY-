@@ -40,6 +40,11 @@
   function dated(still) {
     const box = $('.dated'); if (!box) return;
     const count = $('.dated__count', box), fill = $('.dated__line i', box);
+    const S = window.BFF_SAMPLES && window.BFF_SAMPLES.samples;
+    if (S && S.length) {                                      // oldest sample of the latest protocol, from js/data/samples.js
+      const o = S.reduce((m, s) => (s.bp > m.bp ? s : m), S[0]); box.dataset.years = String(o.bp);
+      const src = $('.dated__src', box); if (src) src.textContent = 'Oldest sample in our latest radiocarbon protocol: ' + o.species.toLowerCase() + ', ' + o.bp.toLocaleString('en') + ' ± ' + o.err + ' BP' + (o.cal ? ' (calibrated ' + o.cal + ')' : '') + '. Every tree is different, and every trunk is dated on its own.';
+    }
     const raw = (box.dataset.years || '').replace(/\D/g, '');
     const digits = raw ? raw.split('').map(Number) : [DASH, DASH, DASH, DASH];
     count.setAttribute('aria-label', raw ? Number(raw).toLocaleString('en') + ' years' : 'Age pending the radiocarbon result');

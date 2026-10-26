@@ -276,3 +276,36 @@ html.has-cursor input,html.has-cursor textarea,html.has-cursor select{cursor:aut
   .chapter__media .slot--detail{position:absolute;right:-4%;bottom:-7%;width:36%;margin:0;aspect-ratio:1;border-width:6px}
   .chapter--flip .chapter__media .slot--detail{right:-4%;left:auto}
 }
+
+/* ======================= TIGHTEN: reading rhythm, first screen fits ======================= */
+.hero{min-height:100svh;padding-block:clamp(104px,12svh,140px) clamp(40px,6svh,64px)}
+.hero__body{gap:clamp(16px,2.4svh,26px)}
+.hero h1{font-size:clamp(2.9rem,1rem + 6.4vw,8.4rem);max-width:15ch;line-height:.98}
+.hero p{font-size:clamp(1.05rem,1rem + .35vw,1.3rem)}
+.hero__facts{padding-top:20px;margin-top:4px}
+.statement{display:block;min-height:0;padding-block:clamp(72px,9vw,132px)}
+.statement__grid{gap:clamp(20px,2.4vw,40px)}
+.statement h2{font-size:clamp(2.9rem,1rem + 7vw,9rem)}
+.chapter{padding-block:clamp(56px,6.5vw,104px)}
+.section{padding-block:clamp(64px,7vw,112px)}
+.sec-head{margin-bottom:clamp(28px,3.4vw,48px)}
+.arrival{padding-block:clamp(72px,8vw,120px) 0}
+.arrival__head{margin-bottom:clamp(28px,3.4vw,48px)}
+.arrival__props{padding-block:40px clamp(64px,7vw,100px)}
+.interlude{min-height:min(84svh,760px);padding-block:96px 48px}
+.subhead{margin:clamp(40px,5vw,64px) 0 20px}
+.material .wrap{gap:clamp(48px,5.5vw,88px)}
+.mat__head{gap:16px}
+.mat__h{margin-bottom:clamp(16px,2vw,28px)}
+.stat{width:min(100%,clamp(240px,24vw,340px))}
+.stat b{font-size:clamp(3.4rem,2rem + 4vw,6rem)}
+.care{padding-block:0 clamp(56px,6vw,96px)}
+.care__row{padding-block:22px}
+.heritage__grid{gap:clamp(32px,5vw,80px)}
+.consult__grid{gap:clamp(32px,5vw,80px)}
+.ftr{padding-block:56px calc(32px + env(safe-area-inset-bottom,0px))}
+.ftr__base{margin-top:40px}
+.chapter__grid{gap:clamp(28px,5vw,88px)}
+@media (max-width:899px){.chapter__grid{gap:28px}.chapter__text{gap:16px}}
+.quote{max-width:44ch;margin-top:40px}
+.quote blockquote{font-size:clamp(1.6rem,1.1rem + 1.6vw,2.4rem)}

@@ -10,8 +10,11 @@ import os, subprocess, sys, json
 R = os.path.dirname(os.path.dirname(os.path.abspath(__file__))); SRC = f'{R}/source-media/ultra/Discovery.mp4'; OUT = f'{R}/grand/media'
 TMP = '/tmp/claude-0/scenes'; os.makedirs(TMP, exist_ok=True)
 # name, start, length of the cut-free shot, slow-motion factor, loop mode, cross-fade seconds
-SCENES = [('d1-lake', 0.4, 3.0, 1, 'pp', 0), ('d2-tree', 13.5, 2.45, 1, 'pp', 0), ('d3-divers', 21.05, 4.9, 1, 'xf', 0.8),
-          ('d4-water', 36.2, 6.8, 1, 'xf', 1.0), ('d5-trunk', 43.6, 7.2, 1, 'xf', 1.0), ('d6-lift', 60.85, 2.5, 2, 'xf', 0.8), ('d7-wood', 71.05, 1.3, 2, 'pp', 0)]
+# The film is cut every ~2.5 s (cut list from ffmpeg scene detection on Discovery.mp4), so each scene is ONE cut-free piece, slowed down where short.
+# name, start, length of the piece, slow-motion factor, loop mode, cross-fade seconds
+SCENES = [('d1-lake', 0.4, 3.0, 1, 'pp', 0), ('d2-tree', 13.5, 2.45, 1, 'pp', 0), ('d3-divers', 21.12, 2.3, 2, 'xf', 0.9),
+          ('d4-water', 41.05, 2.35, 2, 'xf', 0.9), ('d5-trunk', 43.58, 2.35, 2, 'pp', 0), ('d6-lift', 62.08, 1.3, 3, 'pp', 0), ('d7-wood', 66.1, 1.1, 3, 'pp', 0)]
+import sys
 if len(sys.argv) > 1: SCENES = [s for s in SCENES if s[0] in sys.argv[1:]]
 def sh(*a): subprocess.run(a, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 def dur(p): return float(subprocess.check_output(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', p]))

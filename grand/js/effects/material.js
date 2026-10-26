@@ -6,6 +6,21 @@
 (function () {
   'use strict';
   const { $, $$ } = BFF;
+  const fmt = (n) => n.toLocaleString('en');
+  // dated samples, drawn from js/data/samples.js
+  function render(sec) {
+    const D = window.BFF_SAMPLES; if (!D || !D.samples || !D.samples.length) return;
+    const list = $('[data-samples-list]', sec), stats = $('[data-samples-stats]', sec), axis = $('[data-samples-axis]', sec), src = $('[data-samples-src]', sec);
+    const max = D.scaleMax || Math.max(...D.samples.map((s) => s.bp)) * 1.1, pct = (v) => (v / max * 100).toFixed(1);
+    const sorted = D.samples.slice().sort((a, b) => b.bp - a.bp);
+    list.innerHTML = sorted.map((s) => '<li style="--v:' + pct(s.bp) + ';--e:' + pct(s.err) + '"><span class="dates__n">' + s.species + ' <small>' + s.id + '</small></span><span class="dates__t" aria-hidden="true"><i class="dates__err"></i><i class="dates__dot"></i></span><span class="dates__v"><b>' + fmt(s.bp) + '</b> ± ' + s.err + ' BP</span></li>').join('');
+    const ticks = []; for (let v = 0; v <= max; v += 1000) ticks.push(v);
+    axis.innerHTML = ticks.map((v, i) => '<span style="left:' + pct(v) + '%">' + (v === 0 ? 'Today' : fmt(v) + (i === ticks.length - 1 ? ' years' : '')) + '</span>').join('');
+    src.textContent = 'BP: years before 1950. ' + D.source;
+    const old = sorted[0], young = sorted[sorted.length - 1];
+    const ring = (s, label) => '<figure class="stat" data-off="' + (1 - s.bp / max).toFixed(3) + '"><svg viewBox="0 0 220 220" aria-hidden="true"><circle class="stat__track" cx="110" cy="110" r="104"/><circle class="stat__ring" cx="110" cy="110" r="104" pathLength="1" style="stroke-dashoffset:' + (1 - s.bp / max).toFixed(3) + '"/></svg><div><b>' + fmt(s.bp) + '</b><small>± ' + s.err + ' BP</small><span>' + label + ': ' + s.species.toLowerCase() + '</span></div></figure>';
+    stats.innerHTML = sorted.length > 1 ? ring(old, 'Oldest sample') + ring(young, 'Youngest sample') : ring(old, 'Sample');
+  }
   BFF.fx.material = {
     init(opts) {
       const sec = $('#material'); if (!sec) return;
@@ -14,6 +29,7 @@
         sec.classList.add('is-example'); const n = $('[data-example]', sec); if (n) n.hidden = false;
         const t = $('[data-example-note]', sec); if (t) t.hidden = true;
       }
+      render(sec);
       if (opts && opts.still) return;
       const gsap = window.gsap;
       const once = (el, vars, start = 'top 80%') => window.ScrollTrigger.create({ trigger: el, start, once: true, onEnter: vars });
