@@ -58,9 +58,28 @@
       "note": "1/8",
       "feedback": 0.2,
       "highcut_hz": 5000,
-      "lowcut_hz": 300
+      "lowcut_hz": 300,
+      "mode": "always"
     },
-    "brightness_db": 0.0
+    "brightness_db": 0.0,
+    "rider": {
+      "enabled": true,
+      "range_db": 4.0,
+      "amount": 1.0
+    },
+    "parallel": {
+      "mix": 0.0,
+      "ratio": 10.0,
+      "attack_ms": 1.0,
+      "release_ms": 60.0,
+      "highpass_hz": 200
+    },
+    "saturation": {
+      "drive_db": 0.0,
+      "mix": 0.0,
+      "lowpass_hz": 14000
+    },
+    "space_duck_db": 0.0
   },
   "beat": {
     "carve_freq_hz": 2200,
@@ -70,7 +89,11 @@
       1000,
       4000
     ],
-    "duck_db": 1.5
+    "duck_db": 1.5,
+    "low_shelf_db": 0.0,
+    "low_shelf_hz": 100.0,
+    "high_shelf_db": 0.0,
+    "high_shelf_hz": 8000.0
   },
   "balance": {
     "vocal_over_beat_lu": 2.0,
@@ -107,7 +130,15 @@
     "comp_ratio": 2.0,
     "comp_attack_ms": 20,
     "comp_release_ms": 150,
-    "default_target_lufs": -14.0
+    "default_target_lufs": -14.0,
+    "post": {
+      "bass_db": 0.0,
+      "lowmid_db": 0.0,
+      "presence_db": 0.0,
+      "air_db": 0.0,
+      "width_db": 0.0,
+      "mono_bass_hz": 120.0
+    }
   },
   "tuning": {
     "enabled": false,

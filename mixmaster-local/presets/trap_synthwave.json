@@ -44,6 +44,17 @@
       "lowmid": 1.5,
       "presence": -8.0,
       "air": -24.0
+    },
+    "parallel": {
+      "mix": 0.12
+    },
+    "saturation": {
+      "drive_db": 6.0,
+      "mix": 0.25
+    },
+    "space_duck_db": 4.0,
+    "rider": {
+      "range_db": 4.0
     }
   },
   "beat": {

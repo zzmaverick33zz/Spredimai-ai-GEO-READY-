@@ -58,6 +58,37 @@ def validate_reference(audio: np.ndarray, sr: int) -> list[str]:
     return warnings
 
 
+def post_tone(audio: np.ndarray, sr: int, cfg: dict | None) -> tuple[np.ndarray, dict]:
+    """Final tone/width moves applied AFTER Matchering, so the reference match does not undo them.
+
+    bass_db / lowmid_db / presence_db / air_db: shelves and bells; width_db: side level;
+    mono_bass_hz: below this frequency the side signal is removed (tight, mono low end).
+    """
+    cfg = cfg or {}
+    moves = {k: float(cfg.get(k, 0.0)) for k in ("bass_db", "lowmid_db", "presence_db", "air_db", "width_db")}
+    mono_hz = float(cfg.get("mono_bass_hz", 0.0) or 0.0)
+    x = audio
+    bands = []
+    if moves["bass_db"]:
+        bands.append(LowShelfFilter(100.0, moves["bass_db"], 0.7))
+    if moves["lowmid_db"]:
+        bands.append(PeakFilter(320.0, moves["lowmid_db"], 0.9))
+    if moves["presence_db"]:
+        bands.append(PeakFilter(3200.0, moves["presence_db"], 0.8))
+    if moves["air_db"]:
+        bands.append(HighShelfFilter(10000.0, moves["air_db"], 0.7))
+    if bands:
+        x = dsp.run_board(Pedalboard(bands), x, sr)
+    if x.shape[0] == 2 and (moves["width_db"] or mono_hz > 0):
+        mid = (x[0] + x[1]) * 0.5
+        side = ((x[0] - x[1]) * 0.5)[None, :]
+        if mono_hz > 0:
+            side = dsp.highpass(side, sr, mono_hz, order=4)
+        side = side[0] * np.float32(dsp.db_to_lin(moves["width_db"]))
+        x = np.stack([mid + side, mid - side]).astype(np.float32)
+    return x.astype(np.float32), {**moves, "mono_bass_hz": mono_hz}
+
+
 def true_peak_guard(audio: np.ndarray, sr: int, ceiling_db: float = -1.0) -> tuple[np.ndarray, dict]:
     """Make sure true peak <= ceiling: brickwall limiter first, plain gain as the last resort."""
     tp = true_peak_db(audio, sr)
@@ -142,6 +173,7 @@ def master_with_reference(audio: np.ndarray, reference: np.ndarray, sr: int, pre
     log: list = []
     out = run_matchering(audio, reference, sr, log)
     info["warnings"] += [f"Matchering: {m}" for m in log]
+    out, info["post"] = post_tone(out, sr, preset["master"].get("post"))
     ceiling = float(preset["master"]["true_peak_db"])
     if target_lufs is not None:
         out, norm = normalize_loudness(out, sr, float(target_lufs), ceiling)
@@ -169,8 +201,10 @@ def master_without_reference(audio: np.ndarray, sr: int, preset: dict,
     x = dsp.highpass(audio, sr, m["highpass_hz"], order=2)
     x = dsp.run_board(master_eq(preset), x, sr)
     x = bus_compressor(x, sr, m["comp_ratio"], m["comp_attack_ms"], m["comp_release_ms"], percentile=80.0)
+    x, post = post_tone(x, sr, m.get("post"))
     x, _ = set_peak(x, sr, -float(preset["balance"]["headroom_db"]))
     out, info = normalize_loudness(x, sr, target, float(m["true_peak_db"]))
+    info["post"] = post
     info["target_lufs"] = target
     info["warnings"] = []
     return out, info

@@ -7,7 +7,8 @@ presence/air -> space (reverb + tempo delay on a filtered wet return).
 from __future__ import annotations
 
 import numpy as np
-from pedalboard import Compressor, Delay, HighShelfFilter, PeakFilter, Pedalboard, Reverb
+from scipy.ndimage import uniform_filter1d
+from pedalboard import Compressor, Delay, Distortion, HighShelfFilter, LowShelfFilter, PeakFilter, Pedalboard, Reverb
 
 from . import dsp
 from .analysis import band_density, integrated_lufs, true_peak_db
@@ -98,14 +99,20 @@ def space(dry: np.ndarray, sr: int, cfg: dict, bpm: float | None) -> tuple[np.nd
         return dry, {"reverb": 0.0, "delay_ms": None}
     out = pad_to(dry, dry.shape[1] + int(sr * SPACE_TAIL_S))
     dry_lufs = integrated_lufs(dry, sr)
-    info = {"reverb": float(rv["mix"]), "delay_ms": None}
+    info = {"reverb": float(rv["mix"]), "delay_ms": None, "space_duck_db": float(cfg.get("space_duck_db", 0.0))}
+    total = out.shape[1]
+    # Returns dip while the voice sings and bloom in the gaps: words stay clear (common rap move).
+    duck = None
+    if cfg.get("space_duck_db", 0.0) > 0:
+        duck = dsp.db_to_lin(duck_curve(dry, sr, total, float(cfg["space_duck_db"]))).astype(np.float32)
 
-    def add_return(board, lowcut, highcut, mix):
-        wet = dsp.run_board(board, dry, sr, tail_seconds=SPACE_TAIL_S)
+    def add_return(board, lowcut, highcut, mix, source=dry):
+        wet = dsp.run_board(board, source, sr, tail_seconds=SPACE_TAIL_S)
         wet = dsp.highpass(wet, sr, lowcut, order=2)
         wet = dsp.lowpass(wet, sr, highcut, order=2)
         gain = dsp.db_to_lin(dry_lufs - integrated_lufs(wet, sr))
-        return wet * np.float32(gain * mix)
+        wet = wet * np.float32(gain * mix)
+        return wet * duck[None, : wet.shape[1]] if duck is not None else wet
 
     if rv["mix"] > 0:
         board = Pedalboard([
@@ -116,9 +123,79 @@ def space(dry: np.ndarray, sr: int, cfg: dict, bpm: float | None) -> tuple[np.nd
     if use_delay:
         sec = 60.0 / float(bpm) * NOTE_BEATS.get(dl["note"], 0.5)
         board = Pedalboard([Delay(delay_seconds=sec, feedback=float(dl["feedback"]), mix=1.0)])
-        out += add_return(board, dl.get("lowcut_hz", 300), dl["highcut_hz"], dl["mix"])
+        source = dry
+        if dl.get("mode", "always") == "throws":
+            # Delay "throws": only the last word of each phrase is sent to the echo.
+            source = dry * phrase_end_mask(dry, sr)[None, :]
+        out += add_return(board, dl.get("lowcut_hz", 300), dl["highcut_hz"],
+                          dl["mix"] * (2.0 if source is not dry else 1.0), source)
         info["delay_ms"] = sec * 1000
+        info["delay_mode"] = dl.get("mode", "always")
     return out, info
+
+
+def vocal_rider(x: np.ndarray, sr: int, cfg: dict) -> tuple[np.ndarray, dict]:
+    """Automatic fader riding before the compressor: evens out phrase-to-phrase level jumps.
+
+    The 400 ms loudness of the active vocal is pulled toward its median by up to
+    `range_db`; pauses, breaths and noise are left alone.
+    """
+    if not cfg.get("enabled", False) or cfg.get("range_db", 0) <= 0:
+        return x, {"range_used_db": 0.0}
+    hop = 0.01
+    env = dsp.rms_envelope_db(dsp.mono(x), sr, 400.0, hop * 1000)
+    act = dsp.active_levels(env, gate_below_max=30.0)
+    target = float(np.median(act))
+    rng = float(cfg["range_db"])
+    gain = np.clip(target - env, -rng, rng) * float(cfg.get("amount", 1.0))
+    gain[env < target - 15.0] = np.minimum(gain[env < target - 15.0], 0.0)  # never lift breaths and noise
+    gain = uniform_filter1d(gain, size=max(int(0.25 / hop), 1), mode="nearest")  # offline: symmetric smoothing
+    t_frames = np.arange(len(gain)) * hop + 0.2
+    curve = np.interp(np.arange(x.shape[1]) / sr, t_frames, gain).astype(np.float32)
+    return (x * dsp.db_to_lin(curve)[None, :]).astype(np.float32), {"range_used_db": float(np.ptp(gain))}
+
+
+def parallel_compression(x: np.ndarray, sr: int, cfg: dict) -> np.ndarray:
+    """New-York style parallel compression: a crushed, high-passed copy blended under the vocal."""
+    mix = float(cfg.get("mix", 0.0))
+    if mix <= 0:
+        return x
+    env = dsp.active_levels(dsp.rms_envelope_db(dsp.mono(x), sr, 50.0, 10.0))
+    thr = float(np.percentile(env, 30))  # deep: 15-25 dB of gain reduction on loud words
+    crushed = dsp.highpass(x, sr, cfg.get("highpass_hz", 200), order=2)
+    crushed = dsp.run_board(Compressor(threshold_db=thr, ratio=cfg.get("ratio", 10.0), attack_ms=cfg.get("attack_ms", 1.0),
+                                       release_ms=cfg.get("release_ms", 60.0)), crushed, sr)
+    gain = dsp.db_to_lin(integrated_lufs(x, sr) - integrated_lufs(crushed, sr)) * mix
+    return (x + crushed * np.float32(gain)).astype(np.float32)
+
+
+def saturate(x: np.ndarray, sr: int, cfg: dict) -> np.ndarray:
+    """Gentle harmonic saturation blended in parallel and level-matched (density without obvious distortion)."""
+    drive, mix = float(cfg.get("drive_db", 0.0)), float(cfg.get("mix", 0.0))
+    if drive <= 0 or mix <= 0:
+        return x
+    peak = float(np.max(np.abs(x))) + 1e-9
+    wet = dsp.run_board(Distortion(drive_db=drive), x / np.float32(peak * 1.12), sr) * np.float32(peak * 1.12)
+    wet = dsp.lowpass(wet, sr, cfg.get("lowpass_hz", 14000), order=2)  # tame fizz / aliasing
+    wet *= np.float32(dsp.db_to_lin(integrated_lufs(x, sr) - integrated_lufs(wet, sr)))
+    return ((1.0 - mix) * x + mix * wet).astype(np.float32)
+
+
+def phrase_end_mask(x: np.ndarray, sr: int, tail_ms: float = 280.0, gap_ms: float = 300.0) -> np.ndarray:
+    """1.0 on the last `tail_ms` of every phrase (a phrase ends with >= gap_ms of silence), else 0."""
+    env = dsp.lin_to_db(dsp.envelope(dsp.mono(x), sr, 5.0, 60.0))
+    act = env > (np.percentile(env[env > env.max() - 50], 30) - 6.0)
+    n = len(act)
+    mask = np.zeros(n, dtype=np.float32)
+    gap, tail = int(sr * gap_ms / 1000), int(sr * tail_ms / 1000)
+    edges = np.flatnonzero(np.diff(act.astype(np.int8)) == -1)  # phrase -> silence
+    for e in edges:
+        if e + gap <= n and not act[e + 1:e + gap].any() or e + gap > n:
+            mask[max(0, e - tail):e + 1] = 1.0
+    ramp = int(sr * 0.01)
+    if ramp > 1:
+        mask = np.convolve(mask, np.ones(ramp, dtype=np.float32) / ramp, mode="same").astype(np.float32)
+    return mask
 
 
 def pan_mono(x: np.ndarray, pan: float) -> np.ndarray:
@@ -139,6 +216,7 @@ def process_vocal(vocal: np.ndarray, sr: int, preset: dict, bpm: float | None = 
     x = dsp.highpass(vocal, sr, cfg["highpass_hz"], order=4)
     eq = adaptive_eq_gains(x, sr, cfg, reference_density)
     x = dsp.run_board(PeakFilter(cfg["lowmid_cut"]["freq_hz"], eq["lowmid"], cfg["lowmid_cut"]["q"]), x, sr)
+    x, rider = vocal_rider(x, sr, cfg.get("rider", {}))
 
     cs = compressor_settings(x, sr, cfg)
     comp = cfg["compressor"]
@@ -150,6 +228,7 @@ def process_vocal(vocal: np.ndarray, sr: int, preset: dict, bpm: float | None = 
     chain.append(Compressor(threshold_db=cs["threshold_db"], ratio=comp["ratio"],
                             attack_ms=comp["attack_ms"], release_ms=comp["release_ms"]))
     x = dsp.run_board(Pedalboard(chain), x, sr)
+    x = parallel_compression(x, sr, cfg.get("parallel", {}))
 
     ds = cfg["deesser"]
     x, ds_stats = deess(x, sr, tuple(ds["band_hz"]), ds["amount"])
@@ -159,13 +238,14 @@ def process_vocal(vocal: np.ndarray, sr: int, preset: dict, bpm: float | None = 
         HighShelfFilter(cfg["air_shelf"]["freq_hz"], eq["air"], 0.7),
     ])
     x = dsp.run_board(tone, x, sr)
+    x = saturate(x, sr, cfg.get("saturation", {}))
     x = pan_mono(x, pan) if pan else to_stereo(x)
     x, sp = space(x, sr, cfg, bpm)
     report = {
         "eq_lowmid_db": eq["lowmid"], "eq_presence_db": eq["presence"], "eq_air_db": eq["air"],
         "comp_threshold_db": cs["threshold_db"], "peak_comp": cs["peak_comp"],
         "deesser_max_gr_db": ds_stats["max_gr_db"], "deesser_active_pct": ds_stats["active_pct"],
-        **sp,
+        "rider_range_db": rider["range_used_db"], **sp,
     }
     return x.astype(np.float32), report
 
@@ -297,6 +377,13 @@ def prepare_beat(beat: np.ndarray, sr: int, vocal: np.ndarray, preset: dict,
     b = to_stereo(beat)
     looped = b.shape[1] < target_len
     b = loop_to_length(b, target_len, sr)
+    shelves = []
+    if cfg.get("low_shelf_db", 0.0):
+        shelves.append(LowShelfFilter(cfg.get("low_shelf_hz", 100.0), float(cfg["low_shelf_db"]), 0.7))
+    if cfg.get("high_shelf_db", 0.0):
+        shelves.append(HighShelfFilter(cfg.get("high_shelf_hz", 8000.0), float(cfg["high_shelf_db"]), 0.7))
+    if shelves:
+        b = dsp.run_board(Pedalboard(shelves), b, sr)
     if cfg["carve_db"]:
         b = dsp.run_board(PeakFilter(cfg["carve_freq_hz"], cfg["carve_db"], cfg["carve_q"]), b, sr)
     if duck_db > 0:

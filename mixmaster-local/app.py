@@ -18,7 +18,8 @@ from pathlib import Path  # noqa: E402
 import gradio as gr  # noqa: E402
 import pandas as pd  # noqa: E402
 
-from core import analysis, pipeline  # noqa: E402
+from core import analysis, assistant, pipeline  # noqa: E402
+from core.session import MixSession  # noqa: E402
 from core.audio_io import SUPPORTED_EXT, AudioError  # noqa: E402
 from core.plots import pitch_figure, spectrum_figure  # noqa: E402
 from core.tuning import NOTE_NAMES  # noqa: E402
@@ -39,6 +40,10 @@ SCALE_CHOICES = [("Авто (по биту/вокалу)", "auto"), ("Минор
 ROLE_CHOICES = [("Дабл (те же слова и ноты)", "double"), ("Гармония / второй голос", "harmony"),
                 ("Адлибы", "adlib")]
 N_BACKING = 3
+BRAIN_RULES = "Правила: мгновенно, без модели"
+BRAIN_LLM = "Локальная LLM (Ollama)"
+QUICK_PROMPTS = ["вокал чуть громче", "меньше реверба", "вокал резкий", "бас мутный", "жёстче автотюн",
+                 "дилей в концах фраз", "трек ярче", "мастер -9 LUFS"]
 
 CSS_PATH = ROOT / "assets" / "brutal.css"
 FORCE_DARK = "() => { document.body.classList.add('dark'); }"
@@ -265,8 +270,126 @@ def refresh_refs():
     return gr.update(choices=reference_choices())
 
 
-def refresh_inputs():
-    return [gr.update(choices=audio_files(INPUT_DIR))] * (6 + N_BACKING)
+def refresh_inputs_for(n: int):
+    """Handler that refreshes `n` inputs/ dropdowns at once."""
+    return lambda: [gr.update(choices=audio_files(INPUT_DIR))] * n
+
+
+# ----------------------------------------------------------------- chat mixing
+
+def _brain(mode, model, url):
+    if mode != BRAIN_LLM:
+        return None
+    return assistant.OllamaBrain(model or "qwen2.5:7b", url or "http://127.0.0.1:11434")
+
+
+def _backing_from_slots(slots) -> list:
+    triples = zip(slots[0::3], slots[1::3], slots[2::3])
+    return [(path, r) for path, r in ((pick_input(a, i), r) for a, i, r in triples) if path]
+
+
+def _session_outputs(sess: MixSession):
+    """Values for the chat tab's result widgets from the current version."""
+    v = sess.current
+    res = v.result
+    headers, rows = analysis.comparison_rows(res.measurements)
+    files = [res.files[k] for k in ("master24", "master16", "mp3", "premaster", "vocals", "tuned") if k in res.files]
+    if v.ab_prev:
+        a = gr.update(value=v.ab_prev, label=f"A: версия {v.n - 1}")
+        b = gr.update(value=v.ab_this, label=f"B: версия {v.n} (громкость выровнена)")
+    else:
+        a = gr.update(value=res.files["ab_before"], label="A: сырая сумма без обработки")
+        b = gr.update(value=res.files["ab_after"], label=f"B: версия {v.n}")
+    return (gr.update(value=res.files["master24"], label=f"Мастер · версия {v.n}"), files, a, b,
+            pd.DataFrame(rows, columns=headers), spectrum_figure(res.spectra), sess.settings_view())
+
+
+def _version_message(sess: MixSession, head: str) -> str:
+    v = sess.current
+    reused = v.result.report.get("stages_reused", [])
+    stages = ["tune"] * bool(v.result.report.get("tuning")) + ["vocal"] + ["backing"] * bool(sess.inputs.backs) + \
+        ["beat", "mix", "master"]
+    redo = [s for s in stages if s not in reused]
+    names = {"tune": "тюн", "vocal": "вокал", "backing": "бэки", "beat": "бит", "mix": "сведение", "master": "мастер"}
+    msg = f"{head}\n\n**Версия {v.n}** готова за {v.seconds:.0f} с"
+    if v.n > 1:
+        msg += f" (пересобрано: {', '.join(names[s] for s in redo) or 'ничего'})"
+    msg += ".\n" + v.result.summary
+    prev = sess.versions[-2].result.warnings if len(sess.versions) > 1 else []
+    new_warnings = [w for w in v.result.warnings if w not in prev]
+    if new_warnings:
+        msg += "\n\n" + "\n".join(f"⚠ {w}" for w in new_warnings[-3:])
+    hints = assistant.suggestions(v.result.measurements, v.result.report)
+    if hints:
+        msg += "\n\n**Подсказки:**\n" + "\n".join(f"- {h}" for h in hints)
+    return msg
+
+
+def chat_start(vocal, vocal_in, beat, beat_in, ref_choice, ref_upload, preset_text, bpm, tune_on, exp16, mp3,
+               *slots, progress=gr.Progress()):
+    try:
+        p = pipeline.Params(bpm=float(bpm) if bpm else None, tune=bool(tune_on), export16=exp16, export_mp3=mp3,
+                            backing=_backing_from_slots(slots))
+        sess = MixSession.start(pick_input(vocal, vocal_in), pick_input(beat, beat_in),
+                                pick_reference(ref_choice, ref_upload), parse_preset(preset_text), p)
+        sess.render("старт", progress=_progress(progress))
+    except AudioError as exc:
+        raise gr.Error(str(exc), duration=None) from exc
+    except Exception as exc:
+        traceback.print_exc()
+        raise gr.Error(f"Неожиданная ошибка: {type(exc).__name__}: {exc}", duration=None) from exc
+    intro = ("Первый микс собран. Пиши, что поменять, обычными словами, например: "
+             f"«{assistant.UNDERSTOOD_EXAMPLES}».")
+    history = [{"role": "assistant", "content": _version_message(sess, intro)}]
+    return (sess, history, *_session_outputs(sess))
+
+
+def chat_send(msg, history, sess, mode, model, url, progress=gr.Progress()):
+    history = list(history or [])
+    msg = (msg or "").strip()
+    keep = (gr.skip(),) * 7
+    if not msg:
+        yield (sess, history, "", *keep)
+        return
+    history.append({"role": "user", "content": msg})
+    if sess is None:
+        history.append({"role": "assistant", "content": "Сначала загрузи дорожки и нажми «Собрать первый микс»."})
+        yield (sess, history, "", *keep)
+        return
+    history.append({"role": "assistant", "content": "⏳ Думаю…"})
+    yield (sess, history, "", *keep)
+    try:
+        plan, lines = sess.ask(msg, _brain(mode, model, url))
+        if not lines:
+            text = plan.reply or "Не понял, что поменять."
+            history[-1] = {"role": "assistant", "content": f"{text}\n\nПримеры: {assistant.UNDERSTOOD_EXAMPLES}"}
+            yield (sess, history, "", *keep)
+            return
+        head = (plan.reply + "\n" if plan.reply else "") + "\n".join(lines)
+        changed = plan.undo or any("→" in ln for ln in lines)
+        if not changed:
+            history[-1] = {"role": "assistant", "content": head}
+            yield (sess, history, "", *keep)
+            return
+        history[-1] = {"role": "assistant", "content": head + "\n\n⏳ Пересобираю…"}
+        yield (sess, history, "", *keep)
+        sess.render(msg, lines, progress=_progress(progress))
+        history[-1] = {"role": "assistant", "content": _version_message(sess, head)}
+        yield (sess, history, "", *_session_outputs(sess))
+    except AudioError as exc:
+        history[-1] = {"role": "assistant", "content": f"⚠ {exc}"}
+        yield (sess, history, "", *keep)
+    except Exception as exc:
+        traceback.print_exc()
+        history[-1] = {"role": "assistant", "content": f"⚠ Ошибка: {type(exc).__name__}: {exc}"}
+        yield (sess, history, "", *keep)
+
+
+def brain_status(mode, model, url):
+    if mode != BRAIN_LLM:
+        return "Работают встроенные правила: мгновенно и без интернета."
+    ok, text = assistant.OllamaBrain(model or "qwen2.5:7b", url or "http://127.0.0.1:11434").status()
+    return ("✅ " if ok else "⚠ ") + text
 
 
 # ----------------------------------------------------------------- layout
@@ -285,6 +408,18 @@ def output_block():
     table = gr.Dataframe(label="Замеры до / после", interactive=False, wrap=True)
     plot = gr.Plot(label="Спектр")
     return [status, master, files, ab_a, ab_b, table, plot]
+
+
+def backing_inputs():
+    """Three backing-vocal slots: (upload, file from inputs/, role) each."""
+    slots = []
+    for i in range(N_BACKING):
+        with gr.Row():
+            with gr.Column(scale=3):
+                b_audio, b_in = input_picker(f"Бэк {i + 1} (WAV)")
+            b_role = gr.Dropdown(ROLE_CHOICES, value="double" if i < 2 else "harmony", label="Что это", scale=2)
+        slots.append((b_audio, b_in, b_role))
+    return slots
 
 
 def input_picker(label: str):
@@ -347,6 +482,59 @@ def build_ui() -> gr.Blocks:
             gr.Markdown(f"Пресеты лежат в `{PRESET_DIR}`. Свои сохраняются как `user_*.json`.", elem_classes="small-note")
 
         with gr.Tabs():
+            with gr.Tab("00 · Чат-микс"):
+                gr.Markdown("Собери первый микс, а дальше проси правки словами, как у звукорежиссёра: "
+                            "«вокал тонет», «меньше реверба», «жёстче автотюн», «мастер -9 LUFS». После каждой "
+                            "правки пересобираются только затронутые этапы, а A/B сравнивает с прошлой версией.",
+                            elem_classes="small-note")
+                section("Дорожки")
+                with gr.Row():
+                    with gr.Column():
+                        c_vocal, c_vocal_in = input_picker("Вокал (WAV)")
+                    with gr.Column():
+                        c_beat, c_beat_in = input_picker("Бит (WAV)")
+                c_ref, c_ref_up = reference_picker()
+                with gr.Accordion("Бэк-вокал (необязательно)", open=False, elem_classes="mm-acc"):
+                    c_backing = backing_inputs()
+                with gr.Row():
+                    c_bpm = gr.Number(value=None, label="BPM (для дилея)", precision=1)
+                    c_tune = gr.Checkbox(label="Сразу включить тюн", value=False)
+                    c_exp16, c_mp3 = export_controls()
+                c_go = gr.Button("Собрать первый микс", variant="primary")
+                section("Чат")
+                c_chat = gr.Chatbot(label="Ассистент сведения", height=460, elem_classes="mm-chat")
+                with gr.Row():
+                    c_msg = gr.Textbox(placeholder="Например: вокал чуть громче и меньше шипящих", show_label=False,
+                                       scale=6, lines=1, max_lines=4, submit_btn=False)
+                    c_send = gr.Button("Отправить", variant="primary", scale=1)
+                with gr.Row(elem_classes="mm-chips"):
+                    c_quick = [gr.Button(q, size="sm") for q in QUICK_PROMPTS]
+                    c_undo = gr.Button("↶ отменить", size="sm")
+                with gr.Accordion("Мозг ассистента: правила или локальная LLM", open=False, elem_classes="mm-acc"):
+                    gr.Markdown("По умолчанию работают встроенные правила: они понимают русские и английские фразы "
+                                "о громкости, тоне, ревербе, дилее, тюне, бэках и мастере. Для свободных формулировок "
+                                "можно подключить бесплатную локальную модель: установи Ollama (ollama.com), выполни "
+                                "`ollama pull qwen2.5:7b` и выбери режим ниже. Всё остаётся на компьютере.",
+                                elem_classes="small-note")
+                    with gr.Row():
+                        c_mode = gr.Radio([BRAIN_RULES, BRAIN_LLM], value=BRAIN_RULES, label="Режим")
+                        c_model = gr.Textbox(value="qwen2.5:7b", label="Модель Ollama")
+                        c_url = gr.Textbox(value="http://127.0.0.1:11434", label="Адрес Ollama")
+                    c_check = gr.Button("Проверить", size="sm")
+                    c_status = gr.Markdown("")
+                section("Текущая версия")
+                with gr.Group():
+                    c_master = gr.Audio(label="Мастер", type="filepath", interactive=False)
+                    c_files = gr.File(label="Скачать", file_count="multiple", interactive=False)
+                with gr.Row():
+                    c_ab_a = gr.Audio(label="A", type="filepath", interactive=False)
+                    c_ab_b = gr.Audio(label="B", type="filepath", interactive=False)
+                c_table = gr.Dataframe(label="Замеры", interactive=False, wrap=True)
+                c_plot = gr.Plot(label="Спектр")
+                with gr.Accordion("Текущие настройки", open=False, elem_classes="mm-acc"):
+                    c_settings = gr.JSON(label="Параметры, которыми управляет ассистент")
+                c_state = gr.State(None)
+
             with gr.Tab("01 · Вокал + бит → мастер"):
                 section("Входы")
                 with gr.Row():
@@ -380,14 +568,7 @@ def build_ui() -> gr.Blocks:
                     gr.Markdown("Каждая дорожка выравнивается по лиду, обрабатывается той же цепочкой, "
                                 "разводится по панораме (лево/право) и ставится тише лида. Лид остаётся в центре.",
                                 elem_classes="small-note")
-                    backing_in = []
-                    for i in range(N_BACKING):
-                        with gr.Row():
-                            with gr.Column(scale=3):
-                                b_audio, b_in = input_picker(f"Бэк {i + 1} (WAV)")
-                            b_role = gr.Dropdown(ROLE_CHOICES, value="double" if i < 2 else "harmony",
-                                                 label="Что это", scale=2)
-                        backing_in.append((b_audio, b_in, b_role))
+                    backing_in = backing_inputs()
                     with gr.Row():
                         b_level = gr.Slider(-6, 6, value=0, step=0.5, label="Бэки громче/тише обычного, LU")
                         b_width = gr.Slider(0, 1, value=1.0, step=0.05, label="Ширина стерео бэков")
@@ -438,8 +619,20 @@ def build_ui() -> gr.Blocks:
 
         sliders = [lu, deess, reverb, delay, bright, duck, loud1, target1]
         preset_dd.change(on_preset, preset_dd, [preset_text, *sliders, loud2, target2, target3, *tune1, *tune4[1:6]])
-        refresh_in.click(refresh_inputs, outputs=[vocal_in, beat_in, track2_in, track3_in, vocal4_in, beat4_in]
-                         + [b_in for _, b_in, _ in backing_in])
+        in_dropdowns = ([vocal_in, beat_in, track2_in, track3_in, vocal4_in, beat4_in, c_vocal_in, c_beat_in]
+                        + [b_in for _, b_in, _ in backing_in] + [b_in for _, b_in, _ in c_backing])
+        refresh_in.click(refresh_inputs_for(len(in_dropdowns)), outputs=in_dropdowns)
+
+        c_outs = [c_master, c_files, c_ab_a, c_ab_b, c_table, c_plot, c_settings]
+        c_go.click(chat_start, [c_vocal, c_vocal_in, c_beat, c_beat_in, c_ref, c_ref_up, preset_text, c_bpm, c_tune,
+                                c_exp16, c_mp3, *[c for slot in c_backing for c in slot]], [c_state, c_chat, *c_outs])
+        send_in = [c_msg, c_chat, c_state, c_mode, c_model, c_url]
+        send_out = [c_state, c_chat, c_msg, *c_outs]
+        c_send.click(chat_send, send_in, send_out)
+        c_msg.submit(chat_send, send_in, send_out)
+        for btn, text in [*zip(c_quick, QUICK_PROMPTS), (c_undo, "отмени")]:
+            btn.click(lambda t=text: t, None, c_msg).then(chat_send, send_in, send_out)
+        c_check.click(brain_status, [c_mode, c_model, c_url], c_status)
         save_btn.click(on_save_preset, [preset_name, preset_text, lu, deess, reverb, delay, bright, duck, *tune1], preset_dd)
         go1.click(run_mode1, [vocal, vocal_in, beat, beat_in, ref1, ref1_up, preset_text, *sliders, bpm, offset, vtarget,
                               exp16_1, mp3_1, *tune1, b_level, b_width, *[c for slot in backing_in for c in slot]], out1)

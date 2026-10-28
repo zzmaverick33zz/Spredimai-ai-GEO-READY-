@@ -39,6 +39,10 @@
       "note": "1/8",
       "feedback": 0.2,
       "highcut_hz": 5000
+    },
+    "space_duck_db": 2.0,
+    "rider": {
+      "range_db": 3.0
     }
   },
   "beat": {

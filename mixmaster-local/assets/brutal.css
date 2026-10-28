@@ -221,3 +221,17 @@ button.primary { width: calc(100% - 8px) !important; margin-right: 8px !importan
 }
 .tabitem { padding-top: 0 !important; }
 .tabitem > .column > .block.mm-section:first-child, .tabitem .mm-section:first-child { margin-top: 4px !important; }
+
+/* ---------- chat ---------- */
+.mm-chat .message.user {
+  background: var(--mm-acid) !important; color: #000 !important; border: 2px solid #000 !important;
+  border-radius: 0 !important; font-weight: 600; padding: 8px 14px !important;
+}
+.mm-chat .message.user * { color: #000 !important; background: transparent !important; border: none !important; }
+.mm-chat .message.bot {
+  background: var(--mm-bg) !important; border: 1.5px solid var(--mm-ink) !important; border-radius: 0 !important;
+  box-shadow: 4px 4px 0 var(--mm-line) !important; padding: 12px 16px !important;
+}
+.mm-chat .message.bot * { border: none !important; box-shadow: none !important; background: transparent !important; }
+.mm-chat .bubble-wrap, .mm-chat .message-wrap { background: transparent !important; }
+.mm-chips button { flex: 1 1 auto; }

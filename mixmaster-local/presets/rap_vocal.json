@@ -38,12 +38,24 @@
       "mix": 0.06,
       "note": "1/8",
       "feedback": 0.2,
-      "highcut_hz": 4500
+      "highcut_hz": 4500,
+      "mode": "throws"
     },
     "target_curve": {
       "lowmid": 1.0,
       "presence": -7.5,
       "air": -24.0
+    },
+    "parallel": {
+      "mix": 0.16
+    },
+    "saturation": {
+      "drive_db": 5.0,
+      "mix": 0.2
+    },
+    "space_duck_db": 5.0,
+    "rider": {
+      "range_db": 5.0
     }
   },
   "beat": {

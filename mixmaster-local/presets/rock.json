@@ -39,7 +39,15 @@
       "note": "1/4",
       "feedback": 0.2,
       "highcut_hz": 4500
-    }
+    },
+    "parallel": {
+      "mix": 0.1
+    },
+    "saturation": {
+      "drive_db": 8.0,
+      "mix": 0.25
+    },
+    "space_duck_db": 2.0
   },
   "beat": {
     "carve_freq_hz": 2000,
