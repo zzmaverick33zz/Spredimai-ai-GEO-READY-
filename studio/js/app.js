@@ -139,7 +139,6 @@
   const mm = gsap.matchMedia();
   mm.add(isStatic ? '(max-width: 0px)' : '(prefers-reduced-motion: no-preference)', () => {
     heroIntro();
-    startFx('film');
     reveals(); headings(); parallax();
     startFx('material');
   });
@@ -148,6 +147,7 @@
     startFx('material', { still: true });
   });
   startFx('studio');
+  startFx('journey');
   startFx('cursor');
 
   /* ---------- consultation form ---------- */

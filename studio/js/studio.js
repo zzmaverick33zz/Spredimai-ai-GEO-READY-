@@ -49,6 +49,29 @@
     axis.innerHTML = ticks.map((v, i) => '<span style="left:' + (v / max * 100).toFixed(1) + '%">' + (v === 0 ? 'Today' : v.toLocaleString('en') + (i === ticks.length - 1 ? ' years' : '')) + '</span>').join('');
   }
 
+  /* ---------- hero hook, from the oldest radiocarbon sample ---------- */
+  function hook() {
+    const D = window.BFF_SAMPLES, el = $('[data-hook]'); if (!el || !D || !D.samples) return;
+    const old = Math.max(...D.samples.map((s) => s.bp)), floor = Math.floor(old / 1000) * 1000;
+    if (floor >= 1000) el.textContent = 'more than ' + floor.toLocaleString('en');
+  }
+
+  /* ---------- "What time does to wood": the same species today and after millennia in water ---------- */
+  function compare() {
+    const box = $('[data-cmp]'); if (!box) return;
+    const stage = $('.cmpx__stage', box), range = $('.cmpx__range', box), a = $('.cmpx__a', box), b = $('.cmpx__b', box), cap = $('[data-cmp-cap]', box);
+    const PAIRS = { oak: { now: 'cmp-oak-now', old: 'cmp-oak-old', tagB: 'Bog oak, millennia in water', cap: 'Oak today, and bog oak that lay for millennia under water and peat. Different boards, same species. Drag to compare.', label: 'oak today and bog oak' },
+                    ash: { now: 'cmp-ash-now', old: 'cmp-ash-old', tagB: 'Bog ash, millennia in water', cap: 'Ash today, and bog ash that lay for millennia under water and peat. Different boards, same species. Drag to compare.', label: 'ash today and bog ash' } };
+    const set = (v) => { stage.style.setProperty('--pos', v + '%'); };
+    range.addEventListener('input', () => set(range.value));
+    $$('.cmpx__tabs button', box).forEach((btn) => btn.addEventListener('click', () => {
+      const p = PAIRS[btn.dataset.pair]; if (!p) return;
+      $$('.cmpx__tabs button', box).forEach((x) => x.setAttribute('aria-selected', String(x === btn)));
+      a.src = 'media/' + p.now + '.webp'; b.src = 'media/' + p.old + '.webp';
+      $('.cmpx__tag--b', box).textContent = p.tagB; cap.textContent = p.cap; range.setAttribute('aria-label', 'Compare ' + p.label);
+    }));
+  }
+
   /* ---------- form prefill: documents / products / species chosen on the page ---------- */
   const prefill = (o) => {
     const f = $('#form'); if (!f) return;
@@ -92,5 +115,5 @@
   }
   const go = (sel) => { const t = $(sel); if (!t) return; if (BFF.lenis) BFF.lenis.scrollTo(t, { offset: -70, duration: 1.4 }); else t.scrollIntoView({ behavior: BFF.reduce ? 'auto' : 'smooth' }); };
 
-  BFF.fx.studio = { init() { accordion(); hotspots(); rings(); age(); spec(); } };
+  BFF.fx.studio = { init() { accordion(); hotspots(); rings(); age(); hook(); compare(); spec(); } };
 })();
