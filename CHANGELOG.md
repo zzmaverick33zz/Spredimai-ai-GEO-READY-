@@ -29,3 +29,8 @@
 - Mobile: product cards 4:3, statement no longer full-height, footer lists tightened.
 - Radiocarbon data from protocol BGRL-357 wired into chapter IV (3,334 years) and the material section (dated-samples chart, two stat rings). Placeholder numbers hidden unless `#brief` / `#example`.
 - Odometer shows thousands separators.
+
+## studio (new, next to grand)
+- New folder `studio/`: B2B build for architects, designers and interior specialists, following the designer's three mock-ups (structure, section names, spec table, species, process, request-samples form).
+- Spec toolkit (species tabs, spec rows with TBC marks, document requests that prefill the form), products accordion, annotated material image, species discs with growth rings, hero age scale from real radiocarbon data.
+- Kept from grand: cinematic descent, looping videos, growth-ring cursor, radiocarbon chart (data-driven), tighter spacing.
