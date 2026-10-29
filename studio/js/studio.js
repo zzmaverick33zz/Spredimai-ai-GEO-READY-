@@ -80,12 +80,12 @@
       const i = S.species.findIndex((s) => s.id === cur); render(S.species[(i + k + S.species.length) % S.species.length].id, true); e.preventDefault();
     });
     docs.innerHTML = S.docs.map((d) => '<li><button type="button" class="doc" data-doc="' + d.id + '"><span><b>' + esc(d.label) + '</b><em>' + esc(d.kind) + '</em></span><i aria-hidden="true">Request</i></button></li>').join('');
-    docs.addEventListener('click', (e) => { const b = e.target.closest('[data-doc]'); if (!b) return; const d = S.docs.find((x) => x.id === b.dataset.doc); prefill({ need: ['documents'], text: 'Please send: ' + d.label + '.' }); go('#samples'); });
+    docs.addEventListener('click', (e) => { const b = e.target.closest('[data-doc]'); if (!b) return; const d = S.docs.find((x) => x.id === b.dataset.doc); prefill({ need: ['documents'], text: 'I would like to discuss: ' + d.label + '.' }); go('#consultation'); });
     // species discs choose the species and bring the reader to its specification
     $$('[data-species]').forEach((b) => b.addEventListener('click', () => { render(b.dataset.species); go('#specify'); }));
     // buttons that carry what they are about into the form
     $$('[data-prefill]').forEach((a) => a.addEventListener('click', () => {
-      const k = a.dataset.prefill, o = { patterns: { need: ['patterns'] }, walls: { need: ['walls and ceilings'] }, stairs: { need: ['stairs'] }, tables: { need: ['tables and cellars'] }, spec: { species: cur.replace('-', ' '), text: 'Please send the ' + S.species.find((s) => s.id === cur).name + ' specification and samples.' } }[k];
+      const k = a.dataset.prefill, o = { patterns: { need: ['patterns'] }, walls: { need: ['walls and ceilings'] }, stairs: { need: ['stairs'] }, tables: { need: ['tables and cellars'] }, spec: { species: cur.replace('-', ' '), text: 'I would like to discuss the ' + S.species.find((s) => s.id === cur).name + ' specification.' } }[k];
       if (o) prefill(o);
     }));
     render(cur);

@@ -14,9 +14,8 @@ SCENES = [
  ('d3-divers', [(21.12, 2.3, 2)], 'xf', 0.9),                                  # suiting up
  ('d4-water',  [(33.52, 2.4, 2)], 'xf', 1.0),                                  # the diver slips under the surface
  ('d5-trunk',  [(43.58, 2.35, 2)], 'pp', 0),                                   # a trunk on the lake bed
- ('d6-line',   [(58.5, 1.0, 2.5), (59.7, 1.0, 2.5)], 'xf', 0.7),               # the line goes on
- ('d7-lift',   [(63.55, 1.1, 2), (64.78, 1.1, 2), (66.08, 1.1, 2)], 'xf', 0.8), # the trunk comes out of the water
- ('d8-wood',   [(71.12, 1.2, 2)], 'pp', 0),                                    # black wood, close
+ ('d6-lift',   [(63.55, 1.1, 2), (64.78, 1.1, 2), (66.08, 1.1, 2)], 'xf', 0.8), # the trunk comes out of the water
+ ('d7-wood',   [(71.12, 1.2, 2)], 'pp', 0),                                    # black wood, close
 ]
 if len(sys.argv) > 1: SCENES = [s for s in SCENES if s[0] in sys.argv[1:]]
 def sh(*a): subprocess.run(a, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)

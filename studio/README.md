@@ -1,6 +1,6 @@
 # Big Foot Floors: studio build (architects, designers, interior specialists)
 
-Information architecture follows the designer's mock-ups: hero with spec CTAs, origin timeline, products accordion, applications, material (colour and age), six species, specification toolkit, process, projects, request samples.
+Information architecture follows the designer's mock-ups: hero with spec CTAs, origin timeline, products accordion, applications, material (colour and age), six species, specification toolkit, process, projects, book a consultation.
 The cinematic descent from the `grand/` build is kept as the story band. `grand/` itself is unchanged.
 
 - Serve: `python3 serve.py` (http://localhost:8080/index.html) or open `dist/Big_Foot_Floors_Studio_HD.html`.
