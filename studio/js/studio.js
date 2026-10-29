@@ -115,5 +115,5 @@
   }
   const go = (sel) => { const t = $(sel); if (!t) return; if (BFF.lenis) BFF.lenis.scrollTo(t, { offset: -70, duration: 1.4 }); else t.scrollIntoView({ behavior: BFF.reduce ? 'auto' : 'smooth' }); };
 
-  BFF.fx.studio = { init() { accordion(); hotspots(); rings(); age(); hook(); compare(); spec(); } };
+  BFF.fx.studio = { init() { accordion(); hotspots(); rings(); age(); hook(); spec(); } };
 })();
