@@ -1,0 +1,17 @@
+.cur__rings{position:absolute;left:-50px;top:-50px;width:100px;height:100px;overflow:visible;will-change:transform}
+.cur__rings path{fill:none;stroke:var(--brass);stroke-width:1;vector-effect:non-scaling-stroke;opacity:0;transition:opacity .5s var(--ease)}
+.cur__core{position:absolute;left:-3px;top:-3px;width:6px;height:6px;border-radius:50%;background:var(--brass);transition:transform .35s var(--ease),opacity .25s}
+.cur__label{position:absolute;left:30px;top:-11px;display:block;padding:7px 11px 6px;background:var(--brass);color:#16110B;font:600 .62rem/1 var(--f-body);letter-spacing:.22em;text-transform:uppercase;white-space:nowrap;opacity:0;transform:translate3d(-6px,0,0) scale(.92);transform-origin:0 50%;transition:opacity .3s var(--ease),transform .4s var(--ease)}
+.cur.has-label .cur__label{opacity:1;transform:none}
+.cur.has-label .cur__core{transform:scale(.01)}
+.cur.is-link .cur__core{transform:scale(2.2)}
+.cur.is-field{opacity:0}
+.cur.on-light .cur__rings path{stroke:var(--brass-ink)}
+.cur.on-light .cur__core{background:var(--brass-ink)}
+.cur__pulse{position:absolute;left:-30px;top:-30px;width:60px;height:60px;border:1px solid var(--brass);border-radius:50%;animation:curPulse .8s var(--ease) forwards}
+@keyframes curPulse{from{transform:scale(.3);opacity:.9}to{transform:scale(2.6);opacity:0}}
+html.has-cursor body,html.has-cursor a,html.has-cursor button,html.has-cursor .compare,html.has-cursor [role=slider],html.has-cursor .reel,html.has-cursor label{cursor:none}
+html.has-cursor input,html.has-cursor textarea,html.has-cursor select{cursor:auto}
+.cur{position:fixed;left:0;top:0;z-index:300;pointer-events:none;width:0;height:0;margin:0;border:0;border-radius:0;background:none;opacity:0;transition:opacity .25s;will-change:auto}
+.cur.is-on{opacity:1}
+.cur.is-field{opacity:0!important}

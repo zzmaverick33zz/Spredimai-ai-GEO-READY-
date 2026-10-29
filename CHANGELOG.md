@@ -36,3 +36,6 @@
 - Kept from grand: cinematic descent, looping videos, growth-ring cursor, radiocarbon chart (data-driven), tighter spacing.
 - studio: descent scenes re-cut after the meeting feedback: the fallen mossy tree ("The way in") removed (not one of our exclusive trees); "The water" now shows the diver slipping under the surface; new "The line" (diver and strap); "Into daylight" now shows the trunk coming out of the water and onto the shore (3 shots joined with dissolves) instead of the strap and legs.
 - studio: no samples are sent, so every "Request samples" became "Book a consultation" (hero, header, footer, form, product buttons); process rewritten (Tell us about the project, Consultation, Proposal & approval, Made & installed); scene "The line" removed (6 scenes).
+
+## designer (new, next to grand and studio)
+- `designer/`: three variants (A dark, B editorial, C Swiss) following the designer's mock-ups, filled with our real photos, videos (all loops), texts, products, specification toolkit and radiocarbon data. Shared base CSS, one JS file, no scroll libraries.
