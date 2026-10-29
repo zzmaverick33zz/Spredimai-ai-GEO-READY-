@@ -34,3 +34,4 @@
 - New folder `studio/`: B2B build for architects, designers and interior specialists, following the designer's three mock-ups (structure, section names, spec table, species, process, request-samples form).
 - Spec toolkit (species tabs, spec rows with TBC marks, document requests that prefill the form), products accordion, annotated material image, species discs with growth rings, hero age scale from real radiocarbon data.
 - Kept from grand: cinematic descent, looping videos, growth-ring cursor, radiocarbon chart (data-driven), tighter spacing.
+- studio: descent scenes re-cut after the meeting feedback: the fallen mossy tree ("The way in") removed (not one of our exclusive trees); "The water" now shows the diver slipping under the surface; new "The line" (diver and strap); "Into daylight" now shows the trunk coming out of the water and onto the shore (3 shots joined with dissolves) instead of the strap and legs.
